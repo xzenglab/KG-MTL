@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-12 07:26:49
+LastEditTime: 2021-05-14 12:49:53
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -170,8 +170,9 @@ class MKDTI(nn.Module):
             protein_vector = F.relu(l(protein_vector))
         protein_vector = F.adaptive_max_pool1d(protein_vector, output_size=1)
         protein_vector = protein_vector.view(protein_vector.size(0), -1)
+        #.squeeze()
         output_cpi_vector = torch.cat(
-            (compound_vector, protein_vector.squeeze()), dim=1)
+            (compound_vector, protein_vector), dim=1)
         for fc_layer in self.fc_layers:
             output_cpi_vector = fc_layer(output_cpi_vector)
 

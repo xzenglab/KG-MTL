@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-14 04:31:51
+LastEditTime: 2021-05-14 12:38:24
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -372,8 +372,8 @@ if __name__ == "__main__":
                         default=0, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
-    parser.add_argument('--cpi_dataset',type=str,default='celegans',help='dataset used for cpi task')
-    parser.add_argument('--dti_dataset',type=str,default='drugbank',help='dataset used for dti task')
+    parser.add_argument('--cpi_dataset',type=str,default='human',help='dataset used for cpi task')
+    parser.add_argument('--dti_dataset',type=str,default='drugcentral',help='dataset used for dti task')
     ### 共用同一个shared unit layer
     parser.add_argument('--shared_unit_num',type=int,default=1,help='the number of shared units')
     parser.add_argument('--embedd_dim',type=int,default=128,help='the dim of embedding')
