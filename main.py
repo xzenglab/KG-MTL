@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-01-12 08:12:27
+LastEditTime: 2021-05-14 04:31:51
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -344,7 +344,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=1, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=2, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -396,7 +396,7 @@ if __name__ == "__main__":
     #     main(args)
     results_cpi=[]
     results_dti=[]
-    for i in range(5):
+    for i in range(10):
         cpi_r, dti_r = main(args)
         results_cpi.append(cpi_r)
         results_dti.append(dti_r)

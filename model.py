@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-01-04 05:36:15
+LastEditTime: 2021-05-12 07:26:49
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -61,8 +61,8 @@ class MKDTI(nn.Module):
 
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            #self.shared_units.append(Shared_Unit_NL(h_dim))
-            self.shared_units.append(Cross_stitch())
+            self.shared_units.append(Shared_Unit_NL(h_dim))
+            #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size
         self.drug_hidden_dim=drug_hidden_dim
         self.protein_size = protein_size
@@ -153,8 +153,10 @@ class MKDTI(nn.Module):
                     compound_embed = h[compound_indexs, :]
                     compound_vector, compound_kg_ = self.shared_units[idx](
                         compound_vector.squeeze(), compound_embed)
-    
-                    h.data[compound_indexs, :] = compound_kg_
+                    # temp=h.clone()
+                    # temp[compound_indexs, :] = compound_kg_.clone()
+                    # h=temp.clone()
+                    h[compound_indexs,:]=compound_kg_.clone()
         #h = self.rgcn_layers[-1](g, h, r, norm)
         # compound_vector = F.adaptive_max_pool1d(
         #     compound_vector, output_size=1)

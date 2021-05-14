@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-09 21:27:12
-LastEditTime: 2021-03-26 12:44:40
+LastEditTime: 2021-05-12 07:21:23
 LastEditors: Please set LastEditors
 @Description: RGCN与共享
 @FilePath: /Multi-task-pytorch/layer.py
@@ -107,10 +107,7 @@ class Cross_stitch(nn.Module):
         self.w_ba.data=th.tensor(np.random.random(),requires_grad=True)
         self.w_bb=nn.Parameter(th.Tensor(1,))
         self.w_bb.data=th.tensor(np.random.random(),requires_grad=True)
-        # self.w=nn.Parameter(th.Tensor(2,2))
-        # nn.init.xavier_normal(self.w)
-        # self.w=nn.Parameter(th.Tensor(2,2))
-        # self.w.data=th.from_numpy(np.random.random((2,2)))
+        # np.random.random()
         
         
         print(self.w_aa)
@@ -120,7 +117,7 @@ class Cross_stitch(nn.Module):
         
         print('shared parameters: w_aa:{:.4f}, w_ab:{:.4f}, w_ba:{:.4f}, w_bb:{:.4f}'.format(self.w_aa,self.w_ab,self.w_ba,self.w_bb))
         
-        return drug_cnn_, drug_kg_
+        return drug_cnn_,drug_kg_
 
 #非线性的参数共享
 class Shared_Unit_NL(nn.Module):
@@ -164,18 +161,18 @@ class Shared_Unit_NL(nn.Module):
         drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
         
         # #### non-linear
-        # drug_cnn=drug_cnn.unsqueeze(2)
-        # drug_kg=drug_kg.unsqueeze(1)
+        drug_cnn=drug_cnn_.unsqueeze(2)
+        drug_kg=drug_kg_.unsqueeze(1)
         
-        # c_mat=th.matmul(drug_cnn,drug_kg)
-        # c_mat_t=c_mat.permute(0, 2, 1)
+        c_mat=th.matmul(drug_cnn,drug_kg)
+        c_mat_t=c_mat.permute(0, 2, 1)
 
-        # c_mat=c_mat.view(-1,self.out_dim)
-        # c_mat_t=c_mat.view(-1,self.out_dim)
-        # drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
-        # drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
+        c_mat=c_mat.view(-1,self.out_dim)
+        c_mat_t=c_mat.view(-1,self.out_dim)
+        drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
+        drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
         
         
-        return drug_cnn_, drug_kg_
+        return drug_cnn, drug_kg
 
         
