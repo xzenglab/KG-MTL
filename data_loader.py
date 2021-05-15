@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-16 17:50:18
-LastEditTime: 2021-05-14 12:42:53
+LastEditTime: 2021-05-15 10:38:59
 LastEditors: Please set LastEditors
 @Description: 加载RGCN数据以及DTI
 @FilePath: /Multi-task-pytorch/data_loader.py
@@ -104,8 +104,8 @@ def label_sequence_by_words(seq,words_dict,max_lenght=1200):
 
     return X
 def storeWordsIntoDict(sequences,dataset):
-    if os.path.isfile('data/words_dict_{}_1_3.npy'.format(dataset)):
-        words=np.load('data/words_dict_{}_1_3.npy'.format(dataset),allow_pickle=True)
+    if os.path.isfile('data/words_dict_{}_full_1_3.npy'.format(dataset)):
+        words=np.load('data/words_dict_{}_full_1_3.npy'.format(dataset),allow_pickle=True)
         return words.item()
     words=dict()
     words['-+-']=0
@@ -115,7 +115,7 @@ def storeWordsIntoDict(sequences,dataset):
     lens=len(sequences)
     for seq in sequences:
         count+=1
-        print('{}/{}'.format(count, lens))
+        #print('{}/{}'.format(count, lens))
         ngram_words=split_grams(seq)
         if max_length<len(ngram_words):
             max_length=len(ngram_words)
@@ -123,7 +123,7 @@ def storeWordsIntoDict(sequences,dataset):
             if w not in words:
                 words[w]=len(words)
     
-    np.save('data/words_dict_{}_1_3.npy'.format(dataset),words)
+    np.save('data/words_dict_{}_full_1_3.npy'.format(dataset),words)
     print('max words length of protein is {}'.format(max_length))
     return words
 def split_dataset(dataset, ratio):
@@ -252,8 +252,9 @@ class load_data():
             example_path='{}/final_dti_example.tsv'.format(dti_path)
             #example_path='dataset/redundant/dti_data.tsv'
         else:
-            #example_path='{}/drugcentral_dti_examples.tsv'.format(dti_path)
-            example_path='dataset/redundant/drugcentral_data.tsv'
+            example_path='{}/drugcentral_dti_examples.tsv'.format(dti_path)
+            #example_path='dataset/redundant/drugcentral_data.tsv'
+            print(example_path)
         
         with open(example_path,'r') as f:
             for line in f:
@@ -282,8 +283,9 @@ class load_data():
             example_path='{}/celegan_examples_global_final_1_3.tsv'.format(cpi_path)
         #     #example_path_='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
         else:
-            #example_path='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
-            example_path='dataset/redundant/human_data.tsv'.format(cpi_path)
+            example_path='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
+            #example_path='dataset/redundant/human_data.tsv'.format(cpi_path)
+            print(example_path)
         #    # example_path_='{}/celegan_examples_global_final_1_3.tsv'.format(cpi_path)
         # if self.cpi_dataset=='drugbank':
         #     example_path='{}/final_dti_example.tsv'.format(cpi_path)
@@ -315,7 +317,7 @@ class load_data():
         for p in protein2seq:
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
         #examples=shuffle_dataset
-        train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
+        train_set,test_set=train_test_split(examples,test_size=0.2,random_state=5)
         val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 

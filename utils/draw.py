@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2021-05-12 05:51:37
-LastEditTime: 2021-05-14 11:37:20
+LastEditTime: 2021-05-15 04:34:13
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: /kg-mtl/utils/draw.py
@@ -26,9 +26,9 @@ x=np.arange(3)
 plt.ylabel(u'Average Metrics',fontsize=12)
 x=x-(total_width)/n
 # plt.xlabel(u'')
-plt.bar(x, height=neodti, width=width, label='NeoDTI',color='lightgreen')
+plt.bar(x, height=neodti, width=width, label='NeoDTI',color='palegreen')
 plt.bar(x+width, height=mean, width=width, label='KG-MTL#',color='steelblue')
-plt.bar(x+2*width,mean_kg,width=width, label='KG-MTL',color='goldenrod')
+plt.bar(x+2*width,mean_kg,width=width, label='KG-MTL',color='orange')
 plt.ylim((0.85,1))
 plt.xticks(range(len(env)),env,FontSize=12)
 plt.legend(fontsize=12)
