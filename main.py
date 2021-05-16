@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-15 10:39:52
+LastEditTime: 2021-05-16 05:27:36
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -356,7 +356,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=2, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=1, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -387,7 +387,7 @@ if __name__ == "__main__":
     parser.add_argument('--cpi_dataset', type=str,
                         default='human', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
-                        default='drugcentral', help='dataset used for dti task')
+                        default='drugbank', help='dataset used for dti task')
     # 共用同一个shared unit layer
     parser.add_argument('--shared_unit_num', type=int,
                         default=1, help='the number of shared units')
@@ -439,8 +439,8 @@ if __name__ == "__main__":
     results_cpi.append(std_cpi)
     results_dti.append(avg_dti)
     results_dti.append(std_dti)
-    np.savetxt('results/cpi_{}_result.txt'.format(args.cpi_dataset),
+    np.savetxt('results/cpi_{}_redundant_result.txt'.format(args.cpi_dataset),
                np.array(results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_result.txt'.format(args.dti_dataset),
+    np.savetxt('results/dti_{}_redundant_result.txt'.format(args.dti_dataset),
                np.array(results_dti), delimiter=",", fmt='%f')
     print('result saved!!!')
