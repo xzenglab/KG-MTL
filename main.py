@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-16 05:27:36
+LastEditTime: 2021-05-17 14:05:12
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -335,19 +335,15 @@ def main(args):
         test_cpi_performance['final'] = [
             test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr]
 
-        utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_global_400.json'.format(
-            args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size), test_dti_performance)
-        utils.Log_Writer('logs/final_unit{}_cpi_{}_sulr{}_lr{}_bs{}_global_400.json'.format(
-            args.negative_sample, args.cpi_dataset, shared_lr, lr_g, batch_size), test_cpi_performance)
+        utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_{}.json'.format(
+            args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_dti_performance)
+        utils.Log_Writer('logs/final_unit{}_cpi_{}_sulr{}_lr{}_bs{}_{}.json'.format(
+            args.negative_sample, args.cpi_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_cpi_performance)
         print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
               format(test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr))
         print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
             test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall, test_dti_aupr))
         return [test_cpi_acc, test_cpi_aupr, test_cpi_roc], [test_dti_acc, test_dti_aupr, test_dti_roc]
-
-    # np.save('loss_{}_{}_global.npy'.format(args.cpi_dataset,args.dti_dataset),np.array(loss_history))
-    # np.save('auc_{}_{}_global.npy'.format(args.cpi_dataset,args.dti_dataset),np.array(auc_history))
-    # utils.Log_Writer('logs/final_search_performance_{}_{}_global.json'.format(args.cpi_dataset,args.dti_dataset,args.negative_sample),search_performace)
 
 
 if __name__ == "__main__":
@@ -356,7 +352,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=1, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=3, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -385,7 +381,7 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='human', help='dataset used for cpi task')
+                        default='celegans', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
                         default='drugbank', help='dataset used for dti task')
     # 共用同一个shared unit layer
@@ -395,21 +391,6 @@ if __name__ == "__main__":
                         default=128, help='the dim of embedding')
     args = parser.parse_args()
     print(args)
-    # for i in [1,2,3,4]:
-    #     args.shared_unit_num=i
-    #     main(args)
-    # 负采样率
-    # for i in [4,6,8,10]:
-    #     args.negative_sample=i
-    #     main(args)
-    # for (d,d1) in [('human','drugcentral'),('celegans','drugbank')]:
-    #     print(d,d1)
-    #     args.cpi_dataset=d
-    #     args.dti_dataset=d1
-    #     main(args)
-    # for e in [32,64,128,200,300]:
-    #     args.embedd_dim=e
-    #     main(args)
     results_cpi = []
     results_dti = []
     for i in range(10):
@@ -439,8 +420,8 @@ if __name__ == "__main__":
     results_cpi.append(std_cpi)
     results_dti.append(avg_dti)
     results_dti.append(std_dti)
-    np.savetxt('results/cpi_{}_redundant_result.txt'.format(args.cpi_dataset),
+    np.savetxt('results/cpi_{}_result.txt'.format(args.cpi_dataset),
                np.array(results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_redundant_result.txt'.format(args.dti_dataset),
+    np.savetxt('results/dti_{}_result.txt'.format(args.dti_dataset),
                np.array(results_dti), delimiter=",", fmt='%f')
     print('result saved!!!')

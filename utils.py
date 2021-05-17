@@ -1,12 +1,13 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-17 09:42:20
-LastEditTime: 2020-12-29 06:25:26
+LastEditTime: 2021-05-17 04:59:22
 LastEditors: Please set LastEditors
 @Description: Toolkits of rgcn model and data processing
 @FilePath: /Multi-task-pytorch/utils.py
 '''
 import numpy as np
+from sklearn.utils import shuffle
 import torch
 import dgl
 #import matplotlib.pyplot as plt
@@ -14,6 +15,7 @@ from rdkit import Chem
 import networkx as nx
 from rdkit.Chem import MolFromSmiles
 from sklearn.metrics import roc_auc_score, precision_score, recall_score, accuracy_score,precision_recall_curve,auc
+from sklearn.model_selection import train_test_split
 #######################################################################
 #
 # Utility function for building training and testing graphs
@@ -599,7 +601,30 @@ def lists_combination(lists, code=''):
     def myfunc(list1, list2):
         return [str(i)+code+str(j) for i in list1 for j in list2]
     return reduce(myfunc, lists)
-
+def StratifiedSplit(dataset, train_valid_test=0.2, valid_test=0.5, seed=2021):
+    classes_dict=dict()
+    split_dict=dict()
+    for sample in dataset:
+        label=sample[2]
+        if label not in classes_dict:
+            classes_dict[label]=list()
+            classes_dict[label].append(sample)
+        else:
+            classes_dict[label].append(sample)
+    train=list()
+    valid=list()
+    test=list()
+    for c in classes_dict:
+        samples=classes_dict[c]
+        c_train,c_valid=train_test_split(samples, test_size=train_valid_test, random_state=seed, shuffle=True)
+        c_valid,c_test=train_test_split(samples, test_size=valid_test, random_state=seed, shuffle=True)
+        train.extend(c_train)
+        valid.extend(c_valid)
+        test.extend(c_test)
+    train=shuffle(train, random_state=seed)
+    valid=shuffle(valid, random_state=seed)
+    test=shuffle(test, random_state=seed)
+    return train, valid, test
 
 if __name__ == "__main__":
     show_distribution_dataset(

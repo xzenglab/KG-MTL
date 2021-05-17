@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-16 17:50:18
-LastEditTime: 2021-05-16 05:26:59
+LastEditTime: 2021-05-17 13:56:57
 LastEditors: Please set LastEditors
 @Description: 加载RGCN数据以及DTI
 @FilePath: /Multi-task-pytorch/data_loader.py
@@ -251,10 +251,11 @@ class load_data():
         if self.dti_dataset=='drugbank':
             example_path='{}/final_dti_example.tsv'.format(dti_path)
             example_path='dataset/redundant/dti_data.tsv'
-        else:
+        elif self.dti_dataset=='drugcentral':
             example_path='{}/drugcentral_dti_examples.tsv'.format(dti_path)
-            #example_path='dataset/redundant/drugcentral_data.tsv'
-            print(example_path)
+        elif self.dti_dataset=='drugbank_rebundant':
+            example_path='dataset/redundant/drugcentral_data.tsv'
+        print(example_path)
         
         with open(example_path,'r') as f:
             for line in f:
@@ -266,10 +267,10 @@ class load_data():
                 label=int(l[6])
                 examples.append([drug_entityid,target_entityid,label])
         
-        train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
-        val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
+        # train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
+        # val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
 
-        
+        train_dti_set, val_dti_set, test_dti_set=utils.StratifiedSplit(examples)
 
         return train_dti_set,val_dti_set,test_dti_set, sample_ndoes
 
@@ -282,15 +283,11 @@ class load_data():
         if self.cpi_dataset=='celegans':
             example_path='{}/celegan_examples_global_final_1_3.tsv'.format(cpi_path)
         #     #example_path_='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
-        else:
-            #example_path='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
-            example_path='dataset/redundant/cpi_data.tsv'.format(cpi_path)
-            print(example_path)
-        #    # example_path_='{}/celegan_examples_global_final_1_3.tsv'.format(cpi_path)
-        # if self.cpi_dataset=='drugbank':
-        #     example_path='{}/final_dti_example.tsv'.format(cpi_path)
-        # else:
-        #     example_path='{}/drugcentral_dti_examples.tsv'.format(cpi_path)
+        elif self.cpi_dataset=='human':
+            example_path='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
+        elif self.cpi_dataset=='human_redundant':
+            example_path='dataset/redundant/cpi_data.tsv'
+        print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
                 l = line.strip().split('\t')
@@ -317,31 +314,15 @@ class load_data():
         for p in protein2seq:
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
         #examples=shuffle_dataset
-        train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
-        val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
+        
+        # train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
+        # val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
+        # examples=shuffle_dataset(examples, seed=2021)
+        # train_set,test_set=split_dataset(examples,0.8)
+        # val_set,test_set=split_dataset(test_set,0.5)
+        train_set, val_set, test_set=utils.StratifiedSplit(examples)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 
-    def _load_dti_global(self,dti_path):
-        examples=list()
-        sample_ndoes=set()
-        
-        if self.dti_dataset=='drugcentral':
-            example_path='{}/final_dti_example.tsv'.format(dti_path)
-        else:
-            example_path='{}/drugcentral_dti_examples.tsv'.format(dti_path)
-        with open(example_path,'r') as f:
-            for line in f:
-                l=line.strip().split('\t')
-                drug_entityid=int(l[4])
-                target_entityid=int(l[1])
-                sample_ndoes.add(drug_entityid)
-                sample_ndoes.add(target_entityid)
-                label=int(l[6])
-                examples.append([drug_entityid,target_entityid,label])
-        
-        
-
-        return examples, sample_ndoes
     
 if __name__ == "__main__":
     # test function
