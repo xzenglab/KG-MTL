@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-23 06:20:52
+LastEditTime: 2021-05-23 05:31:28
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -174,6 +174,7 @@ def main(args):
     if use_cuda:
         torch.cuda.set_device(args.gpu)
         loss_model.cuda()
+    wandb.watch(loss_model, log_freq=10, log='parameters')
     dti_labels = torch.from_numpy(dti_labels).float().cuda()
     # build adj list and calculate degrees for sampling
     print('build adj and degrees....')
@@ -233,7 +234,7 @@ def main(args):
         for epoch in range(args.n_epochs):
             # early stop epoch is 5
             early_stop += 1
-            if early_stop >= 6:
+            if early_stop >= 100:
                 print(
                     'After 6 consecutive epochs, the model stops training because the performance has not improved!')
                 break
@@ -259,6 +260,13 @@ def main(args):
                 loss_epoch_total += loss_total
                 loss_epoch_cpi += loss_cpi
                 loss_epoch_dti += loss_dti
+            # loss_history.append(
+            #     [loss_epoch_cpi.detach().cpu(), loss_epoch_dti.detach().cpu()])
+            # print("Epoch {:04d}-train-batch | Loss_total {:.4f}, Loss_cpi {:.4f}, Loss_dti {:.4f}, ".
+            #       format(epoch, loss_epoch_total, loss_epoch_cpi, loss_epoch_dti))
+            #### log each loss of epoch
+            
+            
             if use_cuda:
                 loss_model.cpu()
             loss_model.eval()
@@ -271,7 +279,10 @@ def main(args):
             
             val_acc, val_roc, val_pre, val_recall, val_aupr = utils.eval_cpi_2(
                 cpi_pred, val_cpi_labels)
-
+            auc_history.append([val_roc, val_dti_roc])
+            logs={'cpi_loss': loss_epoch_cpi.detach().cpu(), 'dti_loss': loss_epoch_dti.detach().cpu(), 'total_loss': loss_epoch_total.detach().cpu(), 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr, 'dti_acc': val_dti_acc, 'dti_auc': val_dti_roc, 'dti_aupr': val_dti_aupr}
+            
+            wandb.log(logs)
             test_dti_performance[str(epoch)] = [
                 val_dti_acc, val_dti_roc, val_dti_pre, val_dti_recall, val_dti_aupr]
             test_cpi_performance[str(epoch)] = [
@@ -294,22 +305,26 @@ def main(args):
                 torch.save(loss_model.state_dict(), model_path)
                 print('Best model saved!')
                 # print('testing...')
-                test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
+            test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
                                           test_compounds, torch.LongTensor(test_proteins), test_compoundids, test_drugs,test_targets,smiles2graph=data.smiles2graph,eval_=True)
-                test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr = utils.eval_cpi_2(
-                            test_dti_pred, test_dti_labels)
-                test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
-                test_cpi_pred, test_cpi_labels)
-                metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr,     'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
-                wandb.log(metrics)
-                # if best_test_cpi_record[1]<test_cpi_roc:
-                #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr]
-                # if best_test_dti_record[1]<test_dti_roc:
-                #     best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr]
-                print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
-                  format( test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr))
-                print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
-                        test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr))        
+            #
+            test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr = utils.eval_cpi_2(
+                        test_dti_pred, test_dti_labels)
+            test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
+            test_cpi_pred, test_cpi_labels)
+            metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr, 'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
+            wandb.log(metrics)
+            # if best_test_cpi_record[1]<test_cpi_roc:
+            #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr]
+            # if best_test_dti_record[1]<test_dti_roc:
+            #     best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr]
+            print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
+              format( test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr))
+            print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
+                    test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr))
+
+            
+        
         loss_model.load_state_dict(torch.load(model_path))
         if use_cuda:
             loss_model.cpu()
@@ -326,6 +341,7 @@ def main(args):
             test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall, test_dti_aupr]
         test_cpi_performance['final'] = [
             test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr]
+        
 
         utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_{}.json'.format(
             args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_dti_performance)
@@ -344,7 +360,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=2, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -384,30 +400,9 @@ if __name__ == "__main__":
     parser.add_argument('--num_fold', type=int,
                         default=0, help='the dim of embedding')
     args = parser.parse_args()
+    wandb.init(project='make-cpi', config=args,notes='human_drugcentral_kg-mtl')
+    config=wandb.config
     print(args)
-    results_cpi = []
-    results_dti = []
-    for i in range(1):
-        cpi_r, dti_r = main(args)
-        results_cpi.append(cpi_r)
-        results_dti.append(dti_r)
-
-    cpi_df = pd.DataFrame(np.array(results_cpi))
-    dti_df = pd.DataFrame(np.array(results_dti))
-    avg_cpi = np.mean(np.array(results_cpi), axis=0)
-    std_cpi = np.std(results_cpi, axis=0)
-    wandb.log({'fold_cpi_result': results_cpi})
-    print(avg_cpi)
-    avg_dti = np.mean(np.array(results_dti), axis=0)
-    std_dti = np.std(np.array(results_cpi), axis=0)
-    wandb.log({'fold_cpi_result': results_dti})
-    print(avg_dti)
-    results_cpi.append(avg_cpi)
-    results_cpi.append(std_cpi)
-    results_dti.append(avg_dti)
-    results_dti.append(std_dti)
-    np.savetxt('results/cpi_{}_Single_result.txt'.format(args.cpi_dataset),
-               np.array(results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_Single_result.txt'.format(args.dti_dataset),
-               np.array(results_dti), delimiter=",", fmt='%f')
-    print('result saved!!!')
+    cpi_r, dti_r = main(args)
+    print(cpi_r)
+    print(dti_r)
