@@ -199,7 +199,7 @@ def test(model, val_dataset, protein2seq, smiles2graph):
 
 def train_cpi_gcn(dataset,args):
     data = load_data('dataset/kg',
-                     'dataset/dti_task', 'dataset/dti_task',cpi_dataset=dataset,cpi_gnn=True)
+                     'dataset/cpi_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
     val_cpi_log=[]
     epochs_his=[]
     best_record=[0.0,0.0]
@@ -226,7 +226,7 @@ def train_cpi_gcn(dataset,args):
         model.cuda()
         model.train()
         loss_log=0.0
-        for drugs, proteins, cpi_labels,_ in graph_data_iter(32,data.train_set_gnn,data.protein2seq):
+        for drugs, proteins, cpi_labels,_ in graph_data_iter(64,data.train_set_gnn,data.protein2seq):
             cpi_pred=model(drugs,torch.from_numpy(np.array(proteins)).cuda(),data.smiles2graph)
             cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
             loss_cpi = F.binary_cross_entropy(cpi_pred, cpi_labels)
@@ -466,10 +466,10 @@ if __name__ == "__main__":
     #celegans, human
     #CPI_func('celegans')
     results=[]
-    for i in range(5):
-        result=DTI_func(args)
-        #result=CPI_GNN_func('drugcentral')
-        results.append(result)
+    for i in range(10):
+        #result=DTI_func(args)
+        result=CPI_GNN_func('celegans')
+        #results.append(result)
 
     results=np.array(results)
     print('mean scores: ')

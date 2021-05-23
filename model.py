@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-14 12:49:53
+LastEditTime: 2021-05-19 08:56:06
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -38,7 +38,7 @@ class EmbeddingLayer(nn.Module):
 
 
 class MKDTI(nn.Module):
-    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=2, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0):
+    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=1, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0):
         super(MKDTI, self).__init__()
         # self.rgcn = RGCN(num_nodes, h_dim, out_dim, num_rels, num_bases,
         #                  num_hidden_layers, dropout, use_self_loop, use_cuda)
@@ -73,9 +73,9 @@ class MKDTI(nn.Module):
         # 设置共享层数-做消融实验
         self.num_shared_layer=shared_unit_num #1, 2, 3 layers
 
-        self.compound_hidden_dim=[self.drug_hidden_dim,self.drug_hidden_dim,self.drug_hidden_dim,self.drug_hidden_dim]
+        self.compound_hidden_dim=[self.drug_hidden_dim,self.drug_hidden_dim,self.drug_hidden_dim]
         self.dti_hidden_dim = [2*self.drug_hidden_dim, 2*self.drug_hidden_dim, 2*self.drug_hidden_dim]
-        self.kernals = [5, 7, 9,11,11,11]
+        self.kernals = [5, 7, 9,11]
         # SMILES encoding
         # self.embed_drug = nn.Embedding(
         #     num_embeddings=drug_size, embedding_dim=50)
@@ -148,20 +148,12 @@ class MKDTI(nn.Module):
             if idx <= self.num_hidden_layers-1:
 
                 h = self.rgcn_layers[idx+1](g, h, r, norm)
-                if idx<=(self.num_shared_layer-1):
-
-                    compound_embed = h[compound_indexs, :]
-                    compound_vector, compound_kg_ = self.shared_units[idx](
-                        compound_vector.squeeze(), compound_embed)
-                    # temp=h.clone()
-                    # temp[compound_indexs, :] = compound_kg_.clone()
-                    # h=temp.clone()
-                    h[compound_indexs,:]=compound_kg_.clone()
-        #h = self.rgcn_layers[-1](g, h, r, norm)
-        # compound_vector = F.adaptive_max_pool1d(
-        #     compound_vector, output_size=1)
-        #compound_vector = compound_vector.view(compound_vector.size(0), -1)
-        
+                # KG-MTL-S
+                # if idx<=(self.num_shared_layer-1):
+                #     compound_embed = h[compound_indexs, :]
+                #     compound_vector, compound_kg_ = self.shared_units[idx](
+                #         compound_vector.squeeze(), compound_embed)
+                #     h[compound_indexs,:]=compound_kg_.clone()
         
         # protein encoding
         protein_vector = self.embed_protein(protein_seq)

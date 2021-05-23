@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-16 17:50:18
-LastEditTime: 2021-05-17 13:56:57
+LastEditTime: 2021-05-23 02:41:38
 LastEditors: Please set LastEditors
 @Description: 加载RGCN数据以及DTI
 @FilePath: /Multi-task-pytorch/data_loader.py
@@ -250,10 +250,12 @@ class load_data():
         
         if self.dti_dataset=='drugbank':
             example_path='{}/final_dti_example.tsv'.format(dti_path)
-            example_path='dataset/redundant/dti_data.tsv'
+            # example_path='dataset/redundant/dti_data.tsv'
         elif self.dti_dataset=='drugcentral':
             example_path='{}/drugcentral_dti_examples.tsv'.format(dti_path)
-        elif self.dti_dataset=='drugbank_rebundant':
+        elif self.dti_dataset=='drugbank_redundant':
+            example_path='dataset/redundant/dti_data.tsv'
+        elif self.dti_dataset=='drugcentral_redundant':
             example_path='dataset/redundant/drugcentral_data.tsv'
         print(example_path)
         
@@ -267,10 +269,10 @@ class load_data():
                 label=int(l[6])
                 examples.append([drug_entityid,target_entityid,label])
         
-        # train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
-        # val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
+        train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
+        val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
 
-        train_dti_set, val_dti_set, test_dti_set=utils.StratifiedSplit(examples)
+        #train_dti_set, val_dti_set, test_dti_set=utils.StratifiedSplit(examples)
 
         return train_dti_set,val_dti_set,test_dti_set, sample_ndoes
 
@@ -286,6 +288,8 @@ class load_data():
         elif self.cpi_dataset=='human':
             example_path='{}/human_examples_global_final_1_3.tsv'.format(cpi_path)
         elif self.cpi_dataset=='human_redundant':
+            example_path='dataset/redundant/human_data.tsv'
+        elif self.cpi_dataset=='human_r':
             example_path='dataset/redundant/cpi_data.tsv'
         print(example_path)
         with open(example_path, 'r') as f:
@@ -317,9 +321,9 @@ class load_data():
         
         # train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
         # val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
-        # examples=shuffle_dataset(examples, seed=2021)
-        # train_set,test_set=split_dataset(examples,0.8)
-        # val_set,test_set=split_dataset(test_set,0.5)
+
+        
+        ### use shuffle
         train_set, val_set, test_set=utils.StratifiedSplit(examples)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 

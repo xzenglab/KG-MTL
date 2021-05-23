@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.4.0-1048-aws-x86_64-with-debian-buster-sid",
+    "python": "3.7.9",
+    "heartbeatAt": "2021-05-22T11:25:20.129446",
+    "startedAt": "2021-05-22T11:25:19.399699",
+    "docker": null,
+    "gpu": "Tesla T4",
+    "gpu_count": 4,
+    "cpu_count": 48,
+    "cuda": "10.0.130",
+    "args": [],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/xiaomingaaa/kg-mtl.git",
+        "commit": "372b737f84deb31a8e3bbe082677339857f45d35"
+    },
+    "email": "13693963350@163.com",
+    "root": "/home/ubuntu/data/matengfei/kg-mtl",
+    "host": "ip-172-31-25-80",
+    "username": "ubuntu",
+    "executable": "/home/ubuntu/anaconda3/envs/make_cpi/bin/python"
+}
