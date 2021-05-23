@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-23 05:31:28
+LastEditTime: 2021-05-23 11:51:27
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -174,7 +174,7 @@ def main(args):
     if use_cuda:
         torch.cuda.set_device(args.gpu)
         loss_model.cuda()
-    wandb.watch(loss_model, log_freq=10, log='parameters')
+    wandb.watch(loss_model)
     dti_labels = torch.from_numpy(dti_labels).float().cuda()
     # build adj list and calculate degrees for sampling
     print('build adj and degrees....')
@@ -250,7 +250,7 @@ def main(args):
             for (compounds, proteins, cpi_labels, compoundids) in graph_data_iter(batch_size, data.train_set_gnn, data.protein2seq):
                 cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
                 loss_total, loss_cpi, loss_dti, cpi_pred, dti_pred, loss_params = loss_model(g, node_id, edge_type, edge_norm,
-                                                                                             compounds, torch.LongTensor(proteins).cuda(), compoundids, drug_entities, target_entities, smiles2graph=data.smiles2graph, cpi_labels=cpi_labels, dti_labels=dti_labels)
+                                                                                             compounds, torch.LongTensor(proteins).cuda(), compoundids, drug_entities, target_entities, smiles2graph=data.smiles2graph, cpi_labels=cpi_labels, dti_labels=dti_labels, mode=args.loss_mode)
 
                 loss_total.backward()
                 
@@ -260,11 +260,6 @@ def main(args):
                 loss_epoch_total += loss_total
                 loss_epoch_cpi += loss_cpi
                 loss_epoch_dti += loss_dti
-            # loss_history.append(
-            #     [loss_epoch_cpi.detach().cpu(), loss_epoch_dti.detach().cpu()])
-            # print("Epoch {:04d}-train-batch | Loss_total {:.4f}, Loss_cpi {:.4f}, Loss_dti {:.4f}, ".
-            #       format(epoch, loss_epoch_total, loss_epoch_cpi, loss_epoch_dti))
-            #### log each loss of epoch
             
             
             if use_cuda:
@@ -280,9 +275,9 @@ def main(args):
             val_acc, val_roc, val_pre, val_recall, val_aupr = utils.eval_cpi_2(
                 cpi_pred, val_cpi_labels)
             auc_history.append([val_roc, val_dti_roc])
-            logs={'cpi_loss': loss_epoch_cpi.detach().cpu(), 'dti_loss': loss_epoch_dti.detach().cpu(), 'total_loss': loss_epoch_total.detach().cpu(), 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr, 'dti_acc': val_dti_acc, 'dti_auc': val_dti_roc, 'dti_aupr': val_dti_aupr}
             
-            wandb.log(logs)
+            
+            
             test_dti_performance[str(epoch)] = [
                 val_dti_acc, val_dti_roc, val_dti_pre, val_dti_recall, val_dti_aupr]
             test_cpi_performance[str(epoch)] = [
@@ -312,8 +307,9 @@ def main(args):
                         test_dti_pred, test_dti_labels)
             test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
             test_cpi_pred, test_cpi_labels)
-            metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr, 'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
-            wandb.log(metrics)
+            #metrics={}
+            logs={'cpi_loss': loss_epoch_cpi.detach().cpu(), 'dti_loss': loss_epoch_dti.detach().cpu(), 'total_loss': loss_epoch_total.detach().cpu(), 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr, 'dti_acc': val_dti_acc, 'dti_auc': val_dti_roc, 'dti_aupr': val_dti_aupr,'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr, 'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
+            wandb.log(logs)
             # if best_test_cpi_record[1]<test_cpi_roc:
             #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr]
             # if best_test_dti_record[1]<test_dti_roc:
@@ -397,12 +393,14 @@ if __name__ == "__main__":
                         default=1, help='the number of shared units')
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
-    parser.add_argument('--num_fold', type=int,
-                        default=0, help='the dim of embedding')
+    parser.add_argument('--loss_mode', type=str,
+                       help='the way of caculating total loss [weighted, single]',required=True)
     args = parser.parse_args()
-    wandb.init(project='make-cpi', config=args,notes='human_drugcentral_kg-mtl')
+    wandb.init(project='make-cpi', config=args,notes='human_drugcentral_kg-mtl-s',tags='variant')
     config=wandb.config
+    
     print(args)
     cpi_r, dti_r = main(args)
     print(cpi_r)
     print(dti_r)
+    wandb.finish()

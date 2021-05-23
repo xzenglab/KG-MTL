@@ -21,3 +21,65 @@ config: {'dropout': 0.2, 'n_hidden': 500, 'gpu': 2, 'lr_pre': 0.01, 'lr_dti': 0.
 2021-05-23 05:32:07,715 INFO    MainThread:20952 [wandb_run.py:_redirect():1479] Redirects installed.
 2021-05-23 05:32:07,715 INFO    MainThread:20952 [wandb_init.py:init():546] run started, returning control to user process
 2021-05-23 05:33:18,096 INFO    MainThread:20952 [wandb_watch.py:watch():39] Watching
+2021-05-23 07:50:46,720 INFO    MainThread:20952 [wandb_run.py:_atexit_cleanup():1535] got exitcode: 255
+2021-05-23 07:50:46,725 INFO    MainThread:20952 [wandb_run.py:_restore():1507] restore
+2021-05-23 07:50:48,732 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 4411
+  total_bytes: 4411
+}
+
+2021-05-23 07:50:48,854 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 4411
+  total_bytes: 4411
+}
+
+2021-05-23 07:50:49,072 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 4411
+  total_bytes: 4411
+}
+
+2021-05-23 07:50:49,598 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 4411
+  total_bytes: 90821
+}
+
+2021-05-23 07:50:50,387 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 90821
+  total_bytes: 90821
+}
+
+2021-05-23 07:50:50,490 INFO    MainThread:20952 [wandb_run.py:_wait_for_finish():1657] got exit ret: done: true
+exit_result {
+}
+file_counts {
+  wandb_count: 6
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 90821
+  total_bytes: 90821
+}
+
+2021-05-23 07:50:51,552 INFO    MainThread:20952 [wandb_run.py:_show_summary():1812] rendering summary
+2021-05-23 07:50:51,553 INFO    MainThread:20952 [wandb_run.py:_show_history():1850] rendering history
+2021-05-23 07:50:51,554 INFO    MainThread:20952 [wandb_run.py:_show_files():1879] logging synced files

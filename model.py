@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-19 08:56:06
+LastEditTime: 2021-05-23 12:03:38
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -148,12 +148,12 @@ class MKDTI(nn.Module):
             if idx <= self.num_hidden_layers-1:
 
                 h = self.rgcn_layers[idx+1](g, h, r, norm)
-                # KG-MTL-S
-                # if idx<=(self.num_shared_layer-1):
-                #     compound_embed = h[compound_indexs, :]
-                #     compound_vector, compound_kg_ = self.shared_units[idx](
-                #         compound_vector.squeeze(), compound_embed)
-                #     h[compound_indexs,:]=compound_kg_.clone()
+                ## KG-MTL-S
+                if idx<=(self.num_shared_layer-1):
+                    compound_embed = h[compound_indexs, :]
+                    compound_vector, compound_kg_ = self.shared_units[idx](
+                        compound_vector.squeeze(), compound_embed)
+                    h[compound_indexs,:]=compound_kg_.clone()
         
         # protein encoding
         protein_vector = self.embed_protein(protein_seq)
@@ -497,7 +497,19 @@ class MultiTaskLoss(nn.Module):
         self.log_var
         #nn.init.xavier_uniform_(self.log_var)
         self.multi_task=MKDTI(shared_unit_num,drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases)
-    def forward(self,g, h, r, norm, compound_smiles=None, protein_seq=None, compound_entityid=None, drugs_entityid=None, targets_entityid=None, rgcn_only=False,smiles2graph=None,eval_=False,cpi_labels=None,dti_labels=None):
+    def _calc_loss(self, cpi_loss, dti_loss, mode='weighted'):
+        if mode=='weighted':
+            pre1=torch.exp(-self.log_var[0])    
+            pre2=torch.exp(-self.log_var[1])
+            loss=torch.sum(pre1 * cpi_loss + self.log_var[0], -1)
+            loss+=torch.sum(pre2 * dti_loss + self.log_var[1], -1)
+            loss=torch.mean(loss)
+            return loss
+        elif mode=='single':
+            loss=cpi_loss+dti_loss
+            return loss
+    
+    def forward(self,g, h, r, norm, compound_smiles=None, protein_seq=None, compound_entityid=None, drugs_entityid=None, targets_entityid=None, rgcn_only=False,smiles2graph=None,eval_=False,cpi_labels=None,dti_labels=None, mode='weighted'):
         if eval_:
 
             cpi_pred, dti_pred, _=self.multi_task(g,h,r,norm,compound_smiles,protein_seq,compound_entityid,drugs_entityid,targets_entityid,rgcn_only,smiles2graph,eval_)
@@ -506,15 +518,7 @@ class MultiTaskLoss(nn.Module):
             cpi_pred, dti_pred, _=self.multi_task(g,h,r,norm,compound_smiles,protein_seq,compound_entityid,drugs_entityid,targets_entityid,rgcn_only,smiles2graph,eval_)
             cpi_loss=F.binary_cross_entropy(F.sigmoid(cpi_pred), cpi_labels)
             dti_loss=F.binary_cross_entropy(F.sigmoid(dti_pred), dti_labels)
-            ### no weight
-            # loss=cpi_loss+dti_loss
-
-            ### with weight
-            pre1=torch.exp(-self.log_var[0])
-            pre2=torch.exp(-self.log_var[1])
-            loss=torch.sum(pre1 * cpi_loss + self.log_var[0], -1)
-            loss+=torch.sum(pre2 * dti_loss + self.log_var[1], -1)
-            loss=torch.mean(loss)       
+            loss = self._calc_loss(cpi_loss, dti_loss, mode=mode)
             return loss,cpi_loss,dti_loss, F.sigmoid(cpi_pred),F.sigmoid(dti_pred),self.log_var.data.tolist()
 
 class CPI_GAT(nn.Module):

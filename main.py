@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-23 06:20:52
+LastEditTime: 2021-05-23 11:17:17
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -22,7 +22,6 @@ import pandas as pd
 from sklearn.model_selection import StratifiedKFold, KFold, train_test_split
 import warnings
 warnings.filterwarnings("ignore")
-import wandb
 
 def cpi_data_iter(batch_size, features, drug2smile=None, target2seq=None):
     num_examples = len(features)
@@ -249,7 +248,7 @@ def main(args):
             for (compounds, proteins, cpi_labels, compoundids) in graph_data_iter(batch_size, data.train_set_gnn, data.protein2seq):
                 cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
                 loss_total, loss_cpi, loss_dti, cpi_pred, dti_pred, loss_params = loss_model(g, node_id, edge_type, edge_norm,
-                                                                                             compounds, torch.LongTensor(proteins).cuda(), compoundids, drug_entities, target_entities, smiles2graph=data.smiles2graph, cpi_labels=cpi_labels, dti_labels=dti_labels)
+                                                                                             compounds, torch.LongTensor(proteins).cuda(), compoundids, drug_entities, target_entities, smiles2graph=data.smiles2graph, cpi_labels=cpi_labels, dti_labels=dti_labels,mode=args.loss_mode)
 
                 loss_total.backward()
                 
@@ -300,16 +299,17 @@ def main(args):
                             test_dti_pred, test_dti_labels)
                 test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
                 test_cpi_pred, test_cpi_labels)
-                metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr,     'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
-                wandb.log(metrics)
-                # if best_test_cpi_record[1]<test_cpi_roc:
-                #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr]
-                # if best_test_dti_record[1]<test_dti_roc:
-                #     best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr]
+                # metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr,     'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
+                # wandb.log(metrics)
+                if best_test_cpi_record[1]<test_cpi_roc:
+                    best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_aupr]
+                if best_test_dti_record[1]<test_dti_roc:
+                    best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_aupr]
                 print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
                   format( test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr))
                 print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
                         test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr))        
+        
         loss_model.load_state_dict(torch.load(model_path))
         if use_cuda:
             loss_model.cpu()
@@ -335,7 +335,7 @@ def main(args):
               format(test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr))
         print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
             test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall, test_dti_aupr))
-        return [test_cpi_acc, test_cpi_aupr, test_cpi_roc], [test_dti_acc, test_dti_aupr, test_dti_roc]
+        return [test_cpi_acc, test_cpi_roc, test_cpi_aupr], [test_dti_acc, test_dti_roc, test_dti_aupr], best_test_cpi_record, best_test_dti_record
 
 
 if __name__ == "__main__":
@@ -381,33 +381,50 @@ if __name__ == "__main__":
                         default=1, help='the number of shared units')
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
-    parser.add_argument('--num_fold', type=int,
-                        default=0, help='the dim of embedding')
+    parser.add_argument('--loss_mode', type=str,
+                        default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
     print(args)
     results_cpi = []
     results_dti = []
-    for i in range(1):
-        cpi_r, dti_r = main(args)
+    best_results_cpi = []
+    best_results_dti = []
+    for i in range(10):
+        cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
         results_cpi.append(cpi_r)
         results_dti.append(dti_r)
+        best_results_cpi.append(best_cpi_r)
+        best_results_dti.append(best_dti_r)
 
-    cpi_df = pd.DataFrame(np.array(results_cpi))
-    dti_df = pd.DataFrame(np.array(results_dti))
     avg_cpi = np.mean(np.array(results_cpi), axis=0)
     std_cpi = np.std(results_cpi, axis=0)
-    wandb.log({'fold_cpi_result': results_cpi})
+    print('test results: ')
     print(avg_cpi)
     avg_dti = np.mean(np.array(results_dti), axis=0)
     std_dti = np.std(np.array(results_cpi), axis=0)
-    wandb.log({'fold_cpi_result': results_dti})
     print(avg_dti)
     results_cpi.append(avg_cpi)
     results_cpi.append(std_cpi)
     results_dti.append(avg_dti)
     results_dti.append(std_dti)
-    np.savetxt('results/cpi_{}_Single_result.txt'.format(args.cpi_dataset),
+    np.savetxt('results/cpi_{}_result.txt'.format(args.cpi_dataset),
                np.array(results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_Single_result.txt'.format(args.dti_dataset),
+    np.savetxt('results/dti_{}_result.txt'.format(args.dti_dataset),
                np.array(results_dti), delimiter=",", fmt='%f')
+    best_avg_cpi=np.mean(np.array(best_results_cpi), axis=0)
+    best_std_cpi=np.std(np.array(best_results_cpi), axis=0)
+    print('best results: ')
+    print(best_avg_cpi)
+    best_results_cpi.append(best_avg_cpi)
+    best_results_cpi.append(best_std_cpi)
+    best_avg_dti=np.mean(np.array(best_results_dti), axis=0)
+    best_std_dti=np.std(np.array(best_results_dti), axis=0)
+    print(best_avg_dti)
+    best_results_cpi.append(best_avg_dti)
+    best_results_cpi.append(best_std_dti)
+    
+    np.savetxt('results/cpi_{}_best_result.txt'.format(args.cpi_dataset),
+               np.array(best_results_cpi), delimiter=",", fmt='%f')
+    np.savetxt('results/dti_{}_best_result.txt'.format(args.dti_dataset),
+               np.array(best_results_dti), delimiter=",", fmt='%f')
     print('result saved!!!')
