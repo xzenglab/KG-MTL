@@ -381,3 +381,79 @@
 2021-05-25 02:18:20,551 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
 2021-05-25 02:18:35,718 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
 2021-05-25 02:18:35,718 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:18:48,830 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:18:50,880 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:18:50,884 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:18:54,973 DEBUG   SenderThread:25246 [sender.py:send():176] send: history
+2021-05-25 02:18:54,973 DEBUG   SenderThread:25246 [sender.py:send():176] send: summary
+2021-05-25 02:18:54,978 INFO    SenderThread:25246 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-25 02:18:55,286 INFO    Thread-8  :25246 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210525_014925-t0ln1pvo/files/wandb-summary.json
+2021-05-25 02:19:06,062 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:19:06,063 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:19:19,925 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:19:21,221 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:19:21,221 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:19:36,392 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:19:36,392 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:19:50,878 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:19:51,551 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:19:51,551 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:20:06,748 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:20:06,749 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:20:21,769 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:20:21,910 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:20:21,910 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:20:37,068 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:20:37,068 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:20:51,374 DEBUG   SenderThread:25246 [sender.py:send():176] send: history
+2021-05-25 02:20:51,374 DEBUG   SenderThread:25246 [sender.py:send():176] send: summary
+2021-05-25 02:20:51,378 INFO    SenderThread:25246 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-25 02:20:52,228 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:20:52,229 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:20:52,329 INFO    Thread-8  :25246 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210525_014925-t0ln1pvo/files/wandb-summary.json
+2021-05-25 02:20:52,752 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:21:07,389 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:21:07,390 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:21:22,556 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:21:22,556 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:21:23,635 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:21:37,714 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:21:37,715 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:21:52,878 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:21:52,878 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:21:54,532 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:22:08,038 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:22:08,038 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:22:23,196 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:22:23,197 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:22:25,429 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:22:38,356 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:22:38,356 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:22:46,625 DEBUG   SenderThread:25246 [sender.py:send():176] send: history
+2021-05-25 02:22:46,625 DEBUG   SenderThread:25246 [sender.py:send():176] send: summary
+2021-05-25 02:22:46,630 INFO    SenderThread:25246 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-25 02:22:47,367 INFO    Thread-8  :25246 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210525_014925-t0ln1pvo/files/wandb-summary.json
+2021-05-25 02:22:53,521 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:22:53,522 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:22:56,553 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:23:08,711 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:23:08,711 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:23:23,873 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:23:23,873 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:23:27,425 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:23:39,033 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:23:39,033 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:23:54,193 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:23:54,193 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:23:58,332 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:24:09,350 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:24:09,351 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:24:24,507 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:24:24,507 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
+2021-05-25 02:24:29,222 DEBUG   SenderThread:25246 [sender.py:send():176] send: stats
+2021-05-25 02:24:38,840 DEBUG   SenderThread:25246 [sender.py:send():176] send: history
+2021-05-25 02:24:38,841 DEBUG   SenderThread:25246 [sender.py:send():176] send: summary
+2021-05-25 02:24:38,845 INFO    SenderThread:25246 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-25 02:24:39,402 INFO    Thread-8  :25246 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210525_014925-t0ln1pvo/files/wandb-summary.json
+2021-05-25 02:24:39,667 DEBUG   HandlerThread:25246 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-25 02:24:39,668 DEBUG   SenderThread:25246 [sender.py:send_request():186] send_request: stop_status
