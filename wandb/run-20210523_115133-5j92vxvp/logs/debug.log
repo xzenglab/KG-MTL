@@ -21,3 +21,5 @@ config: {'dropout': 0.2, 'n_hidden': 500, 'gpu': 2, 'lr_pre': 0.01, 'lr_dti': 0.
 2021-05-23 11:51:36,703 INFO    MainThread:43962 [wandb_run.py:_redirect():1479] Redirects installed.
 2021-05-23 11:51:36,703 INFO    MainThread:43962 [wandb_init.py:init():546] run started, returning control to user process
 2021-05-23 11:52:49,894 INFO    MainThread:43962 [wandb_watch.py:watch():39] Watching
+2021-05-23 12:28:03,233 INFO    MainThread:43962 [wandb_run.py:_atexit_cleanup():1535] got exitcode: 255
+2021-05-23 12:28:03,235 INFO    MainThread:43962 [wandb_run.py:_restore():1507] restore

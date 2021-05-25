@@ -200,7 +200,7 @@ def test(model, val_dataset, protein2seq, smiles2graph):
 
 def train_cpi_gcn(dataset,args):
     data = load_data('dataset/kg',
-                     'dataset/cpi_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
+                     'dataset/dti_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
     val_cpi_log=[]
     epochs_his=[]
     best_record=[0.0,0.0]
@@ -214,20 +214,21 @@ def train_cpi_gcn(dataset,args):
     drug_size=200
     hidden_dim=200
     model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length)
-    wandb.watch(model, log_freq=10, log='parameters')
+    wandb.watch(model)
     torch.cuda.set_device(0)
     optimizer_global = torch.optim.Adam(model.parameters(), lr=0.001)
     early_stop=0
     loss_history=[]
     auc_history=[]
     for epoch in range(100):
-        if early_stop>=6:
+        if early_stop>=100:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         early_stop+=1
         model.cuda()
         model.train()
         loss_log=0.0
+        count=0
         for drugs, proteins, cpi_labels,_ in graph_data_iter(64,data.train_set_gnn,data.protein2seq):
             cpi_pred=model(drugs,torch.from_numpy(np.array(proteins)).cuda(),data.smiles2graph)
             cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
@@ -237,8 +238,9 @@ def train_cpi_gcn(dataset,args):
             optimizer_global.step()
             optimizer_global.zero_grad()
             loss_log+=loss_cpi
-        loss_history.append(loss_log.detach().cpu())
-        print('epoch: {}, Loss: {:.4f}'.format(epoch,loss_log))
+            count+=1
+        #loss_history.append(loss_log.detach().cpu())
+        print('epoch: {}, Loss: {:.4f}'.format(epoch,loss_log/count))
 
         model.cpu()
         model.eval()
@@ -252,14 +254,17 @@ def train_cpi_gcn(dataset,args):
             best_performance=val_roc
             print('Best performance: {:.4f}'.format(best_performance))
             torch.save(model.state_dict(),model_path)
-            # test_cpi_pred= model(test_compounds,torch.from_numpy(test_proteins),data.smiles2graph,True)
-    
-            # test_acc, test_roc, test_pre, test_recall,test_aupr = utils.eval_cpi_2(
-            #         test_cpi_pred, test_cpi_label)
-            # if best_record[1]<test_roc:
-            #     best_record=[test_acc, test_roc, test_pre, test_recall,test_aupr]
-            # print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
-            #           format(test_acc, test_roc, test_pre, test_recall,test_aupr))
+        test_cpi_pred= model(test_compounds,torch.from_numpy(test_proteins),data.smiles2graph,True)
+        test_acc, test_roc, test_pre, test_recall,test_aupr = utils.eval_cpi_2(
+                test_cpi_pred, test_cpi_label)
+        loss_log=loss_log/count
+        logs={'cpi_loss': loss_log, 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr,  'test_cpi_acc':test_acc,'test_cpi_auc':test_roc,'test_cpi_aupr':test_aupr}
+        wandb.log(logs)
+        if best_record[1]<test_roc:
+            best_record=[test_acc, test_roc, test_pre, test_recall,test_aupr]
+        
+        print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
+                  format(test_acc, test_roc, test_pre, test_recall,test_aupr))
         print("Epoch {:04d}-CPI-val | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
                   format(epoch, val_acc, val_roc, val_pre, val_recall, val_aupr))
         # val_cpi_log.append([val_acc,val_roc,val_pre,val_recall,val_aupr])
@@ -291,6 +296,7 @@ def train_dti(args):
     test_dti_labels=torch.from_numpy(test_dti_labels)
     model = DTI(data.num_nodes,
                   200, 200, data.num_rels, 20)
+    #wandb.watch(model,log=None)
     torch.cuda.set_device(0)
     train_kg = torch.LongTensor(np.array(data.train_kg))   
     loss_history=[]
@@ -314,8 +320,8 @@ def train_dti(args):
     early_stop=0
     best_record=[0.0,0.0]
     #loss_history=[]
-    for epoch in range(1000):
-        if early_stop>=3:
+    for epoch in range(100):
+        if early_stop>=100:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         
@@ -328,9 +334,8 @@ def train_dti(args):
             data.train_dti_set)
         dti_labels = torch.from_numpy(dti_labels).float().cuda()
         loss_epoch_total=0
-        # for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(32,data.train_cpi_set, data.compound2smiles, data.protein2seq):
-        for i in range(1):
-
+        #for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(32,data.train_cpi_set, data.compound2smiles, data.protein2seq):
+        for i in range(64):
             dti_pred,embed=model(drug_entities,target_entities,g, node_id, edge_type, edge_norm)
             dti_loss=F.binary_cross_entropy(dti_pred,dti_labels)
             #loss_history.append(dti_loss)
@@ -357,14 +362,16 @@ def train_dti(args):
             print('Best performance: {:.4f}'.format(best_performance_dti))
             torch.save(model.state_dict(),model_path)        
             #print('test....')
-            #test_dti_pred, _=model(test_drugs,test_targets, g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu())
-            # test_acc, test_roc, test_pre, test_recall,test_aupr = utils.eval_cpi_2(
-            #             test_dti_pred, test_dti_labels)
-            # if best_record[1]<test_roc:
-            #     best_record=[test_acc, test_roc, test_pre, test_recall,test_aupr]
-            # print("DTI-test | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
-            #               format(test_acc, test_roc, test_pre, test_recall,test_aupr))
-            # test_performance[epoch]=[test_acc, test_roc, test_pre, test_recall,test_aupr]
+        test_dti_pred, _=model(test_drugs,test_targets, g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu())
+        test_acc, test_roc, test_pre, test_recall,test_aupr = utils.eval_cpi_2(
+                    test_dti_pred, test_dti_labels)
+        if best_record[1]<test_roc:
+            best_record=[test_acc, test_roc, test_pre, test_recall,test_aupr]
+        print("DTI-test | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
+                      format(test_acc, test_roc, test_pre, test_recall,test_aupr))
+        test_performance[epoch]=[test_acc, test_roc, test_pre, test_recall,test_aupr]
+        logs={'dti_loss':loss_epoch_total/64 , 'dti_acc': val_acc, 'dti_auc': val_roc, 'dti_aupr': val_aupr,'test_dti_acc': test_acc, 'test_dti_auc':test_roc, 'test_dti_aupr': test_aupr}
+        wandb.log(logs)
     
     print('best_record:')
     print(best_record)
@@ -463,24 +470,16 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugbank',help='dataset for dti task')
+    parser.add_argument("--dataset",type=str,default='human',help='dataset for dti task')
+    parser.add_argument("--task",type=str,default='cpi',help='[cpi, dti]')
     args = parser.parse_args()
-    #celegans, human
-    #CPI_func('celegans')
+    wandb.init(project='make-cpi',tags='kg-mtl-single',config=args)
     results=[]
-    for i in range(10):
-        #result=DTI_func(args)
-
-        result=CPI_GNN_func('celegans')
+    if args.task=='cpi':
+        result=CPI_GNN_func(args.dataset)
+    elif args.task=='dti':
+        result=DTI_func(args)
+    else:
+        raise Exception('please input correct task [cpi, dti]')
         #results.append(result)
-
-    results=np.array(results)
-    print('mean scores: ')
-    print(np.mean(results,axis=0))
-    print('std scores: ')
-    print(np.std(results,axis=0))
-    # # for d in ['drugcentral','drugbank']:
-    # #     args.dataset=d
-    # #     DTI_func(args)
-    # # for d in ['celegans','human']:
-    # #     CPI_GNN_func(d)
+    wandb.finish()

@@ -292,6 +292,7 @@ def train_dti(args):
     model = DTI(data.num_nodes,
                   200, 200, data.num_rels, 20)
     torch.cuda.set_device(0)
+    #wandb.watch(model)
     train_kg = torch.LongTensor(np.array(data.train_kg))   
     loss_history=[]
     print('build adj and degrees....')
@@ -328,6 +329,7 @@ def train_dti(args):
             data.train_dti_set)
         dti_labels = torch.from_numpy(dti_labels).float().cuda()
         loss_epoch_total=0
+        
         # for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(32,data.train_cpi_set, data.compound2smiles, data.protein2seq):
         for i in range(1):
 
@@ -339,6 +341,7 @@ def train_dti(args):
             optimizer_global.zero_grad()
             loss_epoch_total+=dti_loss
         loss_history.append(float(loss_epoch_total))
+        wandb.log({'loss_dti': loss_epoch_total})
         print('epoch: {}, Loss: {:.4f}'.format(epoch,loss_epoch_total))
         model.cpu()
         model.eval()
@@ -418,7 +421,7 @@ def CPI_GNN_func(dataset):
     return train_cpi_gcn(dataset,args)
 
 
-
+import wandb
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--dropout', type=float,
@@ -463,15 +466,16 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugbank',help='dataset for dti task')
+    parser.add_argument('--dataset',type=str,default='drugcentral',help='dataset for dti task')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
     results=[]
-    for i in range(10):
-        #result=DTI_func(args)
+    wandb.init(project='make-cpi',config=args)
+    for i in range(1):
+        result=DTI_func(args)
 
-        result=CPI_GNN_func('celegans')
+        #result=CPI_GNN_func('celegans')
         #results.append(result)
 
     results=np.array(results)

@@ -1,0 +1,143 @@
+2021-05-24 02:33:30,160 INFO    MainThread:3992 [internal.py:wandb_internal():91] W&B internal server running at pid: 3992, started at: 2021-05-24 02:33:30.159734
+2021-05-24 02:33:30,161 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: check_version
+2021-05-24 02:33:30,161 INFO    WriterThread:3992 [datastore.py:open_for_write():77] open: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/run-8i822xel.wandb
+2021-05-24 02:33:30,162 DEBUG   SenderThread:3992 [sender.py:send():176] send: header
+2021-05-24 02:33:30,162 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: check_version
+2021-05-24 02:33:30,192 DEBUG   SenderThread:3992 [sender.py:send():176] send: run
+2021-05-24 02:33:30,387 INFO    SenderThread:3992 [dir_watcher.py:__init__():168] watching files in: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files
+2021-05-24 02:33:30,387 INFO    SenderThread:3992 [sender.py:_start_run_threads():699] run started: 8i822xel with start time 1621823609
+2021-05-24 02:33:30,387 DEBUG   SenderThread:3992 [sender.py:send():176] send: summary
+2021-05-24 02:33:30,387 INFO    SenderThread:3992 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 02:33:30,387 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: run_start
+2021-05-24 02:33:30,393 DEBUG   HandlerThread:3992 [meta.py:__init__():39] meta init
+2021-05-24 02:33:30,393 DEBUG   HandlerThread:3992 [meta.py:__init__():53] meta init done
+2021-05-24 02:33:30,393 DEBUG   HandlerThread:3992 [meta.py:probe():210] probe
+2021-05-24 02:33:30,400 DEBUG   HandlerThread:3992 [meta.py:_setup_git():200] setup git
+2021-05-24 02:33:30,411 DEBUG   HandlerThread:3992 [meta.py:_setup_git():207] setup git done
+2021-05-24 02:33:30,411 DEBUG   HandlerThread:3992 [meta.py:_save_pip():57] save pip
+2021-05-24 02:33:30,411 DEBUG   HandlerThread:3992 [meta.py:_save_pip():71] save pip done
+2021-05-24 02:33:30,411 DEBUG   HandlerThread:3992 [meta.py:_save_conda():78] save conda
+2021-05-24 02:33:31,388 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/requirements.txt
+2021-05-24 02:33:31,389 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-summary.json
+2021-05-24 02:33:31,389 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/conda-environment.yaml
+2021-05-24 02:33:32,597 DEBUG   HandlerThread:3992 [meta.py:_save_conda():86] save conda done
+2021-05-24 02:33:32,597 DEBUG   HandlerThread:3992 [meta.py:probe():252] probe done
+2021-05-24 02:33:32,600 DEBUG   SenderThread:3992 [sender.py:send():176] send: files
+2021-05-24 02:33:32,600 INFO    SenderThread:3992 [sender.py:_save_file():821] saving file wandb-metadata.json with policy now
+2021-05-24 02:33:32,605 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 02:33:32,605 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 02:33:33,152 INFO    Thread-11 :3992 [upload_job.py:push():133] Uploaded file /tmp/tmpyiy9vw1xwandb/1l6ijr1d-wandb-metadata.json
+2021-05-24 02:33:33,390 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/conda-environment.yaml
+2021-05-24 02:33:33,390 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-metadata.json
+2021-05-24 02:33:33,390 INFO    Thread-8  :3992 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/output.log
+2021-05-24 02:33:47,764 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 02:33:47,765 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 02:33:59,286 DEBUG   SenderThread:3992 [sender.py:send():176] send: stats
+2021-05-24 02:34:02,926 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 02:34:02,926 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 02:34:18,098 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 02:34:18,099 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 02:34:30,135 DEBUG   SenderThread:3992 [sender.py:send():176] send: stats
+2021-05-24 02:34:33,257 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 02:34:33,257 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 02:34:40,140 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:40,140 DEBUG   SenderThread:3992 [sender.py:send():176] send: telemetry
+2021-05-24 02:34:40,140 DEBUG   SenderThread:3992 [sender.py:send():176] send: exit
+2021-05-24 02:34:40,140 INFO    SenderThread:3992 [sender.py:send_exit():281] handling exit code: 1
+2021-05-24 02:34:40,140 INFO    SenderThread:3992 [sender.py:send_exit():289] send defer
+2021-05-24 02:34:40,141 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:40,141 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,141 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 0
+2021-05-24 02:34:40,141 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,141 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 0
+2021-05-24 02:34:40,141 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 1
+2021-05-24 02:34:40,142 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,142 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 1
+2021-05-24 02:34:40,203 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,203 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 1
+2021-05-24 02:34:40,204 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 2
+2021-05-24 02:34:40,204 DEBUG   SenderThread:3992 [sender.py:send():176] send: stats
+2021-05-24 02:34:40,204 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,205 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 2
+2021-05-24 02:34:40,206 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,206 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 2
+2021-05-24 02:34:40,206 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 3
+2021-05-24 02:34:40,206 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,206 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 3
+2021-05-24 02:34:40,206 DEBUG   SenderThread:3992 [sender.py:send():176] send: summary
+2021-05-24 02:34:40,207 INFO    SenderThread:3992 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 02:34:40,207 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,207 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 3
+2021-05-24 02:34:40,207 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 4
+2021-05-24 02:34:40,207 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,207 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 4
+2021-05-24 02:34:40,207 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,207 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 4
+2021-05-24 02:34:40,243 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:40,383 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 5
+2021-05-24 02:34:40,383 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:40,384 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,384 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 5
+2021-05-24 02:34:40,384 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,384 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 5
+2021-05-24 02:34:40,384 INFO    SenderThread:3992 [dir_watcher.py:finish():282] shutting down directory watcher
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/config.yaml
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/output.log
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-summary.json
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:finish():312] scan: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-metadata.json wandb-metadata.json
+2021-05-24 02:34:40,401 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/output.log output.log
+2021-05-24 02:34:40,402 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-summary.json wandb-summary.json
+2021-05-24 02:34:40,402 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/config.yaml config.yaml
+2021-05-24 02:34:40,402 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/conda-environment.yaml conda-environment.yaml
+2021-05-24 02:34:40,402 INFO    SenderThread:3992 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/requirements.txt requirements.txt
+2021-05-24 02:34:40,402 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 6
+2021-05-24 02:34:40,410 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,413 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 6
+2021-05-24 02:34:40,413 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,413 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 6
+2021-05-24 02:34:40,414 INFO    SenderThread:3992 [file_pusher.py:finish():176] shutting down file pusher
+2021-05-24 02:34:40,414 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 7
+2021-05-24 02:34:40,418 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,418 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 7
+2021-05-24 02:34:40,418 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,418 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 7
+2021-05-24 02:34:40,485 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:40,716 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 8
+2021-05-24 02:34:40,716 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:40,717 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,717 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 8
+2021-05-24 02:34:40,717 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,717 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 8
+2021-05-24 02:34:40,717 INFO    SenderThread:3992 [sender.py:send_request_defer():336] send defer: 9
+2021-05-24 02:34:40,717 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 02:34:40,718 DEBUG   SenderThread:3992 [sender.py:send():176] send: final
+2021-05-24 02:34:40,718 INFO    HandlerThread:3992 [handler.py:handle_request_defer():138] handle defer: 9
+2021-05-24 02:34:40,718 DEBUG   SenderThread:3992 [sender.py:send():176] send: footer
+2021-05-24 02:34:40,718 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: defer
+2021-05-24 02:34:40,718 INFO    SenderThread:3992 [sender.py:send_request_defer():298] handle sender defer: 9
+2021-05-24 02:34:40,818 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:40,818 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:40,891 INFO    Thread-12 :3992 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/output.log
+2021-05-24 02:34:40,902 INFO    Thread-16 :3992 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/requirements.txt
+2021-05-24 02:34:40,903 INFO    Thread-13 :3992 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/wandb-summary.json
+2021-05-24 02:34:40,920 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:40,920 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:40,933 INFO    Thread-15 :3992 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/conda-environment.yaml
+2021-05-24 02:34:40,933 INFO    Thread-14 :3992 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/files/config.yaml
+2021-05-24 02:34:41,022 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:41,022 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:41,124 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:41,124 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:41,226 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 02:34:41,226 DEBUG   SenderThread:3992 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 02:34:41,226 INFO    SenderThread:3992 [file_pusher.py:join():181] waiting for file pusher
+2021-05-24 02:34:41,227 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: get_summary
+2021-05-24 02:34:41,228 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: sampled_history
+2021-05-24 02:34:41,230 DEBUG   HandlerThread:3992 [handler.py:handle_request():121] handle_request: shutdown
+2021-05-24 02:34:41,230 INFO    HandlerThread:3992 [handler.py:finish():632] shutting down handler
+2021-05-24 02:34:41,718 INFO    WriterThread:3992 [datastore.py:close():258] close: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_023329-8i822xel/run-8i822xel.wandb
+2021-05-24 02:34:42,227 INFO    SenderThread:3992 [sender.py:finish():925] shutting down sender
+2021-05-24 02:34:42,227 INFO    SenderThread:3992 [file_pusher.py:finish():176] shutting down file pusher
+2021-05-24 02:34:42,227 INFO    SenderThread:3992 [file_pusher.py:join():181] waiting for file pusher
+2021-05-24 02:34:42,228 INFO    MainThread:3992 [internal.py:handle_exit():78] Internal process exited

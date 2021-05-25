@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-23 11:51:27
+LastEditTime: 2021-05-25 01:48:15
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -247,6 +247,7 @@ def main(args):
             loss_epoch_dti = 0
             loss_epoch_total = 0
             # 修改出来dti pairs
+            count=0
             for (compounds, proteins, cpi_labels, compoundids) in graph_data_iter(batch_size, data.train_set_gnn, data.protein2seq):
                 cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
                 loss_total, loss_cpi, loss_dti, cpi_pred, dti_pred, loss_params = loss_model(g, node_id, edge_type, edge_norm,
@@ -260,7 +261,7 @@ def main(args):
                 loss_epoch_total += loss_total
                 loss_epoch_cpi += loss_cpi
                 loss_epoch_dti += loss_dti
-            
+                count+=1
             
             if use_cuda:
                 loss_model.cpu()
@@ -308,7 +309,9 @@ def main(args):
             test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
             test_cpi_pred, test_cpi_labels)
             #metrics={}
-            logs={'cpi_loss': loss_epoch_cpi.detach().cpu(), 'dti_loss': loss_epoch_dti.detach().cpu(), 'total_loss': loss_epoch_total.detach().cpu(), 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr, 'dti_acc': val_dti_acc, 'dti_auc': val_dti_roc, 'dti_aupr': val_dti_aupr,'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr, 'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
+            loss_epoch_cpi=loss_epoch_cpi.detach().cpu()/count
+            loss_epoch_dti=loss_epoch_dti.detach().cpu()/count
+            logs={'cpi_loss': loss_epoch_cpi, 'dti_loss': loss_epoch_dti, 'total_loss': loss_epoch_total.detach().cpu(), 'cpi_acc': val_acc, 'cpi_auc': val_roc, 'cpi_aupr': val_aupr, 'dti_acc': val_dti_acc, 'dti_auc': val_dti_roc, 'dti_aupr': val_dti_aupr,'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr, 'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
             wandb.log(logs)
             # if best_test_cpi_record[1]<test_cpi_roc:
             #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr]
@@ -385,9 +388,9 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='human', help='dataset used for cpi task')
+                        default='human_redundant', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
-                        default='drugcentral', help='dataset used for dti task')
+                        default='drugcentral_redundant', help='dataset used for dti task')
     # 共用同一个shared unit layer
     parser.add_argument('--shared_unit_num', type=int,
                         default=1, help='the number of shared units')

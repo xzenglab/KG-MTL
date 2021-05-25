@@ -1,0 +1,84 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.30
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.7.9
+    t:
+      1:
+      - 1
+      - 5
+      4: 3.7.9
+      5: 0.10.30
+      8:
+      - 5
+cpi_dataset:
+  desc: null
+  value: human_redundant
+dropout:
+  desc: null
+  value: 0.2
+dti_dataset:
+  desc: null
+  value: drugcentral_redundant
+edge_sampler:
+  desc: null
+  value: neighbor
+embedd_dim:
+  desc: null
+  value: 128
+gpu:
+  desc: null
+  value: 2
+grad_norm:
+  desc: null
+  value: 1.0
+graph_batch_size:
+  desc: null
+  value: 40000
+graph_split_size:
+  desc: null
+  value: 0.5
+loss_lamda:
+  desc: null
+  value: 0.75
+loss_mode:
+  desc: null
+  value: weighted
+lr_dti:
+  desc: null
+  value: 0.001
+lr_pre:
+  desc: null
+  value: 0.01
+n_bases:
+  desc: null
+  value: 4
+n_epochs:
+  desc: null
+  value: 100
+n_hidden:
+  desc: null
+  value: 500
+n_layers:
+  desc: null
+  value: 2
+negative_sample:
+  desc: null
+  value: 10
+regularization:
+  desc: null
+  value: 0.01
+rgcn_epochs:
+  desc: null
+  value: 0
+sample_size:
+  desc: null
+  value: 4
+shared_unit_num:
+  desc: null
+  value: 1

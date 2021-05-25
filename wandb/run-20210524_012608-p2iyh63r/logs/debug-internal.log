@@ -1,0 +1,133 @@
+2021-05-24 01:26:08,703 INFO    MainThread:2195 [internal.py:wandb_internal():91] W&B internal server running at pid: 2195, started at: 2021-05-24 01:26:08.703431
+2021-05-24 01:26:08,705 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: check_version
+2021-05-24 01:26:08,705 INFO    WriterThread:2195 [datastore.py:open_for_write():77] open: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/run-p2iyh63r.wandb
+2021-05-24 01:26:08,706 DEBUG   SenderThread:2195 [sender.py:send():176] send: header
+2021-05-24 01:26:08,706 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: check_version
+2021-05-24 01:26:08,736 DEBUG   SenderThread:2195 [sender.py:send():176] send: run
+2021-05-24 01:26:08,947 INFO    SenderThread:2195 [dir_watcher.py:__init__():168] watching files in: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files
+2021-05-24 01:26:08,948 INFO    SenderThread:2195 [sender.py:_start_run_threads():699] run started: p2iyh63r with start time 1621819568
+2021-05-24 01:26:08,948 DEBUG   SenderThread:2195 [sender.py:send():176] send: summary
+2021-05-24 01:26:08,948 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: run_start
+2021-05-24 01:26:08,948 INFO    SenderThread:2195 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 01:26:08,953 DEBUG   HandlerThread:2195 [meta.py:__init__():39] meta init
+2021-05-24 01:26:08,953 DEBUG   HandlerThread:2195 [meta.py:__init__():53] meta init done
+2021-05-24 01:26:08,953 DEBUG   HandlerThread:2195 [meta.py:probe():210] probe
+2021-05-24 01:26:08,960 DEBUG   HandlerThread:2195 [meta.py:_setup_git():200] setup git
+2021-05-24 01:26:08,970 DEBUG   HandlerThread:2195 [meta.py:_setup_git():207] setup git done
+2021-05-24 01:26:08,970 DEBUG   HandlerThread:2195 [meta.py:_save_pip():57] save pip
+2021-05-24 01:26:08,971 DEBUG   HandlerThread:2195 [meta.py:_save_pip():71] save pip done
+2021-05-24 01:26:08,971 DEBUG   HandlerThread:2195 [meta.py:_save_conda():78] save conda
+2021-05-24 01:26:09,950 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/requirements.txt
+2021-05-24 01:26:09,950 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-summary.json
+2021-05-24 01:26:09,950 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/conda-environment.yaml
+2021-05-24 01:26:11,182 DEBUG   HandlerThread:2195 [meta.py:_save_conda():86] save conda done
+2021-05-24 01:26:11,182 DEBUG   HandlerThread:2195 [meta.py:probe():252] probe done
+2021-05-24 01:26:11,185 DEBUG   SenderThread:2195 [sender.py:send():176] send: files
+2021-05-24 01:26:11,185 INFO    SenderThread:2195 [sender.py:_save_file():821] saving file wandb-metadata.json with policy now
+2021-05-24 01:26:11,190 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 01:26:11,190 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 01:26:11,678 INFO    Thread-11 :2195 [upload_job.py:push():133] Uploaded file /tmp/tmpp51lgp7pwandb/1apvoqtx-wandb-metadata.json
+2021-05-24 01:26:11,951 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/conda-environment.yaml
+2021-05-24 01:26:11,951 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-metadata.json
+2021-05-24 01:26:11,951 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/output.log
+2021-05-24 01:26:13,198 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:13,198 DEBUG   SenderThread:2195 [sender.py:send():176] send: telemetry
+2021-05-24 01:26:13,199 DEBUG   SenderThread:2195 [sender.py:send():176] send: exit
+2021-05-24 01:26:13,199 INFO    SenderThread:2195 [sender.py:send_exit():281] handling exit code: 2
+2021-05-24 01:26:13,199 INFO    SenderThread:2195 [sender.py:send_exit():289] send defer
+2021-05-24 01:26:13,199 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:13,199 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,199 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 0
+2021-05-24 01:26:13,200 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,200 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 0
+2021-05-24 01:26:13,200 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 1
+2021-05-24 01:26:13,200 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,200 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 1
+2021-05-24 01:26:13,298 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,298 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 1
+2021-05-24 01:26:13,298 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 2
+2021-05-24 01:26:13,298 DEBUG   SenderThread:2195 [sender.py:send():176] send: stats
+2021-05-24 01:26:13,299 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,299 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 2
+2021-05-24 01:26:13,299 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,299 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 2
+2021-05-24 01:26:13,299 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 3
+2021-05-24 01:26:13,299 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,299 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 3
+2021-05-24 01:26:13,299 DEBUG   SenderThread:2195 [sender.py:send():176] send: summary
+2021-05-24 01:26:13,299 INFO    SenderThread:2195 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 01:26:13,300 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,300 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 3
+2021-05-24 01:26:13,300 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 4
+2021-05-24 01:26:13,300 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,300 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 4
+2021-05-24 01:26:13,300 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,300 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 4
+2021-05-24 01:26:13,304 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:13,494 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 5
+2021-05-24 01:26:13,494 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:13,494 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,494 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 5
+2021-05-24 01:26:13,494 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,495 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 5
+2021-05-24 01:26:13,495 INFO    SenderThread:2195 [dir_watcher.py:finish():282] shutting down directory watcher
+2021-05-24 01:26:13,595 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:13,951 INFO    Thread-8  :2195 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/config.yaml
+2021-05-24 01:26:13,952 INFO    SenderThread:2195 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-summary.json
+2021-05-24 01:26:13,952 INFO    SenderThread:2195 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/output.log
+2021-05-24 01:26:13,952 INFO    SenderThread:2195 [dir_watcher.py:finish():312] scan: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files
+2021-05-24 01:26:13,952 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-metadata.json wandb-metadata.json
+2021-05-24 01:26:13,952 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/output.log output.log
+2021-05-24 01:26:13,953 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-summary.json wandb-summary.json
+2021-05-24 01:26:13,953 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/config.yaml config.yaml
+2021-05-24 01:26:13,953 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/conda-environment.yaml conda-environment.yaml
+2021-05-24 01:26:13,953 INFO    SenderThread:2195 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/requirements.txt requirements.txt
+2021-05-24 01:26:13,953 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 6
+2021-05-24 01:26:13,956 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:13,961 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,962 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 6
+2021-05-24 01:26:13,962 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,964 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 6
+2021-05-24 01:26:13,968 INFO    SenderThread:2195 [file_pusher.py:finish():176] shutting down file pusher
+2021-05-24 01:26:13,968 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 7
+2021-05-24 01:26:13,969 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:13,969 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 7
+2021-05-24 01:26:13,969 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:13,969 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 7
+2021-05-24 01:26:14,058 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:14,312 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 8
+2021-05-24 01:26:14,313 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:14,313 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:14,313 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 8
+2021-05-24 01:26:14,313 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:14,313 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 8
+2021-05-24 01:26:14,314 INFO    SenderThread:2195 [sender.py:send_request_defer():336] send defer: 9
+2021-05-24 01:26:14,314 DEBUG   SenderThread:2195 [sender.py:send():176] send: final
+2021-05-24 01:26:14,314 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: defer
+2021-05-24 01:26:14,314 DEBUG   SenderThread:2195 [sender.py:send():176] send: footer
+2021-05-24 01:26:14,314 INFO    HandlerThread:2195 [handler.py:handle_request_defer():138] handle defer: 9
+2021-05-24 01:26:14,314 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: defer
+2021-05-24 01:26:14,314 INFO    SenderThread:2195 [sender.py:send_request_defer():298] handle sender defer: 9
+2021-05-24 01:26:14,414 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:14,415 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:14,437 INFO    Thread-14 :2195 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/config.yaml
+2021-05-24 01:26:14,444 INFO    Thread-16 :2195 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/requirements.txt
+2021-05-24 01:26:14,456 INFO    Thread-13 :2195 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/wandb-summary.json
+2021-05-24 01:26:14,463 INFO    Thread-15 :2195 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/conda-environment.yaml
+2021-05-24 01:26:14,466 INFO    Thread-12 :2195 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/files/output.log
+2021-05-24 01:26:14,516 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:14,516 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:14,618 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:14,618 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:14,720 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: poll_exit
+2021-05-24 01:26:14,720 DEBUG   SenderThread:2195 [sender.py:send_request():186] send_request: poll_exit
+2021-05-24 01:26:14,720 INFO    SenderThread:2195 [file_pusher.py:join():181] waiting for file pusher
+2021-05-24 01:26:14,722 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: get_summary
+2021-05-24 01:26:14,723 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: sampled_history
+2021-05-24 01:26:14,724 DEBUG   HandlerThread:2195 [handler.py:handle_request():121] handle_request: shutdown
+2021-05-24 01:26:14,724 INFO    HandlerThread:2195 [handler.py:finish():632] shutting down handler
+2021-05-24 01:26:15,314 INFO    WriterThread:2195 [datastore.py:close():258] close: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_012608-p2iyh63r/run-p2iyh63r.wandb
+2021-05-24 01:26:15,721 INFO    SenderThread:2195 [sender.py:finish():925] shutting down sender
+2021-05-24 01:26:15,721 INFO    SenderThread:2195 [file_pusher.py:finish():176] shutting down file pusher
+2021-05-24 01:26:15,721 INFO    SenderThread:2195 [file_pusher.py:join():181] waiting for file pusher
+2021-05-24 01:26:15,722 INFO    MainThread:2195 [internal.py:handle_exit():78] Internal process exited

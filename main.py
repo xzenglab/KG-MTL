@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-23 11:17:17
+LastEditTime: 2021-05-25 01:47:03
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -344,7 +344,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=3, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -373,9 +373,9 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='human', help='dataset used for cpi task')
+                        default='celegans', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
-                        default='drugcentral', help='dataset used for dti task')
+                        default='drugbank', help='dataset used for dti task')
     # 共用同一个shared unit layer
     parser.add_argument('--shared_unit_num', type=int,
                         default=1, help='the number of shared units')
@@ -420,8 +420,8 @@ if __name__ == "__main__":
     best_avg_dti=np.mean(np.array(best_results_dti), axis=0)
     best_std_dti=np.std(np.array(best_results_dti), axis=0)
     print(best_avg_dti)
-    best_results_cpi.append(best_avg_dti)
-    best_results_cpi.append(best_std_dti)
+    best_results_dti.append(best_avg_dti)
+    best_results_dti.append(best_std_dti)
     
     np.savetxt('results/cpi_{}_best_result.txt'.format(args.cpi_dataset),
                np.array(best_results_cpi), delimiter=",", fmt='%f')

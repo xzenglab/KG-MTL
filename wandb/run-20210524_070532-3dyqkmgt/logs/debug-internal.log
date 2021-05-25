@@ -1,0 +1,98 @@
+2021-05-24 07:05:32,544 INFO    MainThread:10483 [internal.py:wandb_internal():91] W&B internal server running at pid: 10483, started at: 2021-05-24 07:05:32.544126
+2021-05-24 07:05:32,546 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: check_version
+2021-05-24 07:05:32,546 INFO    WriterThread:10483 [datastore.py:open_for_write():77] open: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/run-3dyqkmgt.wandb
+2021-05-24 07:05:32,547 DEBUG   SenderThread:10483 [sender.py:send():176] send: header
+2021-05-24 07:05:32,547 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: check_version
+2021-05-24 07:05:32,581 DEBUG   SenderThread:10483 [sender.py:send():176] send: run
+2021-05-24 07:05:32,776 INFO    SenderThread:10483 [dir_watcher.py:__init__():168] watching files in: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files
+2021-05-24 07:05:32,776 INFO    SenderThread:10483 [sender.py:_start_run_threads():699] run started: 3dyqkmgt with start time 1621839932
+2021-05-24 07:05:32,777 DEBUG   SenderThread:10483 [sender.py:send():176] send: summary
+2021-05-24 07:05:32,777 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 07:05:32,778 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: run_start
+2021-05-24 07:05:32,782 DEBUG   HandlerThread:10483 [meta.py:__init__():39] meta init
+2021-05-24 07:05:32,782 DEBUG   HandlerThread:10483 [meta.py:__init__():53] meta init done
+2021-05-24 07:05:32,782 DEBUG   HandlerThread:10483 [meta.py:probe():210] probe
+2021-05-24 07:05:32,789 DEBUG   HandlerThread:10483 [meta.py:_setup_git():200] setup git
+2021-05-24 07:05:32,799 DEBUG   HandlerThread:10483 [meta.py:_setup_git():207] setup git done
+2021-05-24 07:05:32,799 DEBUG   HandlerThread:10483 [meta.py:_save_pip():57] save pip
+2021-05-24 07:05:32,800 DEBUG   HandlerThread:10483 [meta.py:_save_pip():71] save pip done
+2021-05-24 07:05:32,800 DEBUG   HandlerThread:10483 [meta.py:_save_conda():78] save conda
+2021-05-24 07:05:33,778 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:05:33,778 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/conda-environment.yaml
+2021-05-24 07:05:33,778 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/requirements.txt
+2021-05-24 07:05:34,777 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/conda-environment.yaml
+2021-05-24 07:05:34,834 DEBUG   HandlerThread:10483 [meta.py:_save_conda():86] save conda done
+2021-05-24 07:05:34,834 DEBUG   HandlerThread:10483 [meta.py:probe():252] probe done
+2021-05-24 07:05:34,837 DEBUG   SenderThread:10483 [sender.py:send():176] send: files
+2021-05-24 07:05:34,837 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-metadata.json with policy now
+2021-05-24 07:05:34,842 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:05:34,842 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:05:35,321 INFO    Thread-11 :10483 [upload_job.py:push():133] Uploaded file /tmp/tmpohvmj_f9wandb/tkx6705y-wandb-metadata.json
+2021-05-24 07:05:35,777 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-metadata.json
+2021-05-24 07:05:35,777 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/output.log
+2021-05-24 07:05:50,122 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:05:50,122 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:06:01,694 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:06:05,700 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:06:05,701 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:06:21,236 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:06:21,236 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:06:32,586 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:06:36,732 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:06:36,732 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:06:52,077 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:06:52,077 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:07:03,709 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:07:05,877 DEBUG   SenderThread:10483 [sender.py:send():176] send: history
+2021-05-24 07:07:05,877 DEBUG   SenderThread:10483 [sender.py:send():176] send: summary
+2021-05-24 07:07:05,878 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 07:07:06,806 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:07:07,268 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:07:07,269 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:07:22,430 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:07:22,430 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:07:32,154 DEBUG   SenderThread:10483 [sender.py:send():176] send: history
+2021-05-24 07:07:32,154 DEBUG   SenderThread:10483 [sender.py:send():176] send: summary
+2021-05-24 07:07:32,156 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 07:07:32,815 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:07:34,863 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:07:37,591 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:07:37,591 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:07:52,749 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:07:52,749 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:07:57,881 DEBUG   SenderThread:10483 [sender.py:send():176] send: history
+2021-05-24 07:07:57,881 DEBUG   SenderThread:10483 [sender.py:send():176] send: summary
+2021-05-24 07:07:57,883 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 07:07:58,824 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:08:06,111 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:08:07,929 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:08:07,930 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:08:23,565 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:08:23,566 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:08:23,724 DEBUG   SenderThread:10483 [sender.py:send():176] send: history
+2021-05-24 07:08:23,724 DEBUG   SenderThread:10483 [sender.py:send():176] send: summary
+2021-05-24 07:08:23,725 INFO    SenderThread:10483 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-24 07:08:23,834 INFO    Thread-8  :10483 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:08:37,476 DEBUG   SenderThread:10483 [sender.py:send():176] send: stats
+2021-05-24 07:08:39,640 DEBUG   HandlerThread:10483 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-24 07:08:39,640 DEBUG   SenderThread:10483 [sender.py:send_request():186] send_request: stop_status
+2021-05-24 07:08:53,930 WARNING MainThread:10483 [internal.py:is_dead():367] Internal process exiting, parent pid 10474 disappeared
+2021-05-24 07:08:53,930 ERROR   MainThread:10483 [internal.py:wandb_internal():143] Internal process shutdown.
+2021-05-24 07:08:54,901 INFO    WriterThread:10483 [datastore.py:close():258] close: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/run-3dyqkmgt.wandb
+2021-05-24 07:08:54,924 INFO    SenderThread:10483 [sender.py:finish():925] shutting down sender
+2021-05-24 07:08:54,924 INFO    SenderThread:10483 [dir_watcher.py:finish():282] shutting down directory watcher
+2021-05-24 07:08:54,931 INFO    HandlerThread:10483 [handler.py:finish():632] shutting down handler
+2021-05-24 07:08:55,900 INFO    SenderThread:10483 [dir_watcher.py:finish():312] scan: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files
+2021-05-24 07:08:55,901 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-metadata.json wandb-metadata.json
+2021-05-24 07:08:55,901 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/output.log output.log
+2021-05-24 07:08:55,901 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json wandb-summary.json
+2021-05-24 07:08:55,901 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/config.yaml config.yaml
+2021-05-24 07:08:55,907 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/conda-environment.yaml conda-environment.yaml
+2021-05-24 07:08:55,907 INFO    SenderThread:10483 [dir_watcher.py:finish():318] scan save: /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/requirements.txt requirements.txt
+2021-05-24 07:08:55,907 INFO    SenderThread:10483 [file_pusher.py:finish():176] shutting down file pusher
+2021-05-24 07:08:55,911 INFO    SenderThread:10483 [file_pusher.py:join():181] waiting for file pusher
+2021-05-24 07:08:56,415 INFO    Thread-14 :10483 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/conda-environment.yaml
+2021-05-24 07:08:56,419 INFO    Thread-13 :10483 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/config.yaml
+2021-05-24 07:08:56,428 INFO    Thread-15 :10483 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/requirements.txt
+2021-05-24 07:08:56,431 INFO    Thread-12 :10483 [upload_job.py:push():133] Uploaded file /home/ubuntu/data/matengfei/kg-mtl/wandb/run-20210524_070532-3dyqkmgt/files/wandb-summary.json
+2021-05-24 07:08:57,075 INFO    MainThread:10483 [internal.py:handle_exit():78] Internal process exited

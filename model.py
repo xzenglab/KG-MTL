@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-23 12:03:38
+LastEditTime: 2021-05-24 03:07:50
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -31,7 +31,7 @@ class EmbeddingLayer(nn.Module):
 
     def __init__(self, num_nodes, h_dim):
         super(EmbeddingLayer, self).__init__()
-        self.embedding = th.nn.Embedding(num_nodes, h_dim)
+        self.embedding = torch.nn.Embedding(num_nodes, h_dim)
 
     def forward(self, h):
         return self.embedding(h.squeeze())
@@ -357,10 +357,9 @@ class DTI(nn.Module):
                                                  'bdd', num_bases=self.num_bases, activation=act, self_loop=True, dropout=self.dropout))
 
     def RGCN_Net(self, g, h, r, norm):
-        for idx, layer in enumerate(self.rgcn_layers):
-            if idx == 0:
-                h = layer(h)
-                continue
+        h=self.rgcn_layers[0](h)
+        for idx in range(1, len(self.rgcn_layers)):
+            layer=self.rgcn_layers[idx]
             h = layer(g, h, r, norm)
         return h
 
