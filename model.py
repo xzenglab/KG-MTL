@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-28 02:09:21
+LastEditTime: 2021-05-28 12:18:46
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -61,7 +61,8 @@ class MKDTI(nn.Module):
 
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            self.shared_units.append(Shared_Unit_NL(h_dim))
+            #self.shared_units.append(Shared_Unit_NL(h_dim))
+            self.shared_units.append(AttentionUnit(h_dim))
             #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size
         self.drug_hidden_dim=drug_hidden_dim
@@ -69,7 +70,7 @@ class MKDTI(nn.Module):
 
         #self.layer_filters_drugs = [50, 1, 1, 32,64,128,200]
         self.layer_filters_proteins = [self.drug_hidden_dim, 96, 128, self.drug_hidden_dim]
-        self.cpi_hidden_dim = [78,self.drug_hidden_dim]
+        self.cpi_hidden_dim = [78,self.drug_hidden_dim, self.drug_hidden_dim]
         # 设置共享层数-做消融实验
         self.num_shared_layer=shared_unit_num #1, 2, 3 layers
 
@@ -84,7 +85,7 @@ class MKDTI(nn.Module):
         
         self.drug_gcn=nn.ModuleList([GraphConv(in_feats=self.cpi_hidden_dim[i],out_feats=self.cpi_hidden_dim[i+1]) for i in range(len(self.cpi_hidden_dim)-1)])
         # 对分子图做池化操作
-        self.drug_output_layer=MLPNodeReadout(self.drug_hidden_dim,self.drug_hidden_dim,self.drug_hidden_dim)
+        self.drug_output_layer=MLPNodeReadout(self.drug_hidden_dim,self.drug_hidden_dim,self.drug_hidden_dim, activation=nn.ReLU(),mode='max')
         self.compound_fc_layers=nn.ModuleList([nn.Linear(self.compound_hidden_dim[i],self.compound_hidden_dim[i+1]) for i in range(len(self.compound_hidden_dim)-1)])
         # protein encoding
         self.embed_protein = nn.Embedding(
@@ -144,9 +145,7 @@ class MKDTI(nn.Module):
             # 对输入特征做处理
             # 对输入特征做处理
             compound_vector = F.relu(l(compound_vector))
-
             if idx <= self.num_hidden_layers-1:
-
                 h = self.rgcn_layers[idx+1](g, h, r, norm)
                 ## KG-MTL-S
                 if idx<=(self.num_shared_layer-1):
@@ -154,7 +153,6 @@ class MKDTI(nn.Module):
                     compound_vector, compound_kg_ = self.shared_units[idx](
                         compound_vector.squeeze(), compound_embed)
                     h[compound_indexs,:]=compound_kg_.clone()
-        
         # protein encoding
         protein_vector = self.embed_protein(protein_seq)
         protein_vector = protein_vector.permute(0, 2, 1)
@@ -167,7 +165,6 @@ class MKDTI(nn.Module):
             (compound_vector, protein_vector), dim=1)
         for fc_layer in self.fc_layers:
             output_cpi_vector = fc_layer(output_cpi_vector)
-
         drugs_embed = h[drugs_entityid, :]
         targets_embed = h[target_entityid, :]
         output_dti_vector = torch.cat((drugs_embed, targets_embed), dim=1)

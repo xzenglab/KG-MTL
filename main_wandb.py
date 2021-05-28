@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-28 02:08:04
+LastEditTime: 2021-05-28 08:17:35
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -396,12 +396,11 @@ if __name__ == "__main__":
                         default=1, help='the number of shared units')
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
-    parser.add_argument('--loss_mode', type=str,
-                       help='the way of caculating total loss [weighted, single]',required=True)
+    parser.add_argument('--loss_mode', type=str, default='weighted',
+                       help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
     wandb.init(project='make-cpi', config=args,notes='human_drugcentral_kg-mtl-s',tags='variant')
     config=wandb.config
-    
     print(args)
     cpi_r, dti_r = main(args)
     print(cpi_r)

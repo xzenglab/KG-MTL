@@ -1,0 +1,1 @@
+RuntimeError: size mismatch, m1: [32 x 4], m2: [128 x 2] at /opt/conda/conda-bld/pytorch_1579022060824/work/aten/src/THC/generic/THCTensorMathBlas.cu:290
