@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-24 03:07:50
+LastEditTime: 2021-05-28 02:09:21
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -505,7 +505,8 @@ class MultiTaskLoss(nn.Module):
             loss=torch.mean(loss)
             return loss
         elif mode=='single':
-            loss=cpi_loss+dti_loss
+            #loss=cpi_loss+dti_loss
+            loss=torch.sum(torch.cat(cpi_loss, dti_loss))
             return loss
     
     def forward(self,g, h, r, norm, compound_smiles=None, protein_seq=None, compound_entityid=None, drugs_entityid=None, targets_entityid=None, rgcn_only=False,smiles2graph=None,eval_=False,cpi_labels=None,dti_labels=None, mode='weighted'):

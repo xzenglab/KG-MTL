@@ -1,0 +1,34 @@
+2021-05-28 02:31:01,207 INFO    MainThread:10034 [internal.py:wandb_internal():91] W&B internal server running at pid: 10034, started at: 2021-05-28 02:31:01.206942
+2021-05-28 02:31:01,209 DEBUG   HandlerThread:10034 [handler.py:handle_request():121] handle_request: check_version
+2021-05-28 02:31:01,209 INFO    WriterThread:10034 [datastore.py:open_for_write():77] open: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/run-348vdazx.wandb
+2021-05-28 02:31:01,210 DEBUG   SenderThread:10034 [sender.py:send():176] send: header
+2021-05-28 02:31:01,210 DEBUG   SenderThread:10034 [sender.py:send_request():186] send_request: check_version
+2021-05-28 02:31:01,240 DEBUG   SenderThread:10034 [sender.py:send():176] send: run
+2021-05-28 02:31:01,449 INFO    SenderThread:10034 [dir_watcher.py:__init__():168] watching files in: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files
+2021-05-28 02:31:01,449 INFO    SenderThread:10034 [sender.py:_start_run_threads():699] run started: 348vdazx with start time 1622169060
+2021-05-28 02:31:01,450 DEBUG   SenderThread:10034 [sender.py:send():176] send: summary
+2021-05-28 02:31:01,450 INFO    SenderThread:10034 [sender.py:_save_file():821] saving file wandb-summary.json with policy end
+2021-05-28 02:31:01,452 DEBUG   HandlerThread:10034 [handler.py:handle_request():121] handle_request: run_start
+2021-05-28 02:31:01,456 DEBUG   HandlerThread:10034 [meta.py:__init__():39] meta init
+2021-05-28 02:31:01,456 DEBUG   HandlerThread:10034 [meta.py:__init__():53] meta init done
+2021-05-28 02:31:01,456 DEBUG   HandlerThread:10034 [meta.py:probe():210] probe
+2021-05-28 02:31:01,463 DEBUG   HandlerThread:10034 [meta.py:_setup_git():200] setup git
+2021-05-28 02:31:01,473 DEBUG   HandlerThread:10034 [meta.py:_setup_git():207] setup git done
+2021-05-28 02:31:01,473 DEBUG   HandlerThread:10034 [meta.py:_save_pip():57] save pip
+2021-05-28 02:31:01,473 DEBUG   HandlerThread:10034 [meta.py:_save_pip():71] save pip done
+2021-05-28 02:31:01,474 DEBUG   HandlerThread:10034 [meta.py:_save_conda():78] save conda
+2021-05-28 02:31:02,451 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/wandb-summary.json
+2021-05-28 02:31:02,451 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/requirements.txt
+2021-05-28 02:31:02,452 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/conda-environment.yaml
+2021-05-28 02:31:03,702 DEBUG   HandlerThread:10034 [meta.py:_save_conda():86] save conda done
+2021-05-28 02:31:03,702 DEBUG   HandlerThread:10034 [meta.py:probe():252] probe done
+2021-05-28 02:31:03,705 DEBUG   SenderThread:10034 [sender.py:send():176] send: files
+2021-05-28 02:31:03,705 INFO    SenderThread:10034 [sender.py:_save_file():821] saving file wandb-metadata.json with policy now
+2021-05-28 02:31:03,709 DEBUG   HandlerThread:10034 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-28 02:31:03,709 DEBUG   SenderThread:10034 [sender.py:send_request():186] send_request: stop_status
+2021-05-28 02:31:04,284 INFO    Thread-11 :10034 [upload_job.py:push():133] Uploaded file /tmp/tmpuzza2x4mwandb/25pzo56j-wandb-metadata.json
+2021-05-28 02:31:04,452 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_modified():229] file/dir modified: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/conda-environment.yaml
+2021-05-28 02:31:04,453 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/wandb-metadata.json
+2021-05-28 02:31:04,453 INFO    Thread-8  :10034 [dir_watcher.py:_on_file_created():216] file/dir created: /home/ubuntu/data/matengfei/kg/kg-mtl/wandb/run-20210528_023100-348vdazx/files/output.log
+2021-05-28 02:31:19,066 DEBUG   HandlerThread:10034 [handler.py:handle_request():121] handle_request: stop_status
+2021-05-28 02:31:19,066 DEBUG   SenderThread:10034 [sender.py:send_request():186] send_request: stop_status

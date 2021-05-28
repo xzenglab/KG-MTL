@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-09 21:27:12
-LastEditTime: 2021-05-12 07:21:23
+LastEditTime: 2021-05-28 02:25:12
 LastEditors: Please set LastEditors
 @Description: RGCN与共享
 @FilePath: /Multi-task-pytorch/layer.py
@@ -155,24 +155,41 @@ class Shared_Unit_NL(nn.Module):
        
         
         #print(self.w_aa)
-    def forward(self,drug_cnn,drug_kg):
+    def forward(self,drug_cnn,drug_kg, variant='KG-MTL-C'):
         ##### linear
-        drug_cnn_=self.w_aa_.squeeze()*drug_cnn+self.w_ab_.squeeze()*drug_kg
-        drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
-        
-        # #### non-linear
-        drug_cnn=drug_cnn_.unsqueeze(2)
-        drug_kg=drug_kg_.unsqueeze(1)
-        
-        c_mat=th.matmul(drug_cnn,drug_kg)
-        c_mat_t=c_mat.permute(0, 2, 1)
-
-        c_mat=c_mat.view(-1,self.out_dim)
-        c_mat_t=c_mat.view(-1,self.out_dim)
-        drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
-        drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
-        
-        
-        return drug_cnn, drug_kg
+        if variant=='KG-MTL':
+            drug_cnn_=self.w_aa_.squeeze()*drug_cnn+self.w_ab_.squeeze()*drug_kg
+            drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
+            
+            # #### non-linear
+            drug_cnn=drug_cnn_.unsqueeze(2)
+            drug_kg=drug_kg_.unsqueeze(1)
+            
+            c_mat=th.matmul(drug_cnn,drug_kg)
+            c_mat_t=c_mat.permute(0, 2, 1)
+    
+            c_mat=c_mat.view(-1,self.out_dim)
+            c_mat_t=c_mat.view(-1,self.out_dim)
+            drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
+            drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
+            
+            
+            return drug_cnn, drug_kg
+        elif variant=='KG-MTL-L':
+            drug_cnn_=self.w_aa_.squeeze()*drug_cnn+self.w_ab_.squeeze()*drug_kg
+            drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
+            return drug_cnn_, drug_kg_
+        elif variant=='KG-MTL-C':
+            drug_cnn=drug_cnn.unsqueeze(2)
+            drug_kg=drug_kg.unsqueeze(1)
+            
+            c_mat=th.matmul(drug_cnn,drug_kg)
+            c_mat_t=c_mat.permute(0, 2, 1)
+    
+            c_mat=c_mat.view(-1,self.out_dim)
+            c_mat_t=c_mat.view(-1,self.out_dim)
+            drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
+            drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
+            return drug_cnn, drug_kg
 
         

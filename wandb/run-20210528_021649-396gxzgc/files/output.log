@@ -1,0 +1,1 @@
+FileNotFoundError: [Errno 2] No such file or directory: 'data/words_dict_human_full_1_3.npy'
