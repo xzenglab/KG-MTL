@@ -1,7 +1,7 @@
 '''
 @Author: tengfei ma
 @Date: 2020-05-09 21:27:12
-LastEditTime: 2021-05-28 11:49:17
+LastEditTime: 2021-05-29 07:00:00
 LastEditors: Please set LastEditors
 @Description: RGCN与共享
 @FilePath: /Multi-task-pytorch/layer.py
@@ -14,84 +14,6 @@ from dgl import DGLGraph
 from dgl.nn.pytorch import RelGraphConv
 import numpy as np
 import torch.nn as nn
-
-
-class BaseRGCN(nn.Module):
-    def __init__(self, num_nodes, h_dim, out_dim, num_rels, num_bases,
-                 num_hidden_layers=1, dropout=0,
-                 use_self_loop=False, use_cuda=False):
-        super(BaseRGCN, self).__init__()
-        self.num_nodes = num_nodes
-        self.h_dim = h_dim
-        self.out_dim = out_dim
-        self.num_rels = num_rels
-        self.num_bases = None if num_bases < 0 else num_bases
-        self.num_hidden_layers = num_hidden_layers
-        self.dropout = dropout
-        self.use_self_loop = use_self_loop
-        self.use_cuda = use_cuda
-
-        # create rgcn layers
-        self.build_model()
-
-    '''
-    @description: 
-    @param {type} 构建rgcn模型
-    @return: 
-    '''
-
-    def build_model(self):
-        self.layers = nn.ModuleList()
-        # i2h
-        i2h = self.build_input_layer()
-        if i2h is not None:
-            self.layers.append(i2h)
-        # h2h
-        for idx in range(self.num_hidden_layers):
-            h2h = self.build_hidden_layer(idx)
-            self.layers.append(h2h)
-        # h2o
-        h2o = self.build_output_layer()
-        if h2o is not None:
-            self.layers.append(h2o)
-
-    def build_input_layer(self):
-        return None
-
-    def build_hidden_layer(self, idx):
-        raise NotImplementedError
-
-    def build_output_layer(self):
-        return None
-
-    def forward(self, g, h, r, norm):
-        for layer in self.layers:
-            h = layer(g, h, r, norm)
-        return h
-
-
-class EmbeddingLayer(nn.Module):
-    '''
-    @description: 
-    @param {type} num_nodes: kg中结点的数量，h_dim: 要使用的隐层数目
-    @return: 
-    '''
-
-    def __init__(self, num_nodes, h_dim):
-        super(EmbeddingLayer, self).__init__()
-        self.embedding = th.nn.Embedding(num_nodes, h_dim)
-
-    def forward(self, g, h, r, norm):
-        return self.embedding(h.squeeze())
-
-
-class RGCN(BaseRGCN):
-    def build_input_layer(self):
-        return EmbeddingLayer(self.num_nodes, self.h_dim)
-
-    def build_hidden_layer(self, idx):
-        act = F.relu if idx < self.num_hidden_layers-1 else None
-        return RelGraphConv(self.h_dim, self.h_dim, self.num_rels, 'bdd', self.num_bases, activation=act, self_loop=True, dropout=self.dropout)
 
 #Cross-stitch https://arxiv.org/abs/1604.03539
 class Cross_stitch(nn.Module):
@@ -206,8 +128,8 @@ class AttentionUnit(nn.Module):
         nn.init.xavier_uniform_(self.W_dti)
         self.W_a = nn.Parameter(th.Tensor(input_dim,2))
         nn.init.xavier_uniform_(self.W_a)
-
-
+        #self.MLP_dti=nn.Linear(2*input_dim, input_dim)
+        self.MLP_cpi=nn.Linear(2*input_dim, input_dim)
     def forward(self, drug_cnn, drug_kg):
         drug_cnn_=drug_cnn.unsqueeze(1)
         drug_kg_=drug_kg.unsqueeze(1)
@@ -215,9 +137,14 @@ class AttentionUnit(nn.Module):
         features=features.squeeze(1)
         features=F.softmax(th.matmul(th.tanh(features), self.W_a))
         features=features.unsqueeze(1)
-        features= features[:,:,0].unsqueeze(1)* drug_cnn_+features[:,:,1].unsqueeze(1)*drug_kg_
-        features=features.squeeze()
-        return features, features
+        drug_cnn= (features[:,:,0].unsqueeze(1)* drug_cnn_).squeeze()
+        
+        drug_kg=(features[:,:,1].unsqueeze(1)*drug_kg_).squeeze()
+        features=th.cat((drug_cnn, drug_kg), dim=1)
+        features_cpi=self.MLP_cpi(features)
+        #features_dti=self.MLP_cpi(features)
+        return features_cpi, features_cpi
+
 
 if __name__=='__main__':
     au=AttentionUnit(input_dim=10)

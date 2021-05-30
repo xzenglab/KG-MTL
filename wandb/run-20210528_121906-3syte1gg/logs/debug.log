@@ -22,3 +22,4 @@ config: {'dropout': 0.2, 'n_hidden': 500, 'gpu': 2, 'lr_pre': 0.01, 'lr_dti': 0.
 2021-05-28 12:19:09,202 INFO    MainThread:25056 [wandb_run.py:_redirect():1479] Redirects installed.
 2021-05-28 12:19:09,202 INFO    MainThread:25056 [wandb_init.py:init():546] run started, returning control to user process
 2021-05-28 12:20:16,083 INFO    MainThread:25056 [wandb_watch.py:watch():39] Watching
+2021-05-28 16:48:17,283 INFO    MainThread:25056 [wandb_run.py:finish():1208] finishing run tengfeimm/make-cpi/3syte1gg

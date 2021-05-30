@@ -2,7 +2,7 @@
 '''
 @Author: your name
 @Date: 2020-05-15 10:12:31
-LastEditTime: 2021-05-28 12:18:46
+LastEditTime: 2021-05-29 12:57:15
 LastEditors: Please set LastEditors
 @Description: DTi二分类与DDI多任务结合
 @FilePath: /Multi-task-pytorch/model.py
@@ -61,8 +61,8 @@ class MKDTI(nn.Module):
 
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            #self.shared_units.append(Shared_Unit_NL(h_dim))
-            self.shared_units.append(AttentionUnit(h_dim))
+            self.shared_units.append(Shared_Unit_NL(h_dim))
+            #self.shared_units.append(AttentionUnit(h_dim))
             #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size
         self.drug_hidden_dim=drug_hidden_dim

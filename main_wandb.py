@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-28 08:17:35
+LastEditTime: 2021-05-29 12:57:41
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -227,7 +227,7 @@ def main(args):
 
         for k, v in base_params:
             params_list += [{'params': [v], 'lr': lr_g}]
-        optimizer_global = torch.optim.Adam(params_list, lr=lr_g)
+        optimizer_global = torch.optim.SGD(params_list, lr=lr_g)
 
         model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_global_400.pkl'.format(
             lr_g, args.n_epochs, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr)

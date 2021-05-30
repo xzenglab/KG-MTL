@@ -1,7 +1,7 @@
 '''
 @Author: your name
 @Date: 2020-05-17 13:39:08
-LastEditTime: 2021-05-25 01:47:03
+LastEditTime: 2021-05-30 05:59:12
 LastEditors: Please set LastEditors
 @Description: In User Settings Edit
 @FilePath: /Multi-task-pytorch/main.py
@@ -327,10 +327,10 @@ def main(args):
         test_cpi_performance['final'] = [
             test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr]
 
-        utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_{}.json'.format(
-            args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_dti_performance)
-        utils.Log_Writer('logs/final_unit{}_cpi_{}_sulr{}_lr{}_bs{}_{}.json'.format(
-            args.negative_sample, args.cpi_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_cpi_performance)
+        # utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_{}.json'.format(
+        #     args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_dti_performance)
+        # utils.Log_Writer('logs/final_unit{}_cpi_{}_sulr{}_lr{}_bs{}_{}.json'.format(
+        #     args.negative_sample, args.cpi_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_cpi_performance)
         print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
               format(test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr))
         print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
