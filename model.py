@@ -38,7 +38,7 @@ class EmbeddingLayer(nn.Module):
 
 
 class MKDTI(nn.Module):
-    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=1, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0):
+    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=1, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0, device='cuda:0'):
         super(MKDTI, self).__init__()
         # self.rgcn = RGCN(num_nodes, h_dim, out_dim, num_rels, num_bases,
         #                  num_hidden_layers, dropout, use_self_loop, use_cuda)
@@ -47,7 +47,7 @@ class MKDTI(nn.Module):
         self.dropout = dropout
         self.num_rels = num_rels
         self.num_bases = num_bases
-
+        self.device=device
         self.num_hidden_layers = num_hidden_layers
         self.entity_embedding = EmbeddingLayer(num_nodes, h_dim)
         self.w_relation = nn.Parameter(torch.Tensor(num_rels, h_dim))
@@ -136,6 +136,7 @@ class MKDTI(nn.Module):
         # smiles encoding
         # compound_vector = self.embed_drug(compound_smiles)
         # compound_vector = compound_vector.permute(0, 2, 1)
+        #compound_graphs=dgl.add_self_loop(compound_graphs)
         for l in self.drug_gcn:
             compound_vector=F.relu(l(compound_graphs,compound_vector))
         
@@ -187,6 +188,7 @@ class MKDTI(nn.Module):
         for c_id in compound_smiles:
             c_size, features, edge_index=smiles2graph[c_id]
             g=DGLGraph()
+            #g=dgl.graph()
             g.add_nodes(c_size)
             if edge_index:
                 edge_index=np.array(edge_index)
@@ -195,8 +197,12 @@ class MKDTI(nn.Module):
             for f in features:
                 h.append(f)
             g.ndata['x']=torch.from_numpy(np.array(features))
+            g=dgl.add_self_loop(g)
+            # g=g.to(torch.device('cuda:0'))
+            # print(g.device)
             graphs.append(g)
         g=dgl.batch(graphs)
+        #g=g.to(torch.device('cuda:0'))
         return g,torch.from_numpy(np.array(h))
 
     def cal_score(self, embedding, triples):
@@ -210,8 +216,11 @@ class MKDTI(nn.Module):
         compound_graphs,compound_features=self.get_graphs_features(compound_smiles,smiles2graph)
         if eval_:
             compound_features=compound_features.float()
+            
         else:
             compound_features=compound_features.float().cuda()
+            compound_graphs=compound_graphs.to(torch.device(self.device))
+            g=g.to(torch.device(self.device))
         if rgcn_only:
             embed = self.RGCN_Net(g, h, r, norm)
             return embed

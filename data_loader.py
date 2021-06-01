@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split,StratifiedKFold
 import numpy as np
 import torch
 import os
+import dgllife
 CHARPROTSET = {"A": 1, "C": 2, "B": 3, "E": 4, "D": 5, "G": 6,
                "F": 7, "I": 8, "H": 9, "K": 10, "M": 11, "L": 12,
                "O": 13, "N": 14, "Q": 15, "P": 16, "S": 17, "R": 18,
@@ -307,6 +308,7 @@ class load_data():
                     if c_size is None and features is None and edge_index is None:
                         continue
                     smiles_graph[drug_id]=(c_size,features,edge_index)
+                    #smiles_graph[drug_id]=dgllife.utils.smi
                 examples.append([drug_id, target_id, label])
 
         # with open(example_path_,'r') as f:

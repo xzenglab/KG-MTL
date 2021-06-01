@@ -7,10 +7,11 @@ LastEditors: Please set LastEditors
 @FilePath: /Multi-task-pytorch/main.py
 '''
 import argparse
+
+from dgl.data.utils import save_graphs, load_graphs
 from model import MKDTI, MultiTaskLoss
 from layer import Shared_Unit_NL
 from data_loader import load_data
-from dgl.data.utils import save_graphs, load_graphs
 import utils
 import random
 import torch
@@ -344,7 +345,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=3, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
