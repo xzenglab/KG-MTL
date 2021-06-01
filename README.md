@@ -18,3 +18,23 @@ conda install -c dglteam dgl-cuda10.1=0.4.3
 conda install -c rdkit rdkit==2018.09.3
 pip install dgllife
 ```
+
+## How to run the KG-MTL (including KG-MTL-L, KG-MTL-C)
+```
+usage: main.py [-h] [--dropout DROPOUT] [--n-hidden N_HIDDEN] [--gpu GPU]
+               [--lr_pre LR_PRE] [--lr_dti LR_DTI] [--n_bases N_BASES]
+               [--sample_size SAMPLE_SIZE] [--n-layers N_LAYERS]
+               [--n-epochs N_EPOCHS] [--regularization REGULARIZATION]
+               [--grad-norm GRAD_NORM] [--graph-split-size GRAPH_SPLIT_SIZE]
+               [--negative-sample NEGATIVE_SAMPLE]
+               [--edge-sampler EDGE_SAMPLER]
+               [--graph_batch_size GRAPH_BATCH_SIZE]
+               [--rgcn_epochs RGCN_EPOCHS] [--loss_lamda LOSS_LAMDA]
+               [--cpi_dataset CPI_DATASET] [--dti_dataset DTI_DATASET]
+               [--shared_unit_num SHARED_UNIT_NUM] [--embedd_dim EMBEDD_DIM]
+               [--variant VARIANT] [--loss_mode LOSS_MODE]
+```
+`--loss_mode weighted` is the learning stratagies, and 'weighted' represents the certainty is used.
+```bash
+python main.py --loss_mode weighted --variant KG-MTL-C --gpu 1 --cpi_dataset human --dti_dataset drugcentral
+```

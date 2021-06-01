@@ -43,9 +43,10 @@ class Cross_stitch(nn.Module):
 
 #非线性的参数共享
 class Shared_Unit_NL(nn.Module):
-    def __init__(self,input_dim=200):
+    def __init__(self,input_dim=200, variant='KG-MTL'):
         super(Shared_Unit_NL,self).__init__()
         self.out_dim=input_dim
+        self.variant=variant
         self.w_aa = nn.Parameter(th.Tensor(input_dim,1))
         nn.init.xavier_uniform_(self.w_aa)
         
@@ -77,9 +78,9 @@ class Shared_Unit_NL(nn.Module):
        
         
         #print(self.w_aa)
-    def forward(self,drug_cnn,drug_kg, variant='KG-MTL-C'):
+    def forward(self,drug_cnn,drug_kg):
         ##### linear
-        if variant=='KG-MTL':
+        if self.variant=='KG-MTL':
             drug_cnn_=self.w_aa_.squeeze()*drug_cnn+self.w_ab_.squeeze()*drug_kg
             drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
             
@@ -97,11 +98,11 @@ class Shared_Unit_NL(nn.Module):
             
             
             return drug_cnn, drug_kg
-        elif variant=='KG-MTL-L':
+        elif self.variant=='KG-MTL-L':
             drug_cnn_=self.w_aa_.squeeze()*drug_cnn+self.w_ab_.squeeze()*drug_kg
             drug_kg_=self.w_ba_.squeeze()*drug_cnn+self.w_bb_.squeeze()*drug_kg
             return drug_cnn_, drug_kg_
-        elif variant=='KG-MTL-C':
+        elif self.variant=='KG-MTL-C':
             drug_cnn=drug_cnn.unsqueeze(2)
             drug_kg=drug_kg.unsqueeze(1)
             

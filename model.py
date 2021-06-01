@@ -38,7 +38,7 @@ class EmbeddingLayer(nn.Module):
 
 
 class MKDTI(nn.Module):
-    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=1, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0, device='cuda:0'):
+    def __init__(self,shared_unit_num, drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=2, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0, device='cpu',variant='KG-MTL'):
         super(MKDTI, self).__init__()
         # self.rgcn = RGCN(num_nodes, h_dim, out_dim, num_rels, num_bases,
         #                  num_hidden_layers, dropout, use_self_loop, use_cuda)
@@ -61,7 +61,7 @@ class MKDTI(nn.Module):
 
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            self.shared_units.append(Shared_Unit_NL(h_dim))
+            self.shared_units.append(Shared_Unit_NL(h_dim,variant=variant))
             #self.shared_units.append(AttentionUnit(h_dim))
             #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size
@@ -495,13 +495,13 @@ class CPI_MPNN(nn.Module):
         return output_cpi_vector
 
 class MultiTaskLoss(nn.Module):
-    def __init__(self,task_num,shared_unit_num,drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=3, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0):
+    def __init__(self,task_num,shared_unit_num,drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=3, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0, variant='KG-MTL', device='cpu'):
         super(MultiTaskLoss,self).__init__()
         self.task_num=task_num
         self.log_var=nn.Parameter(torch.zeros(task_num, requires_grad=True))
         self.log_var
         #nn.init.xavier_uniform_(self.log_var)
-        self.multi_task=MKDTI(shared_unit_num,drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases)
+        self.multi_task=MKDTI(shared_unit_num,drug_hidden_dim, protein_size, cpi_fc_layers, dti_fc_layers, dropout_prob, num_nodes, h_dim, out_dim, num_rels, num_bases, variant=variant, device=device)
     def _calc_loss(self, cpi_loss, dti_loss, mode='weighted'):
         if mode=='weighted':
             pre1=torch.exp(-self.log_var[0])    

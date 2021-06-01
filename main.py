@@ -166,10 +166,10 @@ def main(args):
 
     drug_entities, target_entities, dti_labels = get_dti_data(
         data.train_dti_set)
-
+    device='cuda:{}'.format(args.gpu) if args.gpu>=0 else 'cpu'
     loss_model = MultiTaskLoss(2, args.shared_unit_num, args.
     embedd_dim, data.word_length, 3, 2, 0.5, data.num_nodes,
-                               args.embedd_dim, args.embedd_dim, data.num_rels, args.n_bases)
+                               args.embedd_dim, args.embedd_dim, data.num_rels, args.n_bases, variant=args.variant, device=device)
     use_cuda = args.gpu >= 0 and torch.cuda.is_available()
     if use_cuda:
         torch.cuda.set_device(args.gpu)
@@ -374,14 +374,16 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='celegans', help='dataset used for cpi task')
+                        default='human', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
-                        default='drugbank', help='dataset used for dti task')
+                        default='drugcentral', help='dataset used for dti task')
     # 共用同一个shared unit layer
     parser.add_argument('--shared_unit_num', type=int,
                         default=1, help='the number of shared units')
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
+    parser.add_argument('--variant', type=str,
+                        default='KG-MTL', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
     parser.add_argument('--loss_mode', type=str,
                         default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
@@ -391,6 +393,7 @@ if __name__ == "__main__":
     best_results_cpi = []
     best_results_dti = []
     for i in range(10):
+        print('{}-th iteration'.format(i+1))
         cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
         results_cpi.append(cpi_r)
         results_dti.append(dti_r)
@@ -408,9 +411,9 @@ if __name__ == "__main__":
     results_cpi.append(std_cpi)
     results_dti.append(avg_dti)
     results_dti.append(std_dti)
-    np.savetxt('results/cpi_{}_result.txt'.format(args.cpi_dataset),
+    np.savetxt('results/cpi_{}_result_{}.txt'.format(args.cpi_dataset, args.variant),
                np.array(results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_result.txt'.format(args.dti_dataset),
+    np.savetxt('results/dti_{}_result_{}.txt'.format(args.dti_dataset, args.variant),
                np.array(results_dti), delimiter=",", fmt='%f')
     best_avg_cpi=np.mean(np.array(best_results_cpi), axis=0)
     best_std_cpi=np.std(np.array(best_results_cpi), axis=0)
@@ -424,8 +427,8 @@ if __name__ == "__main__":
     best_results_dti.append(best_avg_dti)
     best_results_dti.append(best_std_dti)
     
-    np.savetxt('results/cpi_{}_best_result.txt'.format(args.cpi_dataset),
+    np.savetxt('results/cpi_{}_best_result_{}.txt'.format(args.cpi_dataset, args.variant),
                np.array(best_results_cpi), delimiter=",", fmt='%f')
-    np.savetxt('results/dti_{}_best_result.txt'.format(args.dti_dataset),
+    np.savetxt('results/dti_{}_best_result_{}.txt'.format(args.dti_dataset, args.variant),
                np.array(best_results_dti), delimiter=",", fmt='%f')
     print('result saved!!!')
