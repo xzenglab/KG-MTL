@@ -1,3 +1,4 @@
 data
 ckl
-dataset/kg
+dataset/kg/drkg.tsv
+dataset/bindingdb
