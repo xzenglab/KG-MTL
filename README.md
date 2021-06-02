@@ -39,6 +39,7 @@ usage: main.py [-h] [--dropout DROPOUT] [--n-hidden N_HIDDEN] [--gpu GPU]
 `--loss_mode weighted` is the learning stratagies, and 'weighted' represents the certainty is used.
 ```bash
 python main.py --loss_mode weighted --variant KG-MTL-C --gpu 1 --cpi_dataset human --dti_dataset drugcentral
+python comparision.py --task cpi --dataset human
 ```
 ## Datasets
 + BindingDB

@@ -200,7 +200,7 @@ def test(model, val_dataset, protein2seq, smiles2graph):
 
 def train_cpi_gcn(dataset,args):
     data = load_data('dataset/kg',
-                     'dataset/cpi_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
+                     'dataset/dti_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
     val_cpi_log=[]
     epochs_his=[]
     best_record=[0.0,0.0]
@@ -213,9 +213,9 @@ def train_cpi_gcn(dataset,args):
     num_feature=78
     drug_size=200
     hidden_dim=200
-    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length)
-    wandb.watch(model, log_freq=10, log='parameters')
-    torch.cuda.set_device(0)
+    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length,device='cuda:1')
+    #wandb.watch(model, log_freq=10, log='parameters')
+    torch.cuda.set_device(1)
     optimizer_global = torch.optim.Adam(model.parameters(), lr=0.001)
     early_stop=0
     loss_history=[]
@@ -416,9 +416,9 @@ def CPI_GNN_func(dataset):
                         help="weight decay")
     parser.add_argument('--negative-slope', type=float, default=0.2,
                         help="the negative slope of leaky relu")
-    args=parser.parse_args()
-    print(args)
-    return train_cpi_gcn(dataset,args)
+    args1=parser.parse_args()
+    print(args1)
+    return train_cpi_gcn(dataset,args1)
 
 
 import wandb
@@ -466,25 +466,25 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugcentral',help='dataset for dti task')
+    parser.add_argument('--dataset',type=str,default='human',help='dataset for dti task')
+    parser.add_argument('--task',type=str,default='cpi',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
     results=[]
-    wandb.init(project='make-cpi',config=args)
-    for i in range(1):
-        result=DTI_func(args)
+    #wandb.init(project='make-cpi',config=args)
+    for i in range(10):
+        if args.task=='cpi':
+            result=CPI_GNN_func(args.dataset)
+        elif args.task=='dti':
+            result=DTI_func(args)
+        results.append(result)
+    avg = np.mean(np.array(results), axis=0)
+    std = np.std(results, axis=0)
+    print('test results: ')
+    print(avg)
+    results.append(avg)
+    results.append(std)
+    np.savetxt('results/{}_{}_result_{}.txt'.format(args.task, args.cpi_dataset, 'KG-MTL-S'),
+               np.array(results_cpi), delimiter=",", fmt='%f')
 
-        #result=CPI_GNN_func('celegans')
-        #results.append(result)
-
-    results=np.array(results)
-    print('mean scores: ')
-    print(np.mean(results,axis=0))
-    print('std scores: ')
-    print(np.std(results,axis=0))
-    # # for d in ['drugcentral','drugbank']:
-    # #     args.dataset=d
-    # #     DTI_func(args)
-    # # for d in ['celegans','human']:
-    # #     CPI_GNN_func(d)

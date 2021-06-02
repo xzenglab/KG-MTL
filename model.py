@@ -687,11 +687,12 @@ class CPI_GCN(nn.Module):
         return output_cpi_vector
 
 class CPI_DGLLife(nn.Module):
-    def __init__(self,in_dim,hidden_dim,drug_size,protein_size,dropout_prob=0.2,cpi_fc_layers=3):
+    def __init__(self,in_dim,hidden_dim,drug_size,protein_size,dropout_prob=0.2,cpi_fc_layers=3,device='cpu'):
         super(CPI_DGLLife,self).__init__()
         self.conv1 = GraphConv(in_dim, hidden_dim)
         self.conv2 = GraphConv(hidden_dim, hidden_dim)
         self.conv3=GraphConv(hidden_dim,hidden_dim)
+        self.device=device
         # self.gat1=GATConv(in_dim,hidden_dim,8)
         # self.gat2=GATConv(hidden_dim,hidden_dim,1)
         self.conv1=self.conv1.float()
@@ -704,7 +705,7 @@ class CPI_DGLLife(nn.Module):
         self.compound_fc_layers=nn.ModuleList()
         self.layer_filters_proteins = [200, 96, 128, 200]
         self.cpi_hidden_dim = [400,200,100]
-        self.kernals = [3, 5, 7, 9, 9, 9]
+        self.kernals = [3, 5, 7, 9]
         self.fc_layers=nn.ModuleList()
         self.embed_protein = nn.Embedding(
                     num_embeddings=protein_size, embedding_dim=200)
@@ -743,6 +744,7 @@ class CPI_DGLLife(nn.Module):
             for f in features:
                 h.append(f)
             g.ndata['x']=torch.from_numpy(np.array(features))
+            g=dgl.add_self_loop(g)
             graphs.append(g)
         g=dgl.batch(graphs)
         return g,torch.from_numpy(np.array(h))
@@ -754,6 +756,7 @@ class CPI_DGLLife(nn.Module):
             h=h.float()
         else:
             h=h.float().cuda()
+            g=g.to(torch.device(self.device))
         h=F.relu(self.conv1(g,h))
         h=F.relu(self.conv2(g,h))
         hg=F.relu(self.learn_graph1(g,h))

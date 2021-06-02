@@ -151,19 +151,13 @@ def main(args):
                      'dataset/dti_task', 'dataset/cpi_task', cpi_dataset=args.cpi_dataset, dti_dataset=args.dti_dataset, cpi_gnn=True)
     # print(len(data.compound2smiles))
     train_kg = torch.LongTensor(np.array(data.train_kg))
-
-    val_compounds, val_proteins, val_cpi_labels, val_compoundids = get_all_graph(
-        data.val_set_gnn, data.protein2seq)
     test_compounds, test_proteins, test_cpi_labels, test_compoundids = get_all_graph(
         data.test_set_gnn, data.protein2seq)
-    val_cpi_labels = torch.from_numpy(val_cpi_labels)
     test_cpi_labels = torch.from_numpy(test_cpi_labels)
 
-    val_drugs, val_targets, val_dti_labels = get_dti_data(data.val_dti_set)
-    val_dti_labels = torch.from_numpy(val_dti_labels).long()
     test_drugs, test_targets, test_dti_labels = get_dti_data(data.test_dti_set)
     test_dti_labels = torch.from_numpy(test_dti_labels).long()
-
+    ### get all infos for bindingdb
     drug_entities, target_entities, dti_labels = get_dti_data(
         data.train_dti_set)
     device='cuda:{}'.format(args.gpu) if args.gpu>=0 else 'cpu'
