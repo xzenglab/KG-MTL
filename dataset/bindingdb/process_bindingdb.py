@@ -154,7 +154,75 @@ def process_protein():
         #     return tt[1].strip().split('\t')[1]
     except Exception as e:
         print(e)
+
+def map_entity_drkg():
+    ### 实体 id映射表
+    entities=dict()
+    uniprot_gid=dict()
+    with open('dataset/bindingdb/proteins_uniprot_geneid.tsv', 'r') as f:
+        for line in f:
+            uniprotid, g_id=line.strip().split('\t')
+            uniprot_gid[uniprotid]=g_id
+    with open('dataset/kg/entities.tsv', 'r') as f:
+        for line in f:
+            e, e_id=line.strip().split('\t')
+            entities[e]=e_id
+    field={
+        'BindingDB Reactant_set_id':0,
+        'Ligand SMILES':1,
+        'Target Name Assigned by Curator or DataSource':6,
+        'Target Source Organism According to Curator or DataSource':7,
+        'Kd (nM)':10, #该指标指示结合亲和度
+        'PubChem CID':28,
+        'ChEMBL ID of Ligand' : 31,
+        'ChEBI ID of Ligand' :30,
+        'ZINC ID of Ligand': 35,
+        'DrugBank ID of Ligand':32,
+        'BindingDB Target Chain  Sequence':37,
+        'UniProt (SwissProt) Primary ID of Target Chain':41
+    }
+    c_id={'bindingdb':'BindingDB Reactant_set_id','drugbank':'DrugBank ID of Ligand', 'pubchem':'PubChem CID', 'chebi':'ChEBI ID of Ligand', 'zinc':'ZINC ID of Ligand'}
+    with open('dataset/bindingdb/compound_protein_affinity.tsv','r') as f:
+        csv_reader=csv.DictReader(f,fieldnames=list(field.keys()))
+        # for line in f:
+        #     infos=line.strip().split('\t')
+        #     print(infos)
+        pos=0
+        neg=0
+
+
+        examples=open('dataset/bindingdb/compound_protein_interaction.tsv', 'w')
+        for idx, row in enumerate(csv_reader):
+            if idx==0:
+                continue
+            label=0
+            if float(row['Kd (nM)'].strip('>').strip('<'))<30:
+                label=1
+            smiles=row['Ligand SMILES']
+            if row['UniProt (SwissProt) Primary ID of Target Chain'] in uniprot_gid:
+                gene_id=uniprot_gid[row['UniProt (SwissProt) Primary ID of Target Chain']]
+            else:
+                continue
+            gene_sequence=row['BindingDB Target Chain  Sequence']
+            if 'Gene::'+gene_id in entities:
+                for col in c_id:
+                    compound_id='Compound::'+col+':'+row[c_id[col]]
+                    compound_id=compound_id.replace('drugbank:','')
+                    if compound_id in entities:
+                        examples.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format('Gene::'+gene_id, entities['Gene::'+gene_id], gene_sequence, compound_id, entities[compound_id], smiles, label))
+                        if label==1:
+                            pos+=1
+                        else:
+                            neg+=1
+            continue
+            
+        
+            
+        
+        print('pos: ',pos)
+        print('neg: ',neg)
 if __name__=='__main__':
     #reconstruct_examples_bindingdb()
     #process_cpi_affinitytoInteract()
-    process_protein()
+    # process_protein()
+    map_entity_drkg()

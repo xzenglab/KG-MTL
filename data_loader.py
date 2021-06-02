@@ -258,6 +258,8 @@ class load_data():
             example_path='dataset/redundant/dti_data.tsv'
         elif self.dti_dataset=='drugcentral_redundant':
             example_path='dataset/redundant/drugcentral_data.tsv'
+        elif self.dti_dataset=='bindingdb':
+            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
         print(example_path)
         
         with open(example_path,'r') as f:
@@ -292,6 +294,8 @@ class load_data():
             example_path='dataset/redundant/human_data.tsv'
         elif self.cpi_dataset=='human_r':
             example_path='dataset/redundant/cpi_data.tsv'
+        elif self.dti_dataset=='bindingdb':
+            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
