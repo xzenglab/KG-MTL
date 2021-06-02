@@ -228,8 +228,8 @@ def main(args):
             params_list += [{'params': [v], 'lr': lr_g}]
         optimizer_global = torch.optim.Adam(params_list, lr=lr_g)
 
-        model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_global_400.pkl'.format(
-            lr_g, args.n_epochs, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr)
+        model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_{}_{}.pkl'.format(
+            lr_g, args.n_epochs, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr, args.embedd_dim, args.variant)
         for epoch in range(args.n_epochs):
             # early stop epoch is 5
             early_stop += 1
@@ -345,7 +345,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=3, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,

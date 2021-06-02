@@ -333,6 +333,98 @@ class load_data():
         train_set, val_set, test_set=utils.StratifiedSplit(examples)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 
+class ExternalDataset():
+    def __init__(self, kg_path, dataset='bindingdb'):
+        self.dataset=dataset
+        self.triples, self.num_nodes, self.num_rels=self._load_kg_data(kg_path)
+        self.test_set_gnn,self.smiles2graph,self.protein2seq,self.word_length=self._load_cpi_data()
+        self.test_dti_set,self.test_sample_nodes=self._load_dti_data()
+        for i in self.smiles2graph:
+                    self.test_sample_nodes.add(int(i))
+    def _load_kg_data(self, kg_path):
+        entity2id = dict()
+        relation2id = dict()
+        triples = list()
+        with open('{}/entities.tsv'.format(kg_path),'r') as f:
+            for line in f:
+                e_name,e_id=line.strip().split('\t')
+                entity2id[e_name]=int(e_id)
+        with open('{}/relations.tsv'.format(kg_path),'r') as f:
+            for line in f:
+                r_name,r_id=line.strip().split('\t')
+                relation2id[r_name]=int(r_id)
+        num_entities = len(entity2id)
+        num_rels = len(relation2id)
+        # read kg train set
+        with open('{}/drkg.tsv'.format(kg_path), 'r') as f:
+            for line in f:
+                head, rel, tail = line.strip().split('\t')
+                triples.append([entity2id[head], relation2id[rel], entity2id[tail]])
+
+        entity2id = None
+        relation2id = None
+        return triples, num_entities, num_rels
+    def _load_cpi_data(self):
+        examples = list()
+        smiles_graph=dict()
+        protein2seq = dict()
+        proteins_list=set()
+        if self.dataset=='bindingdb':
+            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+        print(example_path)
+        with open(example_path, 'r') as f:
+            for line in f:
+                l = line.strip().split('\t')
+                drug_id = int(l[4])
+                target_id = int(l[1])
+                seq = l[2]
+                smiles = l[5]
+                label = int(l[6])
+                proteins_list.add(seq)
+                protein2seq[target_id] = seq
+                if smiles not in smiles_graph:
+                    c_size,features,edge_index=utils.smiles2graph(smiles)
+                    if c_size is None and features is None and edge_index is None:
+                        continue
+                    smiles_graph[drug_id]=(c_size,features,edge_index)
+                    #smiles_graph[drug_id]=dgllife.utils.smi
+                examples.append([drug_id, target_id, label])
+            
+        words_dict=storeWordsIntoDict(list(proteins_list),'human')
+        for p in protein2seq:
+            protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
+        #examples=shuffle_dataset
+        
+        # train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
+        # val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
+        
+        ### use shuffle
+        #train_set, val_set, test_set=utils.StratifiedSplit(examples)
+        return examples, smiles_graph,protein2seq,len(words_dict)
+    def _load_dti_data(self):
+        examples=list()
+        sample_ndoes=set()
+        if self.dataset=='bindingdb':
+            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+        print(example_path)
+        
+        with open(example_path,'r') as f:
+            for line in f:
+                l=line.strip().split('\t')
+                drug_entityid=int(l[4])
+                target_entityid=int(l[1])
+                sample_ndoes.add(drug_entityid)
+                sample_ndoes.add(target_entityid)
+                label=int(l[6])
+                examples.append([drug_entityid,target_entityid,label])
+        
+        # train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
+        # val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
+
+        #train_dti_set, val_dti_set, test_dti_set=utils.StratifiedSplit(examples)
+
+        return examples, sample_ndoes
+
     
 if __name__ == "__main__":
     # test function
