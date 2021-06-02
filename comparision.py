@@ -291,7 +291,7 @@ def train_dti(args):
     test_dti_labels=torch.from_numpy(test_dti_labels)
     model = DTI(data.num_nodes,
                   200, 200, data.num_rels, 20)
-    torch.cuda.set_device(0)
+    torch.cuda.set_device(3)
     #wandb.watch(model)
     train_kg = torch.LongTensor(np.array(data.train_kg))   
     loss_history=[]
@@ -333,7 +333,7 @@ def train_dti(args):
         # for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(32,data.train_cpi_set, data.compound2smiles, data.protein2seq):
         for i in range(1):
 
-            dti_pred,embed=model(drug_entities,target_entities,g, node_id, edge_type, edge_norm)
+            dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:3')), node_id, edge_type, edge_norm)
             dti_loss=F.binary_cross_entropy(dti_pred,dti_labels)
             #loss_history.append(dti_loss)
             dti_loss.backward()
@@ -466,8 +466,8 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='human',help='dataset for dti task')
-    parser.add_argument('--task',type=str,default='cpi',help='[cpi, dti]')
+    parser.add_argument('--dataset',type=str,default='drugbank',help='dataset for dti task')
+    parser.add_argument('--task',type=str,default='dti',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
@@ -485,6 +485,6 @@ if __name__ == "__main__":
     print(avg)
     results.append(avg)
     results.append(std)
-    np.savetxt('results/{}_{}_result_{}.txt'.format(args.task, args.cpi_dataset, 'KG-MTL-S'),
+    np.savetxt('results/{}_{}_result_{}.txt'.format(args.task, args.dataset, 'KG-MTL-S'),
                np.array(results_cpi), delimiter=",", fmt='%f')
 

@@ -153,7 +153,9 @@ def main(args):
     test_compounds, test_proteins, test_cpi_labels, test_compoundids = get_all_graph(
         data.test_set_gnn, data.protein2seq)
     test_cpi_labels = torch.from_numpy(test_cpi_labels)
+    
     words=np.load('data/words_dict_{}_full_1_3.npy'.format('human'),allow_pickle=True)
+    words=words.item()
     test_drugs, test_targets, test_dti_labels = get_dti_data(data.test_dti_set)
     test_dti_labels = torch.from_numpy(test_dti_labels).long()
     ### get all infos for bindingdb
@@ -172,8 +174,8 @@ def main(args):
         np.save('data/adj_list.npy', np.array(adj_list))
         np.save('data/degrees.npy', degrees) 
     g, node_id, edge_type, node_norm, grapg_data, labels, edge_norm = process_kg(
-            args, train_kg, data, adj_list, degrees, use_cuda=False, sample_nodes=list(data.sample_nodes))     
-    
+            args, train_kg, data, adj_list, degrees, use_cuda=False, sample_nodes=list(data.test_sample_nodes))     
+    model_path='lr0.001_epoch100_human_drugcentral_batch32_slr0.001_global_400.pkl'
     loss_model.load_state_dict(torch.load(model_path))
     loss_model.eval()
     test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
