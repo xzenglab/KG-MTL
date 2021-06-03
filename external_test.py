@@ -147,7 +147,7 @@ def process_kg(args, train_kg, data, adj_list, degrees, use_cuda, sample_nodes=N
 
 def KG_MTL(args):
     # get dataset for gnn
-    data = ExternalDataset('dataset/kg', dataset='bindingdb')
+    data = ExternalDataset('dataset/kg', dataset='bindingdb',match='human')
     # print(len(data.compound2smiles))
     train_kg = torch.LongTensor(np.array(data.triples))
     test_compounds, test_proteins, test_cpi_labels, test_compoundids = get_all_graph(
@@ -175,11 +175,25 @@ def KG_MTL(args):
         np.save('data/degrees.npy', degrees) 
     g, node_id, edge_type, node_norm, grapg_data, labels, edge_norm = process_kg(
             args, train_kg, data, adj_list, degrees, use_cuda=False, sample_nodes=list(data.test_sample_nodes))     
-    model_path='ckl/lr0.001_epoch100_human_drugcentral_batch32_slr0.001_global_400.pkl'
+    # model_path='ckl/lr0.001_epoch100_human_drugcentral_batch32_slr0.001_128_KG-MTL.pkl'
+    model_path='ckl/lr0.001_epoch100_celegans_drugbank_batch32_slr0.001_128_KG-MTL.pkl'
     loss_model.load_state_dict(torch.load(model_path))
     loss_model.eval()
     test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
                                               test_compounds, torch.LongTensor(test_proteins), test_compoundids,test_drugs, test_targets, smiles2graph=data.smiles2graph, eval_=True)
+    results=[]
+    # for i in range(len(test_dti_pred)):
+    #     pred=float(test_dti_pred[i])
+    #     label=int(test_dti_labels[i])
+    #     results.append([pred, label])
+    # results.sort(key=lambda x:x[0], reverse=True)
+    # np.save('logs/KG-MTL-DTI-bindingdb-prediction.npy',np.array(results))
+    for i in range(len(test_cpi_pred)):
+        pred=float(test_cpi_pred[i])
+        label=float(test_cpi_labels[i])
+        results.append([pred, label])
+    results.sort(key=lambda x:x[0], reverse=True)
+    np.save('logs/KG-MTL-CPI-bindingdb-prediction.npy',np.array(results))
     test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall, test_dti_aupr = utils.eval_cpi_2(
         test_dti_pred, test_dti_labels)
     test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr = utils.eval_cpi_2(

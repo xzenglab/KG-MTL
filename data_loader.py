@@ -334,7 +334,8 @@ class load_data():
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 
 class ExternalDataset():
-    def __init__(self, kg_path, dataset='bindingdb'):
+    def __init__(self, kg_path, dataset='bindingdb',match='human'):
+        self.match=match
         self.dataset=dataset
         self.triples, self.num_nodes, self.num_rels=self._load_kg_data(kg_path)
         self.test_set_gnn,self.smiles2graph,self.protein2seq,self.word_length=self._load_cpi_data()
@@ -370,7 +371,7 @@ class ExternalDataset():
         protein2seq = dict()
         proteins_list=set()
         if self.dataset=='bindingdb':
-            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+            example_path='dataset/bindingdb/final_interaction.tsv'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
@@ -390,7 +391,7 @@ class ExternalDataset():
                     #smiles_graph[drug_id]=dgllife.utils.smi
                 examples.append([drug_id, target_id, label])
             
-        words_dict=storeWordsIntoDict(list(proteins_list),'human')
+        words_dict=storeWordsIntoDict(list(proteins_list),self.match)
         for p in protein2seq:
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
         #examples=shuffle_dataset
@@ -405,7 +406,7 @@ class ExternalDataset():
         examples=list()
         sample_ndoes=set()
         if self.dataset=='bindingdb':
-            example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+            example_path='dataset/bindingdb/final_interaction.tsv'
         print(example_path)
         
         with open(example_path,'r') as f:

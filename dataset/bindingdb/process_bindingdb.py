@@ -221,8 +221,81 @@ def map_entity_drkg():
         
         print('pos: ',pos)
         print('neg: ',neg)
+import random
+def balance_bindingdb():
+    pos=[]
+    neg=[]
+    final_interaction=open('dataset/bindingdb/final_interaction.tsv','w')
+    with open('dataset/bindingdb/compound_protein_interaction.tsv', 'r') as f:
+        for line in f:
+            infos=line.strip('\n').split('\t')
+            if infos[6]=='1':
+                pos.append(line)
+                final_interaction.write(line)
+            else:
+                neg.append(line)
+    neg=random.sample(neg,k=len(pos))
+    for line in neg:
+        final_interaction.write(line)
+    final_interaction.close()
+from sklearn.metrics import recall_score, precision_recall_curve,roc_curve
+import matplotlib.pyplot as plt
+def draw_recall():
+    results=np.load('logs/KG-MTL-S-DTI-bindingdb-prediction.npy',allow_pickle=True)
+    print(results)
+    recall_y=[]
+    labels=[]
+    for i in range(len(results)):
+        labels.append(int(results[i][1]))
+    for i in range(0, 200):
+        threod=results[i][0]
+        targets=[1 if x >threod else 0 for x in results[:,0] ]
+        r=recall_score(labels, targets)
+        
+        recall_y.append(r)
+    plt.ylabel('Recall@K')
+    plt.xlabel('Top K')
+    plt.plot(range(0, 200), recall_y, label='KG-MTL-S$_{dti}$')
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig('temp.png')
+
+def draw_roc():
+    results=np.load('logs/KG-MTL-S-DTI-bindingdb-prediction.npy',allow_pickle=True)
+    print(results)
+    recall_y=[]
+    labels=[]
+    for i in range(len(results)):
+        labels.append(int(results[i][1]))
+    fpr,tpr,_=roc_curve(labels, results[:,0])
+    plt.ylabel('True positive rate')
+    plt.xlabel('False positive rate')
+    plt.plot(fpr, tpr,label='KG-MTL-S$_{dti}$')
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig('roc_curve.png')
+def draw_pr():
+    results=np.load('logs/KG-MTL-S-DTI-bindingdb-prediction.npy',allow_pickle=True)
+    print(results)
+    recall_y=[]
+    labels=[]
+    for i in range(len(results)):
+        labels.append(int(results[i][1]))
+    fpr,tpr,_=precision_recall_curve(labels, results[:,0])
+    plt.ylabel('Precision')
+    plt.xlabel('Recall')
+    plt.plot(fpr, tpr,label='KG-MTL-S$_{dti}$')
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig('pr_curve.png')
+
+
 if __name__=='__main__':
     #reconstruct_examples_bindingdb()
     #process_cpi_affinitytoInteract()
     # process_protein()
-    map_entity_drkg()
+    #map_entity_drkg()
+    #balance_bindingdb()
+    #draw_roc()
+    #draw_recall()
+    draw_pr()

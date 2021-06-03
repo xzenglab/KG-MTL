@@ -330,7 +330,7 @@ def train_dti(args):
         dti_labels = torch.from_numpy(dti_labels).float().cuda()
         loss_epoch_total=0
         
-        for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(96,data.train_cpi_set, data.compound2smiles, data.protein2seq):
+        for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
         #for i in range(1):
 
             dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:3')), node_id, edge_type, edge_norm)
@@ -466,7 +466,7 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugbank',help='dataset for dti task')
+    parser.add_argument('--dataset',type=str,default='drugcentral',help='dataset for dti task')
     parser.add_argument('--task',type=str,default='dti',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
