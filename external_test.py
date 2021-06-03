@@ -145,7 +145,7 @@ def process_kg(args, train_kg, data, adj_list, degrees, use_cuda, sample_nodes=N
     return g, node_id, edge_type, node_norm, grapg_data, labels, edge_norm
 
 
-def main(args):
+def KG_MTL(args):
     # get dataset for gnn
     data = ExternalDataset('dataset/kg', dataset='bindingdb')
     # print(len(data.compound2smiles))
@@ -175,7 +175,7 @@ def main(args):
         np.save('data/degrees.npy', degrees) 
     g, node_id, edge_type, node_norm, grapg_data, labels, edge_norm = process_kg(
             args, train_kg, data, adj_list, degrees, use_cuda=False, sample_nodes=list(data.test_sample_nodes))     
-    model_path='lr0.001_epoch100_human_drugcentral_batch32_slr0.001_global_400.pkl'
+    model_path='ckl/lr0.001_epoch100_human_drugcentral_batch32_slr0.001_global_400.pkl'
     loss_model.load_state_dict(torch.load(model_path))
     loss_model.eval()
     test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
@@ -184,14 +184,6 @@ def main(args):
         test_dti_pred, test_dti_labels)
     test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr = utils.eval_cpi_2(
         test_cpi_pred, test_cpi_labels)
-    test_dti_performance['final'] = [
-        test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall, test_dti_aupr]
-    test_cpi_performance['final'] = [
-        test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr]
-    # utils.Log_Writer('logs/final_unit{}_dti_{}_sulr{}_lr{}_bs{}_{}.json'.format(
-    #     args.negative_sample, args.dti_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_dti_performance)
-    # utils.Log_Writer('logs/final_unit{}_cpi_{}_sulr{}_lr{}_bs{}_{}.json'.format(
-    #     args.negative_sample, args.cpi_dataset, shared_lr, lr_g, batch_size, args.embedd_dim), test_cpi_performance)
     print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
           format(test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall, test_cpi_aupr))
     print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
@@ -250,6 +242,6 @@ if __name__ == "__main__":
     results_dti = []
     best_results_cpi = []
     best_results_dti = []
-    cpi_r, dti_r = main(args)
+    cpi_r, dti_r = KG_MTL(args)
     print('cpi: ', cpi_r)
     print('dti: ', dti_r)
