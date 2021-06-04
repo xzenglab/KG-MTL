@@ -6,3 +6,4 @@ dataset/dti_task/drugcentral_examples_global_final_full_imbalance.tsv
 dataset/cpi_task/human_examples_global_final_full_imbalance.tsv
 dataset/cpi_task/human_examples_global_final_1_9.tsv
 dataset/dti_task/drugcentral_examples_global_final_1_9.tsv
+dataset/kg/train.tsv
