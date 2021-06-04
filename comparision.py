@@ -58,7 +58,7 @@ def train_cpi(dataset):
     
     val_cpi_log=[]
     epochs_his=[]
-    torch.cuda.set_device(1)
+    torch.cuda.set_device(0)
     
     
     best_performance=dict()
@@ -213,9 +213,9 @@ def train_cpi_gcn(dataset,args):
     num_feature=78
     drug_size=200
     hidden_dim=200
-    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length,device='cuda:1')
+    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length,device='cuda:0')
     #wandb.watch(model, log_freq=10, log='parameters')
-    torch.cuda.set_device(1)
+    torch.cuda.set_device(0)
     optimizer_global = torch.optim.Adam(model.parameters(), lr=0.001)
     early_stop=0
     loss_history=[]
@@ -466,14 +466,14 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugcentral',help='dataset for dti task')
-    parser.add_argument('--task',type=str,default='dti',help='[cpi, dti]')
+    parser.add_argument('--dataset',type=str,default='celegans',help='dataset for dti task')
+    parser.add_argument('--task',type=str,default='cpi',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
     results=[]
     #wandb.init(project='make-cpi',config=args)
-    for i in range(3):
+    for i in range(10):
         if args.task=='cpi':
             result=CPI_GNN_func(args.dataset)
         elif args.task=='dti':
