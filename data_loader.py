@@ -260,6 +260,10 @@ class load_data():
             example_path='dataset/redundant/drugcentral_data.tsv'
         elif self.dti_dataset=='bindingdb':
             example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+        elif self.dti_dataset=='drugcentral_sparse':
+            example_path='dataset/dti_task/drugcentral_examples_global_final_1_9.tsv'
+        elif self.dti_dataset=='drugcentral_full':
+            example_path='dataset/dti_task/drugcentral_examples_global_final_full_imbalance.tsv'
         print(example_path)
         
         with open(example_path,'r') as f:
@@ -294,8 +298,12 @@ class load_data():
             example_path='dataset/redundant/human_data.tsv'
         elif self.cpi_dataset=='human_r':
             example_path='dataset/redundant/cpi_data.tsv'
-        elif self.dti_dataset=='bindingdb':
+        elif self.cpi_dataset=='bindingdb':
             example_path='dataset/bindingdb/compound_protein_interaction.tsv'
+        elif self.cpi_dataset=='human_sparse':
+            example_path='dataset/cpi_task/human_examples_global_final_1_9.tsv'
+        elif self.cpi_dataset=='human_full':
+            example_path='dataset/cpi_task/human_examples_global_final_full_imbalance.tsv'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:

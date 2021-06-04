@@ -277,8 +277,6 @@ if __name__ == "__main__":
     #celegans, human
     #CPI_func('celegans')
     results=[]
-    #wandb.init(project='make-cpi',config=args)
-    
     result=CPI_GNN_func(args.dataset)
     print(result)
     # result=DTI_func(args)

@@ -374,7 +374,7 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='human', help='dataset used for cpi task')
+                        default='human_sparse', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
                         default='drugcentral', help='dataset used for dti task')
     # 共用同一个shared unit layer
@@ -388,8 +388,9 @@ if __name__ == "__main__":
                         default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
     print(args)
-    for v in ['KG-MTL','KG-MTL-L']:
-        args.variant=v
+    for (cpi,dti) in [('human_sparse','drugcentral_sparse'),('human_full','drugcentral_full')]:
+        args.cpi_dataset=cpi
+        args.dti_dataset=dti
         print(args.variant)
         results_cpi = []
         results_dti = []
