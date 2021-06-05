@@ -388,7 +388,8 @@ if __name__ == "__main__":
                         default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
     print(args)
-    for (cpi,dti) in [('human_sparse','drugcentral_sparse'),('human_full','drugcentral_full')]:
+    # ('human_sparse','drugcentral_sparse'),
+    for (cpi,dti) in [('human_full','drugcentral_full')]:
         args.cpi_dataset=cpi
         args.dti_dataset=dti
         print(args.variant)
@@ -396,7 +397,7 @@ if __name__ == "__main__":
         results_dti = []
         best_results_cpi = []
         best_results_dti = []
-        for i in range(10):
+        for i in range(2):
             print('{}-th iteration'.format(i+1))
             cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
             results_cpi.append(cpi_r)
