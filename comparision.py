@@ -466,7 +466,7 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='celegans',help='dataset for dti task')
+    parser.add_argument('--dataset',type=str,default='human_sparse',help='dataset for dti task')
     parser.add_argument('--task',type=str,default='cpi',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
