@@ -16,7 +16,7 @@ The implementation of paper 'Knowledge Graph Enhanced Multi-Task Learning for Mo
 ## How to install the envirenment
 ```bash
 conda install pytorch==1.5.0 torchvision==0.6.0 cudatoolkit=10.1 -c pytorch
-conda install -c dglteam dgl-cuda10.1=0.4.3
+conda install -c dglteam dgl-cuda10.1
 conda install -c rdkit rdkit==2018.09.3
 pip install dgllife
 ```
