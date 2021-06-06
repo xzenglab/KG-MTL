@@ -263,7 +263,7 @@ class load_data():
         elif self.dti_dataset=='drugcentral_sparse':
             example_path='dataset/dti_task/drugcentral_examples_global_final_1_9.tsv'
         elif self.dti_dataset=='drugcentral_full':
-            example_path='dataset/dti_task/drugcentral_examples_global_final_full_imbalance.tsv'
+            example_path='dataset/dti_task/drugcentral_examples_global_final_1_29.tsv'
         print(example_path)
         
         with open(example_path,'r') as f:
@@ -303,7 +303,7 @@ class load_data():
         elif self.cpi_dataset=='human_sparse':
             example_path='dataset/cpi_task/human_examples_global_final_1_9.tsv'
         elif self.cpi_dataset=='human_full':
-            example_path='dataset/cpi_task/human_examples_global_final_full_imbalance.tsv'
+            example_path='dataset/cpi_task/human_examples_global_final_1_29.tsv'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
@@ -333,12 +333,12 @@ class load_data():
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
         #examples=shuffle_dataset
         
-        train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
-        val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
+        # train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
+        # val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
 
         
         ### use shuffle
-        #train_set, val_set, test_set=utils.StratifiedSplit(examples)
+        train_set, val_set, test_set=utils.StratifiedSplit(examples)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 
 class ExternalDataset():

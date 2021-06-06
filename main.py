@@ -188,6 +188,7 @@ def main(args):
     print('start training....')
 
     lr_globals = [0.001]
+    ### 32, 16 for full negative
     batch_sizes = [32]
     # loss_lamdas=[0.25,0.5,0.75]
     shared_lrs = [0.001]
