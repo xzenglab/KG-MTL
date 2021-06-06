@@ -704,8 +704,8 @@ class CPI_DGLLife(nn.Module):
         self.l_hidden_dim=[200,200,200]
         self.compound_fc_layers=nn.ModuleList()
         self.layer_filters_proteins = [200, 96, 128, 200]
-        self.cpi_hidden_dim = [400,200,100]
-        self.kernals = [3, 5, 7, 9]
+        self.cpi_hidden_dim = [400,400,400]
+        self.kernals = [3, 5, 7, 9,9,9]
         self.fc_layers=nn.ModuleList()
         self.embed_protein = nn.Embedding(
                     num_embeddings=protein_size, embedding_dim=200)

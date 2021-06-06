@@ -466,14 +466,14 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='human_sparse',help='dataset for dti task')
-    parser.add_argument('--task',type=str,default='cpi',help='[cpi, dti]')
+    parser.add_argument('--dataset',type=str,default='drugcentral_sparse',help='dataset for dti task')
+    parser.add_argument('--task',type=str,default='dti',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
     results=[]
     #wandb.init(project='make-cpi',config=args)
-    for i in range(10):
+    for i in range(3):
         if args.task=='cpi':
             result=CPI_GNN_func(args.dataset)
         elif args.task=='dti':
