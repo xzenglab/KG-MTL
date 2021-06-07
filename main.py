@@ -295,22 +295,24 @@ def main(args):
                 torch.save(loss_model.state_dict(), model_path)
                 print('Best model saved!')
                 # print('testing...')
-                test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
-                                          test_compounds, torch.LongTensor(test_proteins), test_compoundids, test_drugs,test_targets,smiles2graph=data.smiles2graph,eval_=True)
-                test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr = utils.eval_cpi_2(
-                            test_dti_pred, test_dti_labels)
-                test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
-                test_cpi_pred, test_cpi_labels)
-                # metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr,     'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
-                # wandb.log(metrics)
-                if best_test_cpi_record[1]<test_cpi_roc:
-                    best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_aupr]
-                if best_test_dti_record[1]<test_dti_roc:
-                    best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_aupr]
-                print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
-                  format( test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr))
-                print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
-                        test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr))        
+                # test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
+                #                           test_compounds, torch.LongTensor(test_proteins), test_compoundids, test_drugs,test_targets,smiles2graph=data.smiles2graph,eval_=True)
+                # test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr = utils.eval_cpi_2(
+                #             test_dti_pred, test_dti_labels)
+                # test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr = utils.eval_cpi_2(
+                # test_cpi_pred, test_cpi_labels)
+                # # metrics={'test_dti_acc': test_dti_acc, 'test_dti_auc':test_dti_roc, 'test_dti_aupr': test_dti_aupr,     'test_cpi_acc':test_cpi_acc,'test_cpi_auc':test_cpi_roc,'test_cpi_aupr':test_cpi_aupr}
+                # # wandb.log(metrics)
+                # if best_test_cpi_record[1]<test_cpi_roc:
+                #     best_test_cpi_record=[test_cpi_acc, test_cpi_roc, test_cpi_aupr]
+                # if best_test_dti_record[1]<test_dti_roc:
+                #     best_test_dti_record=[test_dti_acc, test_dti_roc, test_dti_aupr]
+                # print("Test CPI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
+                #   format( test_cpi_acc, test_cpi_roc, test_cpi_pre, test_cpi_recall,test_cpi_aupr))
+                # print('Test DTI | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}'.format(
+                #         test_dti_acc, test_dti_roc, test_dti_pre, test_dti_recall,test_dti_aupr))        
+        loss_total=None
+        loss_cpi=None
         
         loss_model.load_state_dict(torch.load(model_path))
         if use_cuda:

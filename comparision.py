@@ -473,7 +473,7 @@ if __name__ == "__main__":
     #CPI_func('celegans')
     results=[]
     #wandb.init(project='make-cpi',config=args)
-    for i in range(3):
+    for i in range(10):
         if args.task=='cpi':
             result=CPI_GNN_func(args.dataset)
         elif args.task=='dti':
