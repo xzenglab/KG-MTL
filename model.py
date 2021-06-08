@@ -61,7 +61,8 @@ class MKDTI(nn.Module):
 
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            self.shared_units.append(Shared_Unit_NL(h_dim,variant=variant))
+            #self.shared_units.append(Shared_Unit_NL(h_dim,variant=variant))
+            self.shared_units.append(SimpleUnit(h_dim))
             #self.shared_units.append(AttentionUnit(h_dim))
             #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size

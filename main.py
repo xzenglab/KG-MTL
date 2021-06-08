@@ -348,7 +348,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=3, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -377,7 +377,7 @@ if __name__ == "__main__":
     parser.add_argument("--loss_lamda", type=float,
                         default=0.75, help="rgcn pre-training rounds")
     parser.add_argument('--cpi_dataset', type=str,
-                        default='human_sparse', help='dataset used for cpi task')
+                        default='human', help='dataset used for cpi task')
     parser.add_argument('--dti_dataset', type=str,
                         default='drugcentral', help='dataset used for dti task')
     # 共用同一个shared unit layer
@@ -392,7 +392,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
     # ('human_sparse','drugcentral_sparse'),
-    for (cpi,dti) in [('human_full','drugcentral_full')]:
+    for (cpi,dti) in [('human','drugcentral')]:
         args.cpi_dataset=cpi
         args.dti_dataset=dti
         print(args.variant)
@@ -400,7 +400,7 @@ if __name__ == "__main__":
         results_dti = []
         best_results_cpi = []
         best_results_dti = []
-        for i in range(2):
+        for i in range(10):
             print('{}-th iteration'.format(i+1))
             cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
             results_cpi.append(cpi_r)

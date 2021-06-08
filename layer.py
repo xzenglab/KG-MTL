@@ -146,10 +146,40 @@ class AttentionUnit(nn.Module):
         #features_dti=self.MLP_cpi(features)
         return features_cpi, features_cpi
 
+class SimpleUnit(nn.Module):
+    def __init__(self, input_dim=128):
+        super(SimpleUnit, self).__init__()
+        self.dim=input_dim
+        ### shared parameters
+        # self.W = nn.Parameter(th.Tensor(input_dim,1))
+        # nn.init.xavier_uniform_(self.W)
+        
+        # self.W_cpi = nn.Parameter(th.Tensor(input_dim,1))
+        # nn.init.xavier_uniform_(self.W_cpi)
+        # self.W_dti = nn.Parameter(th.Tensor(input_dim,1))
+        # nn.init.xavier_uniform_(self.W_dti)
+        # self.W_a = nn.Parameter(th.Tensor(input_dim,2))
+        # nn.init.xavier_uniform_(self.W_a)
+        #self.MLP_dti=nn.Linear(2*input_dim, input_dim)
+        self.MLP_cpi=nn.Linear(2*input_dim, input_dim)
+    def forward(self, drug_cnn, drug_kg):
+        # drug_cnn_=drug_cnn.unsqueeze(1)
+        # drug_kg_=drug_kg.unsqueeze(1)
+        # features=drug_cnn_+drug_kg_
+        # features=features.squeeze(1)
+        # features=F.softmax(th.matmul(th.tanh(features), self.W_a))
+        # features=features.unsqueeze(1)
+        # drug_cnn= (features[:,:,0].unsqueeze(1)* drug_cnn_).squeeze()
+        
+        # drug_kg=(features[:,:,1].unsqueeze(1)*drug_kg_).squeeze()
+        features=th.cat((drug_cnn, drug_kg), dim=1)
+        features_cpi=self.MLP_cpi(features)
+        #features_dti=self.MLP_cpi(features)
+        return features_cpi, features_cpi
 
 if __name__=='__main__':
     au=AttentionUnit(input_dim=10)
     drug_cnn=th.Tensor(1,10)
     drug_kg=th.Tensor(1,10)
     au(drug_cnn, drug_kg)
-        
+    
