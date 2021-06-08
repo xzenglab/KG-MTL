@@ -290,8 +290,8 @@ def train_dti(args):
     test_drugs, test_targets, test_dti_labels =get_dti_data(data.test_dti_set)
     test_dti_labels=torch.from_numpy(test_dti_labels)
     model = DTI(data.num_nodes,
-                  200, 200, data.num_rels, 20)
-    torch.cuda.set_device(3)
+                  128, 128, data.num_rels, 2)
+    torch.cuda.set_device(0)
     #wandb.watch(model)
     train_kg = torch.LongTensor(np.array(data.train_kg))   
     loss_history=[]
@@ -315,7 +315,7 @@ def train_dti(args):
     early_stop=0
     best_record=[0.0,0.0]
     #loss_history=[]
-    for epoch in range(1000):
+    for epoch in range(100):
         if early_stop>=3:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
@@ -333,7 +333,7 @@ def train_dti(args):
         for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
         #for i in range(1):
 
-            dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:3')), node_id, edge_type, edge_norm)
+            dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:0')), node_id, edge_type, edge_norm)
             dti_loss=F.binary_cross_entropy(dti_pred,dti_labels)
             #loss_history.append(dti_loss)
             dti_loss.backward()
@@ -466,14 +466,14 @@ if __name__ == "__main__":
                         default=10, help="rgcn pre-training rounds")
     parser.add_argument("--loss_lamda", type=float,
                         default=0.5, help="rgcn pre-training rounds")
-    parser.add_argument('--dataset',type=str,default='drugcentral_sparse',help='dataset for dti task')
+    parser.add_argument('--dataset',type=str,default='drugcentral',help='dataset for dti task')
     parser.add_argument('--task',type=str,default='dti',help='[cpi, dti]')
     args = parser.parse_args()
     #celegans, human
     #CPI_func('celegans')
     results=[]
     #wandb.init(project='make-cpi',config=args)
-    for i in range(10):
+    for i in range(5):
         if args.task=='cpi':
             result=CPI_GNN_func(args.dataset)
         elif args.task=='dti':

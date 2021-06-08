@@ -275,9 +275,11 @@ class load_data():
                 sample_ndoes.add(target_entityid)
                 label=int(l[6])
                 examples.append([drug_entityid,target_entityid,label])
-        
-        train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
-        val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
+        #### seed 3,4
+        # train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2,random_state=3)
+        # val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5,random_state=4)
+        train_dti_set,test_dti_set=train_test_split(examples,test_size=0.2)
+        val_dti_set,test_dti_set=train_test_split(examples,test_size=0.5)
 
         #train_dti_set, val_dti_set, test_dti_set=utils.StratifiedSplit(examples)
 

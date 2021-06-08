@@ -57,12 +57,10 @@ class MKDTI(nn.Module):
         self.rgcn_layers = nn.ModuleList([self.entity_embedding])
         self._construct_rgcn(num_hidden_layers)
         self.reg_param = reg_param
-        #self.shared_unit = Shared_Unit_NL(h_dim)
-
         self.shared_units=nn.ModuleList()
         for i in range(shared_unit_num):
-            #self.shared_units.append(Shared_Unit_NL(h_dim,variant=variant))
-            self.shared_units.append(SimpleUnit(h_dim))
+            self.shared_units.append(Shared_Unit_NL(h_dim,variant=variant))
+            #self.shared_units.append(SimpleUnit(h_dim))
             #self.shared_units.append(AttentionUnit(h_dim))
             #self.shared_units.append(Cross_stitch())
         #self.drug_size = drug_size
@@ -337,12 +335,13 @@ class DTI(nn.Module):
         self.num_bases = num_bases
         self.dropout = dropout
         self.use_self_loop = use_self_loop
-        self.dti_hidden_dim = [400, 400, 400]
+        self.dti_hidden_dim = [2*h_dim, 2*h_dim, 2*h_dim]
         self.entity_embedding = EmbeddingLayer(num_nodes, h_dim)
         self.rgcn_layers = nn.ModuleList([self.entity_embedding])
         self.w_relation = nn.Parameter(torch.Tensor(num_rels, h_dim))
         nn.init.xavier_uniform_(
-            self.w_relation, gain=nn.init.calculate_gain('relu'))
+            self.w_relation)
+        ###, gain=nn.init.calculate_gain('relu')
         self.num_hidden_layers = num_hidden_layers
         self._construct_rgcn(num_hidden_layers)
 
