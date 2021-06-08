@@ -315,8 +315,8 @@ def train_dti(args):
     early_stop=0
     best_record=[0.0,0.0]
     #loss_history=[]
-    for epoch in range(100):
-        if early_stop>=3:
+    for epoch in range(1000):
+        if early_stop>=6:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         
@@ -330,8 +330,8 @@ def train_dti(args):
         dti_labels = torch.from_numpy(dti_labels).float().cuda()
         loss_epoch_total=0
         
-        for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
-        #for i in range(1):
+        #for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
+        for i in range(1):
 
             dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:0')), node_id, edge_type, edge_norm)
             dti_loss=F.binary_cross_entropy(dti_pred,dti_labels)
@@ -391,8 +391,7 @@ def DTI_func(args):
 
 def CPI_GNN_func(dataset):
     #parser = argparse.ArgumentParser()
-    parser.add_argument("--num-heads", type=int, default=8,
-                        help="number of hidden attention heads")
+    
     parser.add_argument("--num-out-heads", type=int, default=1,
                         help="number of output attention heads")
     parser.add_argument("--num-layers", type=int, default=1,

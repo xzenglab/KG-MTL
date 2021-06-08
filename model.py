@@ -687,7 +687,7 @@ class CPI_GCN(nn.Module):
         return output_cpi_vector
 
 class CPI_DGLLife(nn.Module):
-    def __init__(self,in_dim,hidden_dim,drug_size,protein_size,dropout_prob=0.2,cpi_fc_layers=3,device='cpu'):
+    def __init__(self,in_dim,hidden_dim,drug_size,protein_size,dropout_prob=0.2,cpi_fc_layers=2,device='cpu'):
         super(CPI_DGLLife,self).__init__()
         self.conv1 = GraphConv(in_dim, hidden_dim)
         self.conv2 = GraphConv(hidden_dim, hidden_dim)
@@ -705,7 +705,7 @@ class CPI_DGLLife(nn.Module):
         self.compound_fc_layers=nn.ModuleList()
         self.layer_filters_proteins = [hidden_dim, 96, 128, in_dim,hidden_dim]
         # self.cpi_hidden_dim = [2*hidden_dim,2*hidden_dim,2*hidden_dim,2*hidden_dim]
-        self.cpi_hidden_dim = [2*hidden_dim]
+        self.cpi_hidden_dim = [2*hidden_dim,1]
         self.kernals = [3, 5, 7, 9,9,9]
         self.fc_layers=nn.ModuleList()
         self.embed_protein = nn.Embedding(
