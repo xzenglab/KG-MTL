@@ -326,7 +326,7 @@ class CPI(nn.Module):
 
 
 class DTI(nn.Module):
-    def __init__(self, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=3, dropout=0.1, use_self_loop=False, use_cuda=False, reg_param=0):
+    def __init__(self, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=2, dropout=0, use_self_loop=False, use_cuda=False, reg_param=0):
         super(DTI, self).__init__()
         self.num_nodes = num_nodes
         self.h_dim = h_dim
@@ -335,7 +335,7 @@ class DTI(nn.Module):
         self.num_bases = num_bases
         self.dropout = dropout
         self.use_self_loop = use_self_loop
-        self.dti_hidden_dim = [2*h_dim, 2*h_dim, 2*h_dim,2*h_dim]
+        self.dti_hidden_dim = [2*h_dim, 2*h_dim]
         self.entity_embedding = EmbeddingLayer(num_nodes, h_dim)
         self.rgcn_layers = nn.ModuleList([self.entity_embedding])
         self.w_relation = nn.Parameter(torch.Tensor(num_rels, h_dim))
@@ -344,7 +344,7 @@ class DTI(nn.Module):
         ###, 
         self.num_hidden_layers = num_hidden_layers
         self._construct_rgcn(num_hidden_layers)
-
+        
         self.dti_fc_layers = nn.ModuleList()
         for i in range(len(self.dti_hidden_dim)):
             if i == len(self.dti_hidden_dim)-1:
@@ -360,7 +360,7 @@ class DTI(nn.Module):
         for idx in range(hidden_rgcn_layers):
             act = F.relu if idx < self.num_hidden_layers-1 else None
             self.rgcn_layers.append(RelGraphConv(self.h_dim, self.h_dim, self.num_rels,
-                                                 'bdd', num_bases=self.num_bases, activation=act, self_loop=True, dropout=self.dropout))
+                                                 'bdd', num_bases=self.num_bases, activation=None, self_loop=True, dropout=self.dropout))
 
     def RGCN_Net(self, g, h, r, norm):
         h=self.rgcn_layers[0](h)

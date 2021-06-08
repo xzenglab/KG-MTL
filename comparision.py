@@ -316,7 +316,7 @@ def train_dti(args):
     best_record=[0.0,0.0]
     #loss_history=[]
     for epoch in range(100):
-        if early_stop>=3:
+        if early_stop>=5:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         
@@ -468,7 +468,7 @@ if __name__ == "__main__":
     #CPI_func('celegans')
     results=[]
     #wandb.init(project='make-cpi',config=args)
-    for i in range(5):
+    for i in range(10):
         if args.task=='cpi':
             result=CPI_GNN_func(args.dataset)
         elif args.task=='dti':
