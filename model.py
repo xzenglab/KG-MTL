@@ -326,7 +326,7 @@ class CPI(nn.Module):
 
 
 class DTI(nn.Module):
-    def __init__(self, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=2, dropout=0.5, use_self_loop=False, use_cuda=False, reg_param=0):
+    def __init__(self, num_nodes, h_dim, out_dim, num_rels, num_bases, num_hidden_layers=3, dropout=0.1, use_self_loop=False, use_cuda=False, reg_param=0):
         super(DTI, self).__init__()
         self.num_nodes = num_nodes
         self.h_dim = h_dim
@@ -335,13 +335,13 @@ class DTI(nn.Module):
         self.num_bases = num_bases
         self.dropout = dropout
         self.use_self_loop = use_self_loop
-        self.dti_hidden_dim = [2*h_dim, 2*h_dim, 2*h_dim]
+        self.dti_hidden_dim = [2*h_dim, 2*h_dim, 2*h_dim,2*h_dim]
         self.entity_embedding = EmbeddingLayer(num_nodes, h_dim)
         self.rgcn_layers = nn.ModuleList([self.entity_embedding])
         self.w_relation = nn.Parameter(torch.Tensor(num_rels, h_dim))
         nn.init.xavier_uniform_(
-            self.w_relation)
-        ###, gain=nn.init.calculate_gain('relu')
+            self.w_relation,gain=nn.init.calculate_gain('relu'))
+        ###, 
         self.num_hidden_layers = num_hidden_layers
         self._construct_rgcn(num_hidden_layers)
 
@@ -701,14 +701,15 @@ class CPI_DGLLife(nn.Module):
         self.conv3.float()
         self.learn_graph1=MLPNodeReadout(hidden_dim,hidden_dim,hidden_dim)
         self.output_linear=nn.Linear(hidden_dim,drug_size)
-        self.l_hidden_dim=[200,200,200]
+        self.l_hidden_dim=[hidden_dim,hidden_dim,hidden_dim]
         self.compound_fc_layers=nn.ModuleList()
-        self.layer_filters_proteins = [200, 96, 128, 200]
-        self.cpi_hidden_dim = [400,400,400]
+        self.layer_filters_proteins = [hidden_dim, 96, 128, in_dim,hidden_dim]
+        # self.cpi_hidden_dim = [2*hidden_dim,2*hidden_dim,2*hidden_dim,2*hidden_dim]
+        self.cpi_hidden_dim = [2*hidden_dim]
         self.kernals = [3, 5, 7, 9,9,9]
         self.fc_layers=nn.ModuleList()
         self.embed_protein = nn.Embedding(
-                    num_embeddings=protein_size, embedding_dim=200)
+                    num_embeddings=protein_size, embedding_dim=hidden_dim)
 
         self.target_cnn = nn.ModuleList([nn.Conv1d(in_channels=self.layer_filters_proteins[i], out_channels=self.layer_filters_proteins[i+1],
                                                    kernel_size=3, padding=1) for i in range(len(self.layer_filters_proteins)-1)])
@@ -759,6 +760,7 @@ class CPI_DGLLife(nn.Module):
             g=g.to(torch.device(self.device))
         h=F.relu(self.conv1(g,h))
         h=F.relu(self.conv2(g,h))
+        h=F.relu(self.conv3(g,h))
         hg=F.relu(self.learn_graph1(g,h))
         compound_vector=hg
         for l in self.compound_fc_layers:

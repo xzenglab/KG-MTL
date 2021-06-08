@@ -211,11 +211,11 @@ def train_cpi_gcn(dataset,args):
     val_cpi_label=torch.from_numpy(val_cpi_label)
     test_cpi_label=torch.from_numpy(test_cpi_label)
     num_feature=78
-    drug_size=200
-    hidden_dim=200
-    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length,device='cuda:0')
+    drug_size=128
+    hidden_dim=128
+    model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length,device='cuda:1')
     #wandb.watch(model, log_freq=10, log='parameters')
-    torch.cuda.set_device(0)
+    torch.cuda.set_device(1)
     optimizer_global = torch.optim.Adam(model.parameters(), lr=0.001)
     early_stop=0
     loss_history=[]
@@ -228,7 +228,7 @@ def train_cpi_gcn(dataset,args):
         model.cuda()
         model.train()
         loss_log=0.0
-        for drugs, proteins, cpi_labels,_ in graph_data_iter(64,data.train_set_gnn,data.protein2seq):
+        for drugs, proteins, cpi_labels,_ in graph_data_iter(128,data.train_set_gnn,data.protein2seq):
             cpi_pred=model(drugs,torch.from_numpy(np.array(proteins)).cuda(),data.smiles2graph)
             cpi_labels = torch.from_numpy(cpi_labels).float().cuda()
             loss_cpi = F.binary_cross_entropy(cpi_pred, cpi_labels)
@@ -390,12 +390,7 @@ def DTI_func(args):
     return train_dti(args)
 
 def CPI_GNN_func(dataset):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--dropout',type=float,default=0.2,help='dropout probability')
-    parser.add_argument("--gpu", type=int, default=-1,
-                        help="which GPU to use. Set -1 to use CPU.")
-    parser.add_argument("--epochs", type=int, default=200,
-                        help="number of training epochs")
+    #parser = argparse.ArgumentParser()
     parser.add_argument("--num-heads", type=int, default=8,
                         help="number of hidden attention heads")
     parser.add_argument("--num-out-heads", type=int, default=1,
