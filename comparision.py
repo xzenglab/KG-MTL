@@ -316,7 +316,7 @@ def train_dti(args):
     best_record=[0.0,0.0]
     #loss_history=[]
     for epoch in range(100):
-        if early_stop>=5:
+        if early_stop>=6:
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         
@@ -327,20 +327,20 @@ def train_dti(args):
         #print('Done sampleing end.')
         drug_entities, target_entities, dti_labels = get_dti_data(
             data.train_dti_set)
-        dti_labels = torch.from_numpy(dti_labels).float().cuda()
+        dti_labels = torch.from_numpy(dti_labels).long().cuda()
         loss_epoch_total=0
         
-        #for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
-        for i in range(1):
+        for (compounds, proteins, cpi_labels, compoundids) in cpi_data_iter(128,data.train_cpi_set, data.compound2smiles, data.protein2seq):
+        #for i in range(1):
 
             dti_pred,embed=model(drug_entities,target_entities,g.to(torch.device('cuda:0')), node_id, edge_type, edge_norm)
             dti_loss=F.binary_cross_entropy(dti_pred,dti_labels)
-            #loss_history.append(dti_loss)
+            #dti_loss=F.cross_entropy(dti_pred,dti_labels.squeeze())
+            
             dti_loss.backward()
             optimizer_global.step()
             optimizer_global.zero_grad()
             loss_epoch_total+=dti_loss
-        loss_history.append(float(loss_epoch_total))
         #wandb.log({'loss_dti': loss_epoch_total})
         print('epoch: {}, Loss: {:.4f}'.format(epoch,loss_epoch_total))
         model.cpu()

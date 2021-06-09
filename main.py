@@ -392,51 +392,49 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
     # ('human_sparse','drugcentral_sparse'),
-    for (cpi,dti) in [('human','drugcentral')]:
-        args.cpi_dataset=cpi
-        args.dti_dataset=dti
-        print(args.variant)
-        results_cpi = []
-        results_dti = []
-        best_results_cpi = []
-        best_results_dti = []
-        for i in range(10):
-            print('{}-th iteration'.format(i+1))
-            cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
-            results_cpi.append(cpi_r)
-            results_dti.append(dti_r)
-            best_results_cpi.append(best_cpi_r)
-            best_results_dti.append(best_dti_r)
-
-        avg_cpi = np.mean(np.array(results_cpi), axis=0)
-        std_cpi = np.std(results_cpi, axis=0)
-        print('test results: ')
-        print(avg_cpi)
-        avg_dti = np.mean(np.array(results_dti), axis=0)
-        std_dti = np.std(np.array(results_cpi), axis=0)
-        print(avg_dti)
-        results_cpi.append(avg_cpi)
-        results_cpi.append(std_cpi)
-        results_dti.append(avg_dti)
-        results_dti.append(std_dti)
-        np.savetxt('results/cpi_{}_result_{}.txt'.format(args.cpi_dataset, args.variant),
-                   np.array(results_cpi), delimiter=",", fmt='%f')
-        np.savetxt('results/dti_{}_result_{}.txt'.format(args.dti_dataset, args.variant),
-                   np.array(results_dti), delimiter=",", fmt='%f')
-        best_avg_cpi=np.mean(np.array(best_results_cpi), axis=0)
-        best_std_cpi=np.std(np.array(best_results_cpi), axis=0)
-        print('best results: ')
-        print(best_avg_cpi)
-        best_results_cpi.append(best_avg_cpi)
-        best_results_cpi.append(best_std_cpi)
-        best_avg_dti=np.mean(np.array(best_results_dti), axis=0)
-        best_std_dti=np.std(np.array(best_results_dti), axis=0)
-        print(best_avg_dti)
-        best_results_dti.append(best_avg_dti)
-        best_results_dti.append(best_std_dti)
-
-        np.savetxt('results/cpi_{}_best_result_{}.txt'.format(args.cpi_dataset, args.variant),
-                   np.array(best_results_cpi), delimiter=",", fmt='%f')
-        np.savetxt('results/dti_{}_best_result_{}.txt'.format(args.dti_dataset, args.variant),
-                   np.array(best_results_dti), delimiter=",", fmt='%f')
-        print('result saved!!!')
+    
+    # args.cpi_dataset=cpi
+    # args.dti_dataset=dti
+    print(args.variant)
+    results_cpi = []
+    results_dti = []
+    best_results_cpi = []
+    best_results_dti = []
+    for i in range(10):
+        print('{}-th iteration'.format(i+1))
+        cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
+        results_cpi.append(cpi_r)
+        results_dti.append(dti_r)
+        best_results_cpi.append(best_cpi_r)
+        best_results_dti.append(best_dti_r)
+    avg_cpi = np.mean(np.array(results_cpi), axis=0)
+    std_cpi = np.std(results_cpi, axis=0)
+    print('test results: ')
+    print(avg_cpi)
+    avg_dti = np.mean(np.array(results_dti), axis=0)
+    std_dti = np.std(np.array(results_cpi), axis=0)
+    print(avg_dti)
+    results_cpi.append(avg_cpi)
+    results_cpi.append(std_cpi)
+    results_dti.append(avg_dti)
+    results_dti.append(std_dti)
+    np.savetxt('results/cpi_{}_result_{}.txt'.format(args.cpi_dataset, args.variant),
+               np.array(results_cpi), delimiter=",", fmt='%f')
+    np.savetxt('results/dti_{}_result_{}.txt'.format(args.dti_dataset, args.variant),
+               np.array(results_dti), delimiter=",", fmt='%f')
+    best_avg_cpi=np.mean(np.array(best_results_cpi), axis=0)
+    best_std_cpi=np.std(np.array(best_results_cpi), axis=0)
+    print('best results: ')
+    print(best_avg_cpi)
+    best_results_cpi.append(best_avg_cpi)
+    best_results_cpi.append(best_std_cpi)
+    best_avg_dti=np.mean(np.array(best_results_dti), axis=0)
+    best_std_dti=np.std(np.array(best_results_dti), axis=0)
+    print(best_avg_dti)
+    best_results_dti.append(best_avg_dti)
+    best_results_dti.append(best_std_dti)
+    np.savetxt('results/cpi_{}_best_result_{}.txt'.format(args.cpi_dataset, args.variant),
+               np.array(best_results_cpi), delimiter=",", fmt='%f')
+    np.savetxt('results/dti_{}_best_result_{}.txt'.format(args.dti_dataset, args.variant),
+               np.array(best_results_dti), delimiter=",", fmt='%f')
+    print('result saved!!!')

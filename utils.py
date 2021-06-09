@@ -506,6 +506,7 @@ def eval_cpi(y_pred,labels):
     y_pred_labels=y_pred.argmax(axis=1)
     y_score=np.array([y_pred[i,index] for i,index in enumerate(y_pred_labels)])
     acc=accuracy_score(labels,y_pred_labels)
+    #roc_score=roc_auc_score(labels,y_score)
     roc_score=roc_auc_score(labels,y_score)
     pre_score=precision_score(labels,y_pred_labels)
     recall=recall_score(labels,y_pred_labels)
