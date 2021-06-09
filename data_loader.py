@@ -328,7 +328,7 @@ class load_data():
         #     l = line.strip().split('\t')
         #     seq = l[2]
         #     proteins_list.add(seq)
-            
+        
         words_dict=storeWordsIntoDict(list(proteins_list),self.cpi_dataset)
         for p in protein2seq:
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
