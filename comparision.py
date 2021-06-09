@@ -198,7 +198,7 @@ def test(model, val_dataset, protein2seq, smiles2graph):
     print("CPI-val | acc:{:.4f}, roc:{:.4f}, precision:{:.4f}, recall:{:.4f}, aupr:{:.4f}".
                   format( val_acc, val_roc, val_pre, val_recall, val_aupr))
 
-def train_cpi_gcn(dataset,args):
+def train_cpi_gcn(dataset):
     data = load_data('dataset/kg',
                      'dataset/dti_task', 'dataset/cpi_task',cpi_dataset=dataset,cpi_gnn=True)
     val_cpi_log=[]
@@ -315,13 +315,8 @@ def train_dti(args):
     early_stop=0
     best_record=[0.0,0.0]
     #loss_history=[]
-<<<<<<< HEAD
     for epoch in range(100):
         if early_stop>=5:
-=======
-    for epoch in range(1000):
-        if early_stop>=6:
->>>>>>> 80f70b62e35ca0ff3351a99f7f7b1b0bc46e18fd
             print('After 6 consecutive epochs, the model stops training because the performance has not improved!')
             break
         
@@ -397,28 +392,7 @@ def DTI_func(args):
 def CPI_GNN_func(dataset):
     #parser = argparse.ArgumentParser()
     
-    parser.add_argument("--num-out-heads", type=int, default=1,
-                        help="number of output attention heads")
-    parser.add_argument("--num-layers", type=int, default=1,
-                        help="number of hidden layers")
-    parser.add_argument("--num-hidden", type=int, default=8,
-                        help="number of hidden units")
-    parser.add_argument("--residual", action="store_true", default=False,
-                        help="use residual connection")
-    parser.add_argument("--in-drop", type=float, default=.6,
-                        help="input feature dropout")
-    parser.add_argument("--attn-drop", type=float, default=.6,
-                        help="attention dropout")
-    parser.add_argument("--lr", type=float, default=0.005,
-                        help="learning rate")
-    parser.add_argument('--weight-decay', type=float, default=5e-4,
-                        help="weight decay")
-    parser.add_argument('--negative-slope', type=float, default=0.2,
-                        help="the negative slope of leaky relu")
-    args1=parser.parse_args()
-    print(args1)
-    return train_cpi_gcn(dataset,args1)
-
+    return train_cpi_gcn(dataset)
 
 import wandb
 if __name__ == "__main__":

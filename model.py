@@ -705,8 +705,8 @@ class CPI_DGLLife(nn.Module):
         self.compound_fc_layers=nn.ModuleList()
         self.layer_filters_proteins = [hidden_dim, 96, 128, in_dim,hidden_dim]
         # self.cpi_hidden_dim = [2*hidden_dim,2*hidden_dim,2*hidden_dim,2*hidden_dim]
-        self.cpi_hidden_dim = [2*hidden_dim,1]
-        self.kernals = [3, 5, 7, 9,9,9]
+        self.cpi_hidden_dim = [2*hidden_dim,2*hidden_dim,2*hidden_dim]
+        self.kernals = [3, 5, 7, 9]
         self.fc_layers=nn.ModuleList()
         self.embed_protein = nn.Embedding(
                     num_embeddings=protein_size, embedding_dim=hidden_dim)
@@ -759,8 +759,8 @@ class CPI_DGLLife(nn.Module):
             h=h.float().cuda()
             g=g.to(torch.device(self.device))
         h=F.relu(self.conv1(g,h))
-        h=F.relu(self.conv2(g,h))
-        h=F.relu(self.conv3(g,h))
+        # h=F.relu(self.conv2(g,h))
+        # h=F.relu(self.conv3(g,h))
         hg=F.relu(self.learn_graph1(g,h))
         compound_vector=hg
         for l in self.compound_fc_layers:
