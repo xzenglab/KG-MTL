@@ -8,7 +8,6 @@ LastEditors: Please set LastEditors
 '''
 import argparse
 from model import MKDTI, MultiTaskLoss
-from layer import Shared_Unit_NL
 from data_loader import load_data
 from dgl.data.utils import save_graphs, load_graphs
 import utils
@@ -166,10 +165,10 @@ def main(args):
 
     drug_entities, target_entities, dti_labels = get_dti_data(
         data.train_dti_set)
-
+    device='cuda:{}'.format(args.gpu) if args.gpu>=0 else 'cpu'
     loss_model = MultiTaskLoss(2, args.shared_unit_num, args.
     embedd_dim, data.word_length, 3, 2, 0.5, data.num_nodes,
-                               args.embedd_dim, args.embedd_dim, data.num_rels, args.n_bases)
+                               args.embedd_dim, args.embedd_dim, data.num_rels, args.n_bases, variant=args.variant, device=device)
     use_cuda = args.gpu >= 0 and torch.cuda.is_available()
     if use_cuda:
         torch.cuda.set_device(args.gpu)
@@ -227,7 +226,7 @@ def main(args):
 
         for k, v in base_params:
             params_list += [{'params': [v], 'lr': lr_g}]
-        optimizer_global = torch.optim.SGD(params_list, lr=lr_g)
+        optimizer_global = torch.optim.Adam(params_list, lr=lr_g)
 
         model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_global_400.pkl'.format(
             lr_g, args.n_epochs, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr)
@@ -359,7 +358,7 @@ if __name__ == "__main__":
                         default=0.2, help='dropout probability')
     parser.add_argument('--n-hidden', type=int, default=500,
                         help='number of hidden units')
-    parser.add_argument('--gpu', type=int, default=2, help='gpu id')
+    parser.add_argument('--gpu', type=int, default=0, help='gpu id')
     parser.add_argument('--lr_pre', type=float, default=0.01,
                         help='learning rate of pretrain')
     parser.add_argument('--lr_dti', type=float, default=0.001,
@@ -398,8 +397,10 @@ if __name__ == "__main__":
                         default=128, help='the dim of embedding')
     parser.add_argument('--loss_mode', type=str, default='weighted',
                        help='the way of caculating total loss [weighted, single]')
+    parser.add_argument('--variant', type=str,
+                        default='KG-MTL-L', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
     args = parser.parse_args()
-    wandb.init(project='make-cpi', config=args,notes='human_drugcentral_kg-mtl-s',tags='variant')
+    wandb.init(project='kg_mtl_0610', config=args,notes='',tags=args.variant)
     config=wandb.config
     print(args)
     cpi_r, dti_r = main(args)

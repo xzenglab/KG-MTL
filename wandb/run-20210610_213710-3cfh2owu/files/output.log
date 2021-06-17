@@ -1,0 +1,13 @@
+
+Namespace(cpi_dataset='human', dropout=0.2, dti_dataset='drugcentral', edge_sampler='neighbor', embedd_dim=128, gpu=2, grad_norm=1.0, graph_batch_size=40000, graph_split_size=0.5, loss_lamda=0.75, loss_mode='weighted', lr_dti=0.001, lr_pre=0.01, n_bases=4, n_epochs=100, n_hidden=500, n_layers=2, negative_sample=10, regularization=0.01, rgcn_epochs=0, sample_size=4, shared_unit_num=1, variant='KG-MTL-C')
+dataset/dti_task/drugcentral_dti_examples.tsv
+dataset/cpi_task/human_examples_global_final_1_3.tsv
+THCudaCheck FAIL file=/opt/conda/conda-bld/pytorch_1587428398394/work/torch/csrc/cuda/Module.cpp line=59 error=101 : invalid device ordinal
+Traceback (most recent call last):
+  File "main_wandb.py", line 407, in <module>
+    cpi_r, dti_r = main(args)
+  File "main_wandb.py", line 175, in main
+    torch.cuda.set_device(args.gpu)
+  File "/home/mtf/.conda/envs/kg-mtl/lib/python3.7/site-packages/torch/cuda/__init__.py", line 245, in set_device
+    torch._C._cuda_setDevice(device)
+RuntimeError: cuda runtime error (101) : invalid device ordinal at /opt/conda/conda-bld/pytorch_1587428398394/work/torch/csrc/cuda/Module.cpp:59

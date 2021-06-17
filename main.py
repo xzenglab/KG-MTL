@@ -386,7 +386,7 @@ if __name__ == "__main__":
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
     parser.add_argument('--variant', type=str,
-                        default='KG-MTL', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
+                        default='KG-MTL-C', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
     parser.add_argument('--loss_mode', type=str,
                         default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()

@@ -211,8 +211,8 @@ def train_cpi_gcn(dataset,args):
     val_cpi_label=torch.from_numpy(val_cpi_label)
     test_cpi_label=torch.from_numpy(test_cpi_label)
     num_feature=78
-    drug_size=200
-    hidden_dim=200
+    drug_size=128
+    hidden_dim=128
     model=CPI_DGLLife(num_feature,hidden_dim,drug_size,data.word_length)
     wandb.watch(model)
     torch.cuda.set_device(0)
@@ -295,7 +295,7 @@ def train_dti(args):
     test_drugs, test_targets, test_dti_labels =get_dti_data(data.test_dti_set)
     test_dti_labels=torch.from_numpy(test_dti_labels)
     model = DTI(data.num_nodes,
-                  200, 200, data.num_rels, 20)
+                  128, 128, data.num_rels, 2)
     #wandb.watch(model,log=None)
     torch.cuda.set_device(0)
     train_kg = torch.LongTensor(np.array(data.train_kg))   

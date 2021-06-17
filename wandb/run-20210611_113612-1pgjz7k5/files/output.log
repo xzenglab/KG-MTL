@@ -1,0 +1,33 @@
+
+Namespace(cpi_dataset='human', dropout=0.2, dti_dataset='drugcentral', edge_sampler='neighbor', embedd_dim=128, gpu=0, grad_norm=1.0, graph_batch_size=40000, graph_split_size=0.5, loss_lamda=0.75, loss_mode='weighted', lr_dti=0.001, lr_pre=0.01, n_bases=4, n_epochs=100, n_hidden=500, n_layers=2, negative_sample=10, regularization=0.01, rgcn_epochs=0, sample_size=4, shared_unit_num=1, variant='KG-MTL-C')
+dataset/dti_task/drugcentral_dti_examples.tsv
+dataset/cpi_task/human_examples_global_final_1_3.tsv
+build adj and degrees....
+start training....
+params: 0.001,32,0.001 training...
+Epoch 0000-CPI-val | acc:0.7269, roc:0.4253, precision:0.0000, recall:0.0000, aupr:0.2305
+Epoch 0000-DTI-val | acc:0.5028, roc:0.5114, precision:0.5035, recall:0.4002, aupr:0.5025
+Best performance: CPI:0.425307117322067, DTI:0.5114205957926516
+Best model saved!
+Test CPI | acc:0.7480, roc:0.4623, precision:0.0000, recall:0.0000, aupr:0.2334
+Test DTI | acc:0.5087, roc:0.5245, precision:0.5107, recall:0.4161, aupr:0.5175
+Epoch 0001-CPI-val | acc:0.7269, roc:0.4587, precision:0.0000, recall:0.0000, aupr:0.2405
+Epoch 0001-DTI-val | acc:0.5296, roc:0.5489, precision:0.5350, recall:0.4521, aupr:0.5326
+Best performance: CPI:0.4587146571335717, DTI:0.5489257253094434
+Best model saved!
+Test CPI | acc:0.7480, roc:0.4877, precision:0.0000, recall:0.0000, aupr:0.2359
+Test DTI | acc:0.5431, roc:0.5608, precision:0.5510, recall:0.4659, aupr:0.5503
+Traceback (most recent call last):
+  File "/home/mtf/mtf/kg-mtl/main_wandb.py", line 407, in <module>
+    cpi_r, dti_r = main(args)
+  File "/home/mtf/mtf/kg-mtl/main_wandb.py", line 254, in main
+    compounds, torch.LongTensor(proteins).cuda(), compoundids, drug_entities, target_entities, smiles2graph=data.smiles2graph, cpi_labels=cpi_labels, dti_labels=dti_labels, mode=args.loss_mode)
+  File "/home/mtf/.conda/envs/kg-mtl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 550, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/mtf/mtf/kg-mtl/model.py", line 524, in forward
+    cpi_pred, dti_pred, _=self.multi_task(g,h,r,norm,compound_smiles,protein_seq,compound_entityid,drugs_entityid,targets_entityid,rgcn_only,smiles2graph,eval_)
+  File "/home/mtf/.conda/envs/kg-mtl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 550, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/mtf/mtf/kg-mtl/model.py", line 229, in forward
+    node_map[int(h[i])] = i
+KeyboardInterrupt
