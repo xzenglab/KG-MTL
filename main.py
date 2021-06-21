@@ -229,15 +229,15 @@ def main(args):
             params_list += [{'params': [v], 'lr': lr_g}]
         optimizer_global = torch.optim.Adam(params_list, lr=lr_g)
 
-        model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_{}_{}.pkl'.format(
-            lr_g, args.n_epochs, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr, args.embedd_dim, args.variant)
+        
         for epoch in range(args.n_epochs):
             # early stop epoch is 5
             early_stop += 1
-            if early_stop >= 6:
+            if early_stop >= 10:
                 print(
-                    'After 6 consecutive epochs, the model stops training because the performance has not improved!')
+                    'After 10 consecutive epochs, the model stops training because the performance has not improved!')
                 break
+            
             loss_model.train()
             if use_cuda:
                 loss_model.cuda()
@@ -287,6 +287,8 @@ def main(args):
                 [val_dti_acc, val_dti_roc, val_dti_pre, val_dti_recall, val_dti_aupr])
             epochs_his.append(epoch)
             if best_dti_roc < val_dti_roc and best_cpi_roc < val_roc:
+                model_path = 'ckl/lr{}_epoch{}_{}_{}_batch{}_slr{}_{}_{}.pkl'.format(
+                lr_g, epoch, args.cpi_dataset, args.dti_dataset, batch_size, shared_lr, args.embedd_dim, args.variant)
                 early_stop = 0
                 best_cpi_roc = val_roc
                 best_dti_roc = val_dti_roc
@@ -400,7 +402,7 @@ if __name__ == "__main__":
     results_dti = []
     best_results_cpi = []
     best_results_dti = []
-    for i in range(10):
+    for i in range(1):
         print('{}-th iteration'.format(i+1))
         cpi_r, dti_r, best_cpi_r, best_dti_r = main(args)
         results_cpi.append(cpi_r)
