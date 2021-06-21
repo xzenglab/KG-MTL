@@ -334,12 +334,12 @@ class load_data():
             protein2seq[p]=label_sequence_by_words(protein2seq[p],words_dict)
         #examples=shuffle_dataset
         
-        train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
-        val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
+        # train_set,test_set=train_test_split(examples,test_size=0.2,random_state=4)
+        # val_set,test_set=train_test_split(test_set,test_size=0.5,random_state=5)
 
         
         ### use shuffle
-        #train_set, val_set, test_set=utils.StratifiedSplit(examples)
+        train_set, val_set, test_set=utils.StratifiedSplit(examples)
         return train_set,val_set,test_set, smiles_graph,protein2seq,len(words_dict)
 
 class ExternalDataset():
