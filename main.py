@@ -296,6 +296,10 @@ def main(args):
                     best_cpi_roc, best_dti_roc))
                 torch.save(loss_model.state_dict(), model_path)
                 print('Best model saved!')
+                # if args.save_embed:
+                #     np.save('ckl/entity_embed.npy',loss_model.multi_task.entity_embedding.embedding.weight.detach().cpu().numpy(),)
+                #     np.save('ckl/relation_embed.npy',loss_model.multi_task.w_relation.detach().cpu().numpy())
+                print('emebdding saved!')
                 # print('testing...')
                 # test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
                 #                           test_compounds, torch.LongTensor(test_proteins), test_compoundids, test_drugs,test_targets,smiles2graph=data.smiles2graph,eval_=True)
@@ -317,6 +321,10 @@ def main(args):
         loss_cpi=None
         
         loss_model.load_state_dict(torch.load(model_path))
+        if args.save_embed:
+            np.save('ckl/entity_embed_{}.npy'.format(args.variant),loss_model.multi_task.entity_embedding.embedding.weight.detach().cpu().numpy(),)
+            np.save('ckl/relation_embed_{}.npy'.format(args.variant),loss_model.multi_task.w_relation.detach().cpu().numpy())
+
         if use_cuda:
             loss_model.cpu()
         loss_model.eval()
@@ -391,6 +399,8 @@ if __name__ == "__main__":
                         default='KG-MTL-C', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
     parser.add_argument('--loss_mode', type=str,
                         default='weighted', help='the way of caculating total loss [weighted, single]')
+    parser.add_argument('--save_embed', type=bool,
+                        default=True, help='save the embedding of entity and relation')
     args = parser.parse_args()
     print(args)
     # ('human_sparse','drugcentral_sparse'),
