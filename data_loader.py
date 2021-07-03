@@ -381,6 +381,10 @@ class ExternalDataset():
         proteins_list=set()
         if self.dataset=='bindingdb':
             example_path='dataset/bindingdb/final_interaction.tsv'
+        elif self.dataset=='TNF-alpha':
+            example_path='dataset/covid19/covid19_drugbank_TNF-alpha'
+        elif self.dataset=='IL-6':
+            example_path='dataset/covid19/covid19_drugbank_IL-6'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
@@ -416,6 +420,11 @@ class ExternalDataset():
         sample_ndoes=set()
         if self.dataset=='bindingdb':
             example_path='dataset/bindingdb/final_interaction.tsv'
+        elif self.dataset=='TNF-alpha':
+            example_path='dataset/covid19/covid19_drugbank_TNF-alpha'
+        elif self.dataset=='IL-6':
+            example_path='dataset/covid19/covid19_drugbank_IL-6'
+        
         print(example_path)
         
         with open(example_path,'r') as f:
