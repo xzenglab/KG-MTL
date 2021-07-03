@@ -12,6 +12,9 @@ def process_drugbank4covid(dataset='drugbank'):
                 drugs[drug]=[infos[3], infos[4], infos[5]]
     gene={'TNF-alpha':['Gene::7124', '483', 'MSTESMIRDVELAEEALPKKTGGPQGSRRCLFLSLFSFLIVAGATTLFCLLHFGVIGPQREEFPRDLSLISPLAQAVRSSSRTPSDKPVAHVVANPQAEGQLQWLNRRANALLANGVELRDNQLVVPSEGLYLIYSQVLFKGQGCPSTHVLLTHTISRIAVSYQTKVNLLSAIKSPCQRETPEGAEAKPWYEPIYLGGVFQLEKGDRLSAEINRPDYLDFAESGQVYFGIIAL'], 'IL-6':['Gene::3569','1754','MNSFSTSAFGPVAFSLGLLLVLPAAFPAPVPPGEDSKDVAAPHRQPLTSSERIDKQIRYILDGISALRKETCNKSNMCESSKEALAENNLNLPKMAEKDGCFQSGFNEETCLVKIITGLLEFEVYLEYLQNRFESSEEQARAVQMSTKVLIQFLQKKAKNLDAITTPDPTTNASLLTKLQAQNQWLQDMTTHLILRSFKEFLQSSLRALRQM']}
     print('number of drugs:', len(drugs))
+    with open('dataset/covid19/drugs_list_{}.tsv'.format(dataset),'w') as f:
+        for d in drugs:
+            f.write('{}\n'.format(d))
     for g in gene:
         with open('dataset/covid19/covid19_{}_{}'.format(dataset, g), 'w') as f:
             for d in drugs:
