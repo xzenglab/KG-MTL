@@ -382,9 +382,9 @@ class ExternalDataset():
         if self.dataset=='bindingdb':
             example_path='dataset/bindingdb/final_interaction.tsv'
         elif self.dataset=='TNF-alpha':
-            example_path='dataset/covid19/covid19_drugbank_TNF-alpha'
+            example_path='dataset/covid19/covid19_human_TNF-alpha'
         elif self.dataset=='IL-6':
-            example_path='dataset/covid19/covid19_drugbank_IL-6'
+            example_path='dataset/covid19/covid19_human_IL-6'
         print(example_path)
         with open(example_path, 'r') as f:
             for line in f:
@@ -399,6 +399,7 @@ class ExternalDataset():
                 if smiles not in smiles_graph:
                     c_size,features,edge_index=utils.smiles2graph(smiles)
                     if c_size is None and features is None and edge_index is None:
+                        print(smiles)
                         continue
                     smiles_graph[drug_id]=(c_size,features,edge_index)
                     #smiles_graph[drug_id]=dgllife.utils.smi
@@ -421,9 +422,9 @@ class ExternalDataset():
         if self.dataset=='bindingdb':
             example_path='dataset/bindingdb/final_interaction.tsv'
         elif self.dataset=='TNF-alpha':
-            example_path='dataset/covid19/covid19_drugbank_TNF-alpha'
+            example_path='dataset/covid19/covid19_human_TNF-alpha'
         elif self.dataset=='IL-6':
-            example_path='dataset/covid19/covid19_drugbank_IL-6'
+            example_path='dataset/covid19/covid19_human_IL-6'
         
         print(example_path)
         

@@ -1,4 +1,4 @@
-def process_drugbank4covid(dataset='drugbank'):
+def process_drugbank4covid(dataset='human'):
     drugs=dict()
     if dataset=='drugbank':
         filename='dataset/dti_task/final_dti_example.tsv'

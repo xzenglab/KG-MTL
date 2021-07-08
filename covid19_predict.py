@@ -176,21 +176,22 @@ def KG_MTL(args):
     g, node_id, edge_type, node_norm, grapg_data, labels, edge_norm = process_kg(
             args, train_kg, data, adj_list, degrees, use_cuda=False, sample_nodes=list(data.test_sample_nodes))     
     # model_path='ckl/lr0.001_epoch100_human_drugcentral_batch32_slr0.001_128_KG-MTL.pkl'
-    model_path='ckl/lr0.001_epoch100_human_drugcentral_batch32_slr0.001_128_KG-MTL-L.pkl'
+    model_path='ckl/lr0.001_epoch22_human_drugcentral_batch32_slr0.001_128_KG-MTL.pkl'
     loss_model.load_state_dict(torch.load(model_path))
     loss_model.eval()
     test_cpi_pred, test_dti_pred = loss_model(g, node_id.cpu(), edge_type.cpu(), edge_norm.cpu(),
                                               test_compounds, torch.LongTensor(test_proteins), test_compoundids,test_drugs, test_targets, smiles2graph=data.smiles2graph, eval_=True)
     y_pred=torch.cat((test_cpi_pred, test_dti_pred), dim=1)
+    y_pred=y_pred.detach().numpy()
     y_pred_labels=y_pred.argmax(axis=1)
     y_score=np.array([y_pred[i,index] for i,index in enumerate(y_pred_labels)])
     scores=[]
-    with open('dataset/covid19/drugs_list_drugbank.tsv','r') as f:
+    with open('dataset/covid19/covid19_human_TNF-alpha','r') as f:
         for i, l in enumerate(f):
-            scores.append([y_score[i],l.strip()])
+            scores.append([y_score[i],l.strip().split('\t')[3]])
     
-    sorted(scores, key=lambda keys:keys[0], reverse=True)
-    with open('dataset/covid19/scores_drugbank_{}.tsv'.format(args.dti_dataset), 'w') as f:
+    scores=sorted(scores, key=lambda keys:keys[0], reverse=True)
+    with open('dataset/covid19/scores_human_{}_kg-mtl.tsv'.format(args.dti_dataset), 'w') as f:
         for [s, c] in scores:
             f.write('{}\t{}\n'.format(s,c))
 
@@ -238,7 +239,7 @@ if __name__ == "__main__":
     parser.add_argument('--embedd_dim', type=int,
                         default=128, help='the dim of embedding')
     parser.add_argument('--variant', type=str,
-                        default='KG-MTL-L', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
+                        default='KG-MTL', help='[KG-MTL, KG-MTL-L, KG-MTL-C]')
     parser.add_argument('--loss_mode', type=str,
                         default='weighted', help='the way of caculating total loss [weighted, single]')
     args = parser.parse_args()
