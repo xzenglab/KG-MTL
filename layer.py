@@ -92,7 +92,7 @@ class Shared_Unit_NL(nn.Module):
             c_mat_t=c_mat.permute(0, 2, 1)
     
             c_mat=c_mat.view(-1,self.out_dim)
-            c_mat_t=c_mat.view(-1,self.out_dim)
+            c_mat_t=c_mat_t.view(-1,self.out_dim)
             drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
             drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
             
@@ -110,7 +110,7 @@ class Shared_Unit_NL(nn.Module):
             c_mat_t=c_mat.permute(0, 2, 1)
     
             c_mat=c_mat.view(-1,self.out_dim)
-            c_mat_t=c_mat.view(-1,self.out_dim)
+            c_mat_t=c_mat_t.view(-1,self.out_dim)
             drug_cnn=(c_mat.matmul(self.w_aa)+c_mat_t.matmul(self.w_ab)).view(-1,self.out_dim)+self.d_cnn_bias.squeeze()
             drug_kg=(c_mat.matmul(self.w_ba)+c_mat_t.matmul(self.w_bb)).view(-1,self.out_dim)+self.d_kg_bias.squeeze()
             return drug_cnn, drug_kg
