@@ -618,7 +618,7 @@ def StratifiedSplit(dataset, train_valid_test=0.2, valid_test=0.5, seed=2021):
     for c in classes_dict:
         samples=classes_dict[c]
         c_train,c_valid=train_test_split(samples, test_size=train_valid_test, random_state=seed, shuffle=True)
-        c_valid,c_test=train_test_split(samples, test_size=valid_test, random_state=seed, shuffle=True)
+        c_valid,c_test=train_test_split(c_valid, test_size=valid_test, random_state=seed, shuffle=True)
         train.extend(c_train)
         valid.extend(c_valid)
         test.extend(c_test)
