@@ -33,7 +33,7 @@ pip install dgllife
 ```
 
 # Datasets
-We provide the files of knowledge graph DRKG, and the datasets used in DTI and CPI tasks. However, we found that the original links of the Human and C.elegans datasets were unavailable, so we put the source files in the path `datasets/original`
+We provide the files of knowledge graph DRKG, and the datasets used in DTI and CPI tasks. 
 + DRKG https://github.com/gnn4dr/DRKG
 + BindingDB https://www.bindingdb.org/bind/index.jsp
 + Human http://admis.fudan.edu.cn/negative-cpi/
@@ -41,6 +41,7 @@ We provide the files of knowledge graph DRKG, and the datasets used in DTI and C
 + DrugBank https://go.drugbank.com/releases/latest
 + DrugCentral https://drugcentral.org/
 
+However, we found that the original links of the Human and C.elegans datasets were unavailable, so we put the source files in the path `datasets/original_cpi`. In the repository `https://github.com/xiaomingaaa/drugbank`, we provide code and processed files that can be used for entity id conversion among databases.
 
 # Usage
 ```bash
@@ -63,3 +64,14 @@ usage: main.py [-h] [--dropout DROPOUT] [--n-hidden N_HIDDEN] [--gpu GPU]
 python main.py --loss_mode weighted --variant KG-MTL-C --gpu 1 --cpi_dataset human --dti_dataset drugcentral
 ```
 You can change the parameter '--variant' to run different variants (i.e., KG-MTL-C, KG-MTL-L, and KG-MTL-S) of KG-MTL. And you can adjust the multi-task learning strategy by modifying the parameter '--loss_mode'.
+
+# Citation
+```bash
+@article{ 
+   
+}  
+```
+
+For any clarification, comments, or suggestions please create an issue or contact [Tengfei Ma](tfma@hnu.edu.cn).
+
+
