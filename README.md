@@ -7,9 +7,13 @@
  * @FilePath: /kg-mtl/README.md
 -->
 # Knowledge Graph Enhanced Multi-Task Learning for MolecularInteraction
-## Introduction
+This is our implementation of the paper
+```
+Tengfei Ma, Xuan Lin, Bosheng Song, Philip S. Yu and Xiangxiang Zeng. Knowledge Graph Enhanced Multi-Task Learning for MolecularInteraction. IJCAI' 20 accepted
+```
 ![avatar](dataset/kg-mtl.png)
-The implementation of paper 'Knowledge Graph Enhanced Multi-Task Learning for MolecularInteraction'. Molecular interaction prediction is essential in various applications including drug discovery andmaterial science. The problem becomes quite challenging when the interaction is represented byunmapped relationships in molecular networks, namely molecular interaction, because it easilysuffers from (i) insufficient labeled data with many false positive samples, and (ii) ignoring alarge number of biological entities with rich information in knowledge graph. Most of the ex-isting methods cannot properly exploit the information of knowledge graph and molecule graphsimultaneously. In this paper, we propose a large-scaleKnowledgeGraph enhancedMulti-TaskLearning model, namely KG-MTL, which extracts the features from both knowledge graph andmolecular graph in a synergistical way. Moreover, we design an effectiveShared Unitthat helpsthe model to jointly preserve the semantic relations of drug entity and the neighbor structures ofcompound in both levels of graphs. Extensive experiments on four real-world datasets demon-strate that our proposed KG-MTL outperforms the state-of-the-art methods on two representativemolecular interaction prediction tasks: drug-target interaction prediction and compound-proteininteraction prediction.
+Figure 1 shows the overview of KG-MTL. KG-MTL extracts the features from both knowledge graph and molecular graph in a synergistical way. Moreover, we design an effective Shared Unit that helps the model to jointly preserve the semantic relations of drug entity and the neighbor structures of compound in both levels of graphs. Extensive experiments on four real-world datasets demonstrate that our proposed KG-MTL outperforms the state-of-the-art methods on two representative molecular interaction prediction tasks: drug-target interaction (DTI) prediction and compound-proteininteraction (CPI) prediction.
+
 ## How to run ablation study
 ```python main_wandb.py --loss_mode single```
 
