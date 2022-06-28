@@ -6,12 +6,12 @@
  * @Description: In User Settings Edit
  * @FilePath: /kg-mtl/README.md
 -->
-# Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction
+# KG-MTL: Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction
 This is our implementation of the paper
 
-> Tengfei Ma, Xuan Lin, Bosheng Song, Philip S. Yu and Xiangxiang Zeng. Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction. TKDE' 2022 accepted
+> Tengfei Ma, Xuan Lin, Bosheng Song, Philip S. Yu and Xiangxiang Zeng. KG-MTL: Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction. TKDE' 2022 accepted
 
-<img align="center" src="dataset/kg-mtl.png">
+<div align=center><img src="dataset/kg-mtl.png"  alt="Figure 1"></div>
 Figure 1 shows the overview of KG-MTL. KG-MTL extracts the features from both knowledge graph and molecular graph in a synergistical way. Moreover, we design an effective Shared Unit that helps the model to jointly preserve the semantic relations of drug entity and the neighbor structures of compound in both levels of graphs. Extensive experiments on four real-world datasets demonstrate that our proposed KG-MTL outperforms the state-of-the-art methods on two representative molecular interaction prediction tasks: drug-target interaction (DTI) prediction and compound-proteininteraction (CPI) prediction.
 
 # Requirement
