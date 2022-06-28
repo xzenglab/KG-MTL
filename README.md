@@ -23,7 +23,7 @@ Figure 1 shows the overview of KG-MTL. KG-MTL extracts the features from both kn
 You can create a virtual environment using [conda](https://github.com/conda/conda).
 ```bash
 conda create -n kg-mtl python=3.7 
-source activate kgnn  
+source activate kg-mtl  
 git clone https://github.com/xzenglab/KG-MTL.git  
 cd KG-MTL
 conda install pytorch==1.5.0 torchvision==0.6.0 cudatoolkit=10.1 -c pytorch
