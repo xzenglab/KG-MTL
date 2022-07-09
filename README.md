@@ -67,16 +67,15 @@ You can change the parameter '--variant' to run different variants (i.e., KG-MTL
 
 # Citation
 ```bash
-@article{kg-mtl2022,
-  title={KG-MTL: Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction},
-  author={Tengfei Ma, Xuan Lin, Bosheng Song, Philip S. Yu and Xiangxiang Zeng},
-  journal={IEEE Transactions on Knowledge and Data Engineering},
+@ARTICLE{kg_mtl_22,
+  author={Ma, Tengfei and Lin, Xuan and Song, Bosheng and Yu, Philip S. and Zeng, Xiangxiang},
+  journal={IEEE Transactions on Knowledge and Data Engineering}, 
+  title={KG-MTL: Knowledge Graph Enhanced Multi-Task Learning for Molecular Interaction}, 
+  year={2022},
   volume={},
   number={},
-  pages={},
-  year={2022},
-  publisher={IEEE xplore}
-}
+  pages={1-12},
+  doi={10.1109/TKDE.2022.3188154}}
 ```
 
 For any clarification, comments, or suggestions please create an issue or contact [Tengfei Ma](tfma@hnu.edu.cn).
